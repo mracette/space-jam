@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+const runHook = require("../../hooks/calculateBundleSize.js");
+runHook(process.argv);
