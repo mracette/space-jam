@@ -16,6 +16,8 @@ export class Instrument extends MapEntity {
   }
 
   render(ctx: CanvasRenderingContext2D, coords: CanvasCoordinates, camera: Camera): void {
+    ctx.save();
+
     ctx.drawImage(
       this.svg.image,
       mapToScreen.x(this.position.x, coords, camera),
@@ -23,5 +25,6 @@ export class Instrument extends MapEntity {
       coords.width(TILE_DIMENSIONS.SIZE),
       coords.width(TILE_DIMENSIONS.SIZE)
     );
+    ctx.restore();
   }
 }

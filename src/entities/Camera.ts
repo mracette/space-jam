@@ -14,16 +14,6 @@ import { canMove } from "../systems/canMove";
 import { canMoveSmoothlyWithKeys } from "../systems/canMoveSmoothlyWithKeys";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
 
-const drawEmptyTile = (
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number
-) => {
-  ctx.strokeRect(x - w / 2, y - h / 2, w, h);
-};
-
 export class Camera extends Entity {
   position: Position;
   velocity: Velocity;

@@ -40,6 +40,18 @@ export const enum TILE_DIMENSIONS {
   SIZE = 0.05 // as a percentage of the canvas width
 }
 
+export const MOUSE_POSITION: {
+  screenX: number;
+  screenY: number;
+  mapX: number;
+  mapY: number;
+} = {
+  screenX: undefined,
+  screenY: undefined,
+  mapX: undefined,
+  mapY: undefined
+};
+
 export const COLORS = {
   clear: "rgba(0,0,0,0)",
   white: "#FFFFFF",
@@ -54,7 +66,6 @@ export const updateScreenDependentGlobals = (
   ctx: CanvasRenderingContext2D,
   coords: CanvasCoordinates
 ): void => {
-  console.log(coords.nx(0), coords.canvas.width);
   GRADIENT_FOG = ctx.createRadialGradient(
     coords.nx(0),
     coords.ny(0),

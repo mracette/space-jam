@@ -23,6 +23,26 @@ export const mapToScreen = {
     coords.width(TILE_DIMENSIONS.SIZE / 2) // centers within grid
 };
 
+export const screenToMap = {
+  x: (
+    x: number,
+    coords: CanvasCoordinates,
+    camera: Camera,
+    canvas: HTMLCanvasElement
+  ): number => {
+    const { left, right } = canvas.getBoundingClientRect();
+    if (x < left || x > right) {
+      return undefined;
+    } else {
+      const n = (2 * (x - left)) / coords.width(); // [0, 1] across screen
+      const nToMiddle = -0.5 + n;
+      const nTile = n * (coords.width() / coords.width(TILE_DIMENSIONS.SIZE));
+      const nTileCamera = camera.position.x - nTile;
+      console.log(n, nToMiddle);
+    }
+  }
+};
+
 export const entityArrayToScreen = {
   x: (x: number, coords: CanvasCoordinates, camera: Camera): number =>
     mapToScreen.x(entityArrayToMap.x(x), coords, camera),

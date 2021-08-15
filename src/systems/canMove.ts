@@ -8,5 +8,4 @@ export const canMove =
     // const newX = clamp(x + self.position.x, MAP_DIMENSIONS.MIN_X, MAP_DIMENSIONS.MIN_X);
     self.position.x += x;
     self.position.y += y;
-    console.log(self.position.x);
   };

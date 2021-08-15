@@ -1,7 +1,7 @@
 <svg
    width="135"
    height="135"
-   style="fill:none;stroke:#FFFFFF;stroke-width:15;stroke-linecap:round;stroke-linejoin:round"
+   style="fill:none;stroke:#FFFFFF;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;"
    xmlns="http://www.w3.org/2000/svg">
   <path
      d="m 67.5,7.5 a 60,60 0 0 1 60,60 v 0 a 60,60 0 0 1 -60,60 m 0,-120 v 120 m -60,-60 h 120 m -60,60 a 60,60 0 0 1 -60,-60 v 0 a 60,60 0 0 1 60,-60 m 0,120 V 7.5 m 60,60 H 7.5"
