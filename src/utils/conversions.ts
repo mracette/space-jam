@@ -1,6 +1,6 @@
 import { CanvasCoordinates } from "../core/Coords";
 import { Camera } from "../entities/Camera";
-import { MAP_DIMENSIONS, TILE_DIMENSIONS } from "../globals";
+import { MAP_DIMENSIONS, TILE_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals";
 
 export const entityArrayToMap = {
   x: (x: number): number => x - MAP_DIMENSIONS.W_HALF,
@@ -34,11 +34,26 @@ export const screenToMap = {
     if (x < left || x > right) {
       return undefined;
     } else {
-      const n = (2 * (x - left)) / coords.width(); // [0, 1] across screen
-      const nToMiddle = -0.5 + n;
-      const nTile = n * (coords.width() / coords.width(TILE_DIMENSIONS.SIZE));
-      const nTileCamera = camera.position.x - nTile;
-      console.log(n, nToMiddle);
+      const widthTiles = coords.width() / coords.width(TILE_DIMENSIONS.SIZE);
+      const n = (2 * (x - left)) / coords.width(); // [0, 1] across canvas
+      const nTile = -widthTiles / 2 + n * widthTiles + camera.position.x;
+      return Math.round(nTile);
+    }
+  },
+  y: (
+    y: number,
+    coords: CanvasCoordinates,
+    camera: Camera,
+    canvas: HTMLCanvasElement
+  ): number => {
+    const { top, bottom } = canvas.getBoundingClientRect();
+    if (y < top || y > bottom) {
+      return undefined;
+    } else {
+      const heightTiles = coords.height() / coords.width(TILE_DIMENSIONS.SIZE);
+      const n = (2 * (bottom - y - top)) / coords.height(); // [0, 1] across canvas
+      const nTile = -heightTiles / 2 + n * heightTiles + camera.position.y;
+      return Math.round(nTile);
     }
   }
 };

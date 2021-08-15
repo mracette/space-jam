@@ -1,7 +1,7 @@
 import { CanvasCoordinates } from "./core/Coords";
 
 const enum MAP_DIMENSION {
-  SIZE = 15 // must be odd
+  SIZE = 255 // must be odd
 }
 
 export const enum MAP_DIMENSIONS {
@@ -16,7 +16,7 @@ export const enum MAP_DIMENSIONS {
 }
 
 const enum VIEWPORT_DIMENSION {
-  SIZE = 9 // must be odd
+  SIZE = 19 // must be odd
 }
 export const enum VIEWPORT_DIMENSIONS {
   W = VIEWPORT_DIMENSION.SIZE,
@@ -69,12 +69,14 @@ export const updateScreenDependentGlobals = (
   GRADIENT_FOG = ctx.createRadialGradient(
     coords.nx(0),
     coords.ny(0),
-    coords.width((VIEWPORT_DIMENSIONS.W / 4) * TILE_DIMENSIONS.SIZE),
+    coords.width((VIEWPORT_DIMENSIONS.W_HALF / 2) * TILE_DIMENSIONS.SIZE),
     coords.nx(0),
     coords.ny(0),
-    coords.width((VIEWPORT_DIMENSIONS.W / 2) * TILE_DIMENSIONS.SIZE)
+    coords.width(VIEWPORT_DIMENSIONS.W_HALF * TILE_DIMENSIONS.SIZE)
   );
   GRADIENT_FOG.addColorStop(0, COLORS.clear);
-  GRADIENT_FOG.addColorStop(0, COLORS.clear);
+  GRADIENT_FOG.addColorStop(0.25, COLORS.clear);
   GRADIENT_FOG.addColorStop(1, COLORS.background);
 };
+
+export const TAU = Math.PI * 2;

@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
 
-const isProduction = process.env.NODE_ENV == "production";
+const isProduction = process.env.NODE_ENV === "production";
+const optimize = process.env.OPTIMIZE === "true";
 
 const stylesHandler = "style-loader";
 
@@ -17,28 +18,6 @@ const config = {
     open: true,
     host: "localhost"
   },
-  optimization: isProduction
-    ? {
-        minimize: true,
-        minimizer: [
-          new TerserPlugin({
-            terserOptions: {
-              compress: {
-                ecma: 2020,
-                unsafe: true
-              },
-              mangle: {
-                toplevel: true,
-                properties: {
-                  debug: !isProduction,
-                  reserved: []
-                }
-              }
-            }
-          })
-        ]
-      }
-    : {},
   plugins: [
     new HtmlWebpackPlugin({
       template: "index.html"
@@ -68,8 +47,31 @@ const config = {
 };
 
 module.exports = () => {
-  if (isProduction) {
+  if (isProduction && optimize) {
     config.mode = "production";
+    config.optimization = {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            compress: {
+              ecma: 2020,
+              unsafe: true
+            },
+            mangle: {
+              toplevel: true,
+              properties: {
+                debug: !isProduction,
+                reserved: []
+              }
+            }
+          }
+        })
+      ]
+    };
+  } else if (isProduction && !optimize) {
+    config.mode = "none";
+    config.optimization = {};
   } else {
     config.mode = "development";
   }

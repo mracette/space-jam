@@ -7,12 +7,37 @@ import {
   GRADIENT_FOG,
   TILE_DIMENSIONS,
   VIEWPORT_DIMENSIONS,
-  ENTITY_ARRAY_DIMENSIONS
+  ENTITY_ARRAY_DIMENSIONS,
+  TAU,
+  MOUSE_POSITION
 } from "../globals";
 import { ENTITY_ARRAY } from "../index";
 import { canMove } from "../systems/canMove";
-import { canMoveSmoothlyWithKeys } from "../systems/canMoveSmoothlyWithKeys";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
+
+const drawEmptyTile = (
+  ctx: CanvasRenderingContext2D,
+  coords: CanvasCoordinates,
+  cx: number,
+  cy: number,
+  isSelected: boolean
+) => {
+  if (isSelected) {
+    ctx.fillStyle = COLORS.mainGreen;
+    ctx.fillRect(
+      cx,
+      cy,
+      coords.width(TILE_DIMENSIONS.SIZE),
+      coords.width(TILE_DIMENSIONS.SIZE)
+    );
+  }
+  ctx.strokeRect(
+    cx,
+    cy,
+    coords.width(TILE_DIMENSIONS.SIZE),
+    coords.width(TILE_DIMENSIONS.SIZE)
+  );
+};
 
 export class Camera extends Entity {
   position: Position;
@@ -23,15 +48,13 @@ export class Camera extends Entity {
     this.position = new Position();
     this.velocity = new Velocity();
     this.move = canMove(this);
-    canMoveSmoothlyWithKeys(this, 0.1);
   }
 
-  update(time: number): void {
-    this.move(this.velocity.x, this.velocity.y);
+  update(delta: number): void {
+    this.move(this.velocity.x * delta, this.velocity.y * delta);
   }
 
   render(ctx: CanvasRenderingContext2D, coords: CanvasCoordinates): void {
-    ctx.save();
     ctx.fillStyle = COLORS.background;
     ctx.strokeStyle = "white";
     ctx.lineWidth = coords.width(0.006);
@@ -59,18 +82,27 @@ export class Camera extends Entity {
 
     for (let i = xEntityArrayLower; i <= xEntityArrayUpper; i++) {
       for (let j = yEntityArrayLower; j <= yEntityArrayUpper; j++) {
-        ctx.strokeRect(
+        drawEmptyTile(
+          ctx,
+          coords,
           entityArrayToScreen.x(i, coords, this),
           entityArrayToScreen.y(j, coords, this),
-          coords.width(TILE_DIMENSIONS.SIZE),
-          coords.width(TILE_DIMENSIONS.SIZE)
+          mapToEntityArray.x(MOUSE_POSITION.mapX) === i &&
+            mapToEntityArray.y(MOUSE_POSITION.mapY) === j
         );
         ENTITY_ARRAY[i][j]?.render(ctx, coords, this);
       }
     }
 
-    // ctx.fillStyle = GRADIENT_FOG;
-    // ctx.fillRect(0, 0, coords.width(), coords.height());
-    ctx.restore();
+    ctx.fillStyle = GRADIENT_FOG;
+    ctx.fillRect(0, 0, coords.width(), coords.height());
+    ctx.arc(
+      coords.nx(0),
+      coords.ny(0),
+      coords.width(TILE_DIMENSIONS.SIZE * VIEWPORT_DIMENSIONS.W_HALF),
+      0,
+      TAU
+    );
+    ctx.stroke();
   }
 }

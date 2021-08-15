@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
+    "build:prod": "export OPTIMIZE='false' && webpack --mode=production --node-env=production",
+    "build:prod:no-optimize": "export OPTIMIZE='false' && webpack --mode=production --node-env=production && yarn eslint ./build/main.js --fix --no-ignore",
     "build": "webpack --mode=production --node-env=production",
     "start:dev": "webpack serve"
   },
