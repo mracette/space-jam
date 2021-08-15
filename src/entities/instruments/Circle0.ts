@@ -2,10 +2,10 @@ import { Instrument, InstrumentArgs } from "../Instrument";
 
 const svg = require("../../svg/circle.0.svg");
 
-type Circle0Args = Omit<InstrumentArgs, "dataUrl">;
+type Circle0Args = Omit<InstrumentArgs, "dataUrl" | "notes">;
 
 export class Circle0 extends Instrument {
   constructor(args: Circle0Args = {}) {
-    super({ ...args, dataUrl: svg });
+    super({ ...args, dataUrl: svg, notes: 1 });
   }
 }

@@ -1,3 +1,4 @@
+import { AUDIO_CTX } from "./index";
 import { AspectRatio } from "./core/AspectRatio";
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
@@ -26,6 +27,8 @@ export const initializeEventListeners = (
   };
 
   const onMouseOrTouchDown = (e: MouseEvent | TouchEvent) => {
+    AUDIO_CTX.resume();
+
     const { x: xStart, y: yStart } = getMouseOrTouchPosition(e);
     const type = getEventType(e);
 
@@ -37,8 +40,8 @@ export const initializeEventListeners = (
         canvas.clientHeight,
         yStart
       );
-      camera.position.x -= 2 * x;
-      camera.position.y += 2 * y;
+      camera.position.x -= x;
+      camera.position.y += y;
       camera.updateEntityArrayBounds();
     };
 

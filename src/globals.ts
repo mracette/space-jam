@@ -53,11 +53,13 @@ export const MOUSE_POSITION: {
 };
 
 export const COLORS = {
-  clear: "rgba(0,0,0,0)",
-  white: "#FFFFFF",
-  background: "#272838",
-  mainGreen: "#5BBA6F",
-  mainPurple: "#7C77B9"
+  CLEAR: "rgba(0,0,0,0)",
+  WHITE: "#FFFFFF",
+  BACKGROUND: "#272838",
+  MAIN_GREEN: "#5bba6f",
+  MAIN_GREEN_RGB: [91, 186, 111],
+  MAIN_PURPLE: "#7C77B9",
+  MAIN_PURPLE_RGB: [124, 119, 185]
 };
 
 export let GRADIENT_FOG: CanvasGradient;
@@ -74,9 +76,44 @@ export const updateScreenDependentGlobals = (
     coords.ny(0),
     coords.width(VIEWPORT_DIMENSIONS.W_HALF * TILE_DIMENSIONS.SIZE)
   );
-  GRADIENT_FOG.addColorStop(0, COLORS.clear);
-  GRADIENT_FOG.addColorStop(0.25, COLORS.clear);
-  GRADIENT_FOG.addColorStop(1, COLORS.background);
+  GRADIENT_FOG.addColorStop(0, COLORS.CLEAR);
+  GRADIENT_FOG.addColorStop(0.25, COLORS.CLEAR);
+  GRADIENT_FOG.addColorStop(1, COLORS.BACKGROUND);
 };
 
 export const TAU = Math.PI * 2;
+
+export const enum SAMPLE_RATE {
+  VALUE = 44100
+}
+
+export const enum LINE_WIDTH {
+  VALUE = 0.006
+}
+
+export const enum BPM {
+  VALUE = 70,
+  BPS = 70 / 60,
+  SPB = 60 / 70
+}
+
+export const enum DURATIONS {
+  WHOLE = BPM.SPB * 4,
+  HALF = BPM.SPB * 2,
+  QUARTER = BPM.SPB,
+  EIGHT = BPM.SPB / 2,
+  SIXTEENTH = BPM.SPB / 4
+}
+
+export const enum ENTITY_STATE {
+  PLAYING = 0,
+  STOPPED = 1
+}
+
+export const enum LIGHT_UP_DURATION {
+  VALUE = 0.5
+}
+
+export const STATS = {
+  notes: 0
+};

@@ -5,14 +5,19 @@ import { CanvasCoordinates } from "../core/Coords";
 import { TILE_DIMENSIONS } from "../globals";
 import { mapToScreen } from "../utils/conversions";
 
-export type InstrumentArgs = MapEntityArgs & SvgImageArgs;
+export type InstrumentArgs = MapEntityArgs &
+  SvgImageArgs & {
+    notes: number;
+  };
 
 export class Instrument extends MapEntity {
   svg: SvgImage;
+  notes: number;
   constructor(args: InstrumentArgs) {
     super(args);
-    const { dataUrl } = args;
+    const { dataUrl, notes } = args;
     this.svg = new SvgImage(dataUrl);
+    this.notes = notes;
   }
 
   render(ctx: CanvasRenderingContext2D, coords: CanvasCoordinates, camera: Camera): void {

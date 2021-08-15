@@ -34,3 +34,12 @@
 | Compressed Build (Adv Zip) | 3.01 kb | 3083 | -5% |
 
 
+**fix cpu issue by using alternative canvas clearing approach** - *Sun, 15 Aug 2021 20:18:10 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 21.74 kb | 22265 | NA |
+| Build | 8.49 kb | 8694 | -61% |
+| Compressed Build | 3.19 kb | 3263 | -62% |
+| Compressed Build (Adv Zip) | 3.02 kb | 3089 | -5% |
+
+

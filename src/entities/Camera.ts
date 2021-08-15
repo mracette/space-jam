@@ -9,9 +9,13 @@ import {
   VIEWPORT_DIMENSIONS,
   ENTITY_ARRAY_DIMENSIONS,
   TAU,
-  MOUSE_POSITION
+  MOUSE_POSITION,
+  LINE_WIDTH,
+  ENTITY_STATE,
+  LIGHT_UP_DURATION
 } from "../globals";
 import { ENTITY_ARRAY } from "../index";
+import { rgbWithAlpha } from "../utils/colors";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
 
 const drawEmptyTile = (
@@ -19,10 +23,10 @@ const drawEmptyTile = (
   coords: CanvasCoordinates,
   cx: number,
   cy: number,
-  isSelected: boolean
+  opacity: number
 ) => {
-  if (isSelected) {
-    ctx.fillStyle = COLORS.mainGreen;
+  if (opacity) {
+    ctx.fillStyle = rgbWithAlpha(...COLORS.MAIN_GREEN_RGB, opacity);
     ctx.fillRect(
       cx,
       cy,
@@ -30,6 +34,7 @@ const drawEmptyTile = (
       coords.width(TILE_DIMENSIONS.SIZE)
     );
   }
+  ctx.beginPath();
   ctx.strokeRect(
     cx,
     cy,
@@ -87,10 +92,10 @@ export class Camera extends Entity {
     );
   }
 
-  render(ctx: CanvasRenderingContext2D, coords: CanvasCoordinates): void {
-    ctx.fillStyle = COLORS.background;
+  render(ctx: CanvasRenderingContext2D, coords: CanvasCoordinates, delta: number): void {
+    ctx.fillStyle = COLORS.BACKGROUND;
     ctx.strokeStyle = "white";
-    ctx.lineWidth = coords.width(0.006);
+    ctx.lineWidth = coords.width(LINE_WIDTH.VALUE);
     ctx.fillRect(0, 0, coords.width(), coords.height());
 
     for (let i = this.entityArrayBounds.xLower; i <= this.entityArrayBounds.xUpper; i++) {
@@ -99,23 +104,27 @@ export class Camera extends Entity {
         j <= this.entityArrayBounds.yUpper;
         j++
       ) {
+        const entity = ENTITY_ARRAY[i][j];
+        if (entity.state === ENTITY_STATE.PLAYING) {
+          entity.stateDuration -= delta / 1000;
+          if (entity.stateDuration <= 0) {
+            entity.state = ENTITY_STATE.STOPPED;
+          }
+        }
         drawEmptyTile(
           ctx,
           coords,
           entityArrayToScreen.x(i, coords, this),
           entityArrayToScreen.y(j, coords, this),
-          mapToEntityArray.x(MOUSE_POSITION.mapX) === i &&
-            mapToEntityArray.y(MOUSE_POSITION.mapY) === j
+          entity.stateDuration / LIGHT_UP_DURATION.VALUE
         );
-        const entity = ENTITY_ARRAY[i][j];
-        if (entity) {
-          entity?.render(ctx, coords, this);
-        }
+        ENTITY_ARRAY[i][j]?.entity?.render(ctx, coords, this);
       }
     }
 
     ctx.fillStyle = GRADIENT_FOG;
     ctx.fillRect(0, 0, coords.width(), coords.height());
+    ctx.beginPath();
     ctx.arc(
       coords.nx(0),
       coords.ny(0),
