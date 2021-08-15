@@ -39,6 +39,7 @@ export const initializeEventListeners = (
       );
       camera.position.x -= 2 * x;
       camera.position.y += 2 * y;
+      camera.updateEntityArrayBounds();
     };
 
     const cleanUp = () => {

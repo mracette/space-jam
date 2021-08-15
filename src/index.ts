@@ -21,10 +21,11 @@ let prevTime = 0;
 let delta = 0;
 
 const main = (time: number) => {
+  // clears canvas and canvas state
+  canvas.width = canvas.clientWidth * window.devicePixelRatio || 1;
+  canvas.height = canvas.clientHeight * window.devicePixelRatio || 1;
   delta = time - prevTime;
   prevTime = time;
-  ctx.clearRect(0, 0, coords.width(), coords.height());
-  camera.update(delta);
   camera.render(ctx, coords);
   prevTime;
   window.requestAnimationFrame(main);

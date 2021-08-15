@@ -12,7 +12,6 @@ import {
   MOUSE_POSITION
 } from "../globals";
 import { ENTITY_ARRAY } from "../index";
-import { canMove } from "../systems/canMove";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
 
 const drawEmptyTile = (
@@ -42,16 +41,50 @@ const drawEmptyTile = (
 export class Camera extends Entity {
   position: Position;
   velocity: Velocity;
-  move: ReturnType<typeof canMove>;
+
+  /**
+   * contains the upper/lower bounds of the entity array elements
+   * that are currently in the camera's viewport
+   */
+  entityArrayBounds: {
+    xLower: number;
+    xUpper: number;
+    yLower: number;
+    yUpper: number;
+  };
+
   constructor({ name = "camera" }: EntityArgs & PositionArgs & VelocityArgs = {}) {
     super({ name });
     this.position = new Position();
     this.velocity = new Velocity();
-    this.move = canMove(this);
+    this.entityArrayBounds = {
+      xLower: undefined,
+      xUpper: undefined,
+      yLower: undefined,
+      yUpper: undefined
+    };
+    this.updateEntityArrayBounds();
   }
 
-  update(delta: number): void {
-    this.move(this.velocity.x * delta, this.velocity.y * delta);
+  updateEntityArrayBounds(): void {
+    const xRound = Math.round(this.position.x);
+    const yRound = Math.round(this.position.y);
+    this.entityArrayBounds.xLower = Math.max(
+      ENTITY_ARRAY_DIMENSIONS.MIN_X,
+      mapToEntityArray.x(xRound - VIEWPORT_DIMENSIONS.W_HALF)
+    );
+    this.entityArrayBounds.xUpper = Math.min(
+      ENTITY_ARRAY_DIMENSIONS.MAX_X,
+      mapToEntityArray.x(xRound + VIEWPORT_DIMENSIONS.W_HALF)
+    );
+    this.entityArrayBounds.yLower = Math.max(
+      ENTITY_ARRAY_DIMENSIONS.MIN_Y,
+      mapToEntityArray.y(yRound - VIEWPORT_DIMENSIONS.H_HALF)
+    );
+    this.entityArrayBounds.yUpper = Math.min(
+      ENTITY_ARRAY_DIMENSIONS.MAX_Y,
+      mapToEntityArray.y(yRound + VIEWPORT_DIMENSIONS.H_HALF)
+    );
   }
 
   render(ctx: CanvasRenderingContext2D, coords: CanvasCoordinates): void {
@@ -60,28 +93,12 @@ export class Camera extends Entity {
     ctx.lineWidth = coords.width(0.006);
     ctx.fillRect(0, 0, coords.width(), coords.height());
 
-    const xRound = Math.round(this.position.x);
-    const yRound = Math.round(this.position.y);
-
-    const xEntityArrayLower = Math.max(
-      ENTITY_ARRAY_DIMENSIONS.MIN_X,
-      mapToEntityArray.x(xRound - VIEWPORT_DIMENSIONS.W_HALF)
-    );
-    const xEntityArrayUpper = Math.min(
-      ENTITY_ARRAY_DIMENSIONS.MAX_X,
-      mapToEntityArray.x(xRound + VIEWPORT_DIMENSIONS.W_HALF)
-    );
-    const yEntityArrayLower = Math.max(
-      ENTITY_ARRAY_DIMENSIONS.MIN_Y,
-      mapToEntityArray.y(yRound - VIEWPORT_DIMENSIONS.H_HALF)
-    );
-    const yEntityArrayUpper = Math.min(
-      ENTITY_ARRAY_DIMENSIONS.MAX_Y,
-      mapToEntityArray.y(yRound + VIEWPORT_DIMENSIONS.H_HALF)
-    );
-
-    for (let i = xEntityArrayLower; i <= xEntityArrayUpper; i++) {
-      for (let j = yEntityArrayLower; j <= yEntityArrayUpper; j++) {
+    for (let i = this.entityArrayBounds.xLower; i <= this.entityArrayBounds.xUpper; i++) {
+      for (
+        let j = this.entityArrayBounds.yLower;
+        j <= this.entityArrayBounds.yUpper;
+        j++
+      ) {
         drawEmptyTile(
           ctx,
           coords,
@@ -90,7 +107,10 @@ export class Camera extends Entity {
           mapToEntityArray.x(MOUSE_POSITION.mapX) === i &&
             mapToEntityArray.y(MOUSE_POSITION.mapY) === j
         );
-        ENTITY_ARRAY[i][j]?.render(ctx, coords, this);
+        const entity = ENTITY_ARRAY[i][j];
+        if (entity) {
+          entity?.render(ctx, coords, this);
+        }
       }
     }
 
