@@ -4,49 +4,81 @@ import { Velocity, VelocityArgs } from "../components/Velocity";
 import { CanvasCoordinates } from "../core/Coords";
 import {
   COLORS,
-  GRADIENT_FOG,
   TILE_DIMENSIONS,
   VIEWPORT_DIMENSIONS,
   ENTITY_ARRAY_DIMENSIONS,
   TAU,
-  MOUSE_POSITION,
   LINE_WIDTH,
   ENTITY_STATE,
-  LIGHT_UP_DURATION
+  CANVAS_CONTEXTS,
+  ELEMENTS
 } from "../globals";
-import { ENTITY_ARRAY } from "../index";
+import { EntityArrayElement, ENTITY_ARRAY } from "../index";
+import { clearCanvasAndState } from "../utils/canvas";
 import { rgbWithAlpha } from "../utils/colors";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
 
-const drawEmptyTile = (
-  ctx: CanvasRenderingContext2D,
+const drawTile = (
   coords: CanvasCoordinates,
   cx: number,
   cy: number,
-  opacity: number
+  fill = false,
+  stroke = true
 ) => {
-  if (opacity) {
-    ctx.fillStyle = rgbWithAlpha(...COLORS.MAIN_GREEN_RGB, opacity);
-    ctx.fillRect(
+  // if (opacity) {
+  //   CANVAS_CONTEXTS.tiles.fillStyle = rgbWithAlpha(...COLORS.MAIN_GREEN_RGB, opacity);
+  //   CANVAS_CONTEXTS.tiles.fillRect(
+  //     cx,
+  //     cy,
+  //     coords.width(TILE_DIMENSIONS.SIZE),
+  //     coords.width(TILE_DIMENSIONS.SIZE)
+  //   );
+  // }
+  // CANVAS_CONTEXTS.tiles.beginPath();
+  stroke &&
+    CANVAS_CONTEXTS.tiles.strokeRect(
       cx,
       cy,
       coords.width(TILE_DIMENSIONS.SIZE),
       coords.width(TILE_DIMENSIONS.SIZE)
     );
-  }
-  ctx.beginPath();
-  ctx.strokeRect(
-    cx,
-    cy,
-    coords.width(TILE_DIMENSIONS.SIZE),
-    coords.width(TILE_DIMENSIONS.SIZE)
-  );
+
+  fill &&
+    CANVAS_CONTEXTS.tiles.fillRect(
+      cx,
+      cy,
+      coords.width(TILE_DIMENSIONS.SIZE),
+      coords.width(TILE_DIMENSIONS.SIZE)
+    );
 };
+
+const drawNoteIncrease = (
+  ctx: CanvasRenderingContext2D,
+  coords: CanvasCoordinates,
+  cx: number,
+  cy: number,
+  amount: number
+) => {
+  const fontSize = coords.width(0.035);
+  const tileSize = coords.width(TILE_DIMENSIONS.SIZE);
+  ctx.fillStyle = rgbWithAlpha(...COLORS.BACKGROUND_RGB, 0.5);
+  ctx.beginPath();
+  ctx.arc(cx + tileSize / 2, cy + tileSize / 2, tileSize / 2, 0, TAU);
+  ctx.fill();
+  ctx.font = `${fontSize}px sans-serif`;
+  ctx.fillStyle = COLORS.WHITE;
+  const text = "+" + amount;
+  ctx.fillText(text, cx, cy + fontSize);
+};
+
+interface CameraArgs {
+  coords: CanvasCoordinates;
+}
 
 export class Camera extends Entity {
   position: Position;
   velocity: Velocity;
-
+  coords: CanvasCoordinates;
   /**
    * contains the upper/lower bounds of the entity array elements
    * that are currently in the camera's viewport
@@ -58,8 +90,12 @@ export class Camera extends Entity {
     yUpper: number;
   };
 
-  constructor({ name = "camera" }: EntityArgs & PositionArgs & VelocityArgs = {}) {
+  constructor({
+    name = "camera",
+    coords
+  }: EntityArgs & CameraArgs & PositionArgs & VelocityArgs) {
     super({ name });
+    this.coords = coords;
     this.position = new Position();
     this.velocity = new Velocity();
     this.entityArrayBounds = {
@@ -92,46 +128,78 @@ export class Camera extends Entity {
     );
   }
 
-  render(ctx: CanvasRenderingContext2D, coords: CanvasCoordinates, delta: number): void {
-    ctx.fillStyle = COLORS.BACKGROUND;
-    ctx.strokeStyle = "white";
-    ctx.lineWidth = coords.width(LINE_WIDTH.VALUE);
-    ctx.fillRect(0, 0, coords.width(), coords.height());
+  move(x: number, y: number): void {
+    // updates the camera's position
+    this.position.x -= x;
+    this.position.y += y;
 
+    // updates the array indices considered to be in the camera's view
+    this.updateEntityArrayBounds();
+
+    // reset state and canvas
+    clearCanvasAndState(ELEMENTS.canvasTiles);
+    CANVAS_CONTEXTS.tiles.fillStyle = COLORS.BACKGROUND;
+    CANVAS_CONTEXTS.tiles.strokeStyle = COLORS.WHITE;
+    CANVAS_CONTEXTS.tiles.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
+    CANVAS_CONTEXTS.tiles.fillRect(0, 0, this.coords.width(), this.coords.height());
+
+    this.applyToEntityArray((entity, i, j) => {
+      // update the screen position of each entity in the camera's view
+      entity.screen.x = entityArrayToScreen.x(i, this.coords, this);
+      entity.screen.y = entityArrayToScreen.y(j, this.coords, this);
+      // re-draws tiles
+      drawTile(this.coords, entity.screen.x, entity.screen.y);
+    });
+  }
+
+  applyToEntityArray(
+    callback: (entity: EntityArrayElement, i: number, j: number) => void
+  ): void {
     for (let i = this.entityArrayBounds.xLower; i <= this.entityArrayBounds.xUpper; i++) {
       for (
         let j = this.entityArrayBounds.yLower;
         j <= this.entityArrayBounds.yUpper;
         j++
       ) {
-        const entity = ENTITY_ARRAY[i][j];
-        if (entity.state === ENTITY_STATE.PLAYING) {
-          entity.stateDuration -= delta / 1000;
-          if (entity.stateDuration <= 0) {
-            entity.state = ENTITY_STATE.STOPPED;
-          }
-        }
-        drawEmptyTile(
-          ctx,
-          coords,
-          entityArrayToScreen.x(i, coords, this),
-          entityArrayToScreen.y(j, coords, this),
-          entity.stateDuration / LIGHT_UP_DURATION.VALUE
-        );
-        ENTITY_ARRAY[i][j]?.entity?.render(ctx, coords, this);
+        callback(ENTITY_ARRAY[i][j], i, j);
       }
     }
+  }
 
-    ctx.fillStyle = GRADIENT_FOG;
-    ctx.fillRect(0, 0, coords.width(), coords.height());
-    ctx.beginPath();
-    ctx.arc(
-      coords.nx(0),
-      coords.ny(0),
-      coords.width(TILE_DIMENSIONS.SIZE * VIEWPORT_DIMENSIONS.W_HALF),
-      0,
-      TAU
-    );
-    ctx.stroke();
+  render(delta: number): void {
+    // stats loop
+    clearCanvasAndState(ELEMENTS.canvasStats);
+    this.applyToEntityArray((mapEntity) => {
+      const {
+        stateDuration,
+        entity,
+        screen: { x, y }
+      } = mapEntity;
+      mapEntity.stateDuration -= delta / 1000;
+      if (stateDuration <= 0) {
+        mapEntity.state = ENTITY_STATE.STOPPED;
+      }
+      if (stateDuration >= -1 && entity?.notes) {
+        drawNoteIncrease(CANVAS_CONTEXTS.stats, this.coords, x, y, entity.notes);
+      }
+    });
+
+    // instruments loop
+    clearCanvasAndState(ELEMENTS.canvasInstruments);
+    CANVAS_CONTEXTS.instruments.fillStyle = COLORS.BACKGROUND;
+    this.applyToEntityArray(({ entity }) => {
+      if (entity?.name === "instrument") {
+        entity?.render(CANVAS_CONTEXTS.instruments, this.coords, this);
+      }
+    });
+
+    // generators loop
+    clearCanvasAndState(ELEMENTS.canvasGenerators);
+    CANVAS_CONTEXTS.generators.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
+    this.applyToEntityArray(({ entity }) => {
+      if (entity?.name === "generator") {
+        entity?.render(CANVAS_CONTEXTS.generators, this.coords, this);
+      }
+    });
   }
 }

@@ -43,3 +43,12 @@
 | Compressed Build (Adv Zip) | 3.02 kb | 3089 | -5% |
 
 
+**add scheduler and sequencing** - *Sun, 15 Aug 2021 23:50:30 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 27.98 kb | 28653 | NA |
+| Build | 12.06 kb | 12347 | -57% |
+| Compressed Build | 4.22 kb | 4325 | -65% |
+| Compressed Build (Adv Zip) | 4.01 kb | 4111 | -5% |
+
+

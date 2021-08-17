@@ -41,20 +41,20 @@ export const calculatePositionDelta = (
 };
 
 export const resizeWithAspectRatio = (
-  canvas: HTMLCanvasElement,
+  element: HTMLElement | HTMLCanvasElement,
   ratio: AspectRatio
 ): void => {
-  const parent = canvas.parentElement;
+  const parent = element.parentElement;
   const resize = () => {
     const { width, height } = parent.getBoundingClientRect();
     const resizeRatio = Math.min(width / ratio.x, height / ratio.y);
     const newWidth = resizeRatio * ratio.x;
     const newHeight = resizeRatio * ratio.y;
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = newWidth * dpr;
-    canvas.height = newHeight * dpr;
-    canvas.style.width = newWidth + "px";
-    canvas.style.height = newHeight + "px";
+    (element as HTMLCanvasElement).width = newWidth * dpr;
+    (element as HTMLCanvasElement).height = newHeight * dpr;
+    element.style.width = newWidth + "px";
+    element.style.height = newHeight + "px";
   };
 
   const observer = new ResizeObserver(resize);

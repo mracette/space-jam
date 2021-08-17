@@ -31,11 +31,25 @@
         align-items: center;
         justify-content: center;
     }
+
+    .centered {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+    }
 </style>
 
 <body>
     <div class="flex flex-centered fill-absolute">
-        <canvas id="canvas-viz"></canvas>
+        <canvas class="centered" id="canvas-tiles"></canvas>
+        <canvas class="centered" id="canvas-instruments"></canvas>
+        <canvas class="centered" id="canvas-generators"></canvas>
+        <canvas class="centered" id="canvas-post"></canvas>
+        <canvas class="centered" id="canvas-stats"></canvas>
+        <div class="centered" id="menu"></div>
+        <button id="menu-button">
+            +
+        </button>
     </div>
 </body>
 

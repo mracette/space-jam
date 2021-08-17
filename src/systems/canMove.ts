@@ -1,6 +1,4 @@
 import { Position } from "../components/Position";
-import { MAP_DIMENSIONS } from "../globals";
-import { clamp } from "../utils/clamp";
 
 export const canMove =
   (self: { position: Position } & unknown) =>

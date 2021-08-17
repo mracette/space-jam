@@ -2,7 +2,7 @@ import { AUDIO_CTX } from "./index";
 import { AspectRatio } from "./core/AspectRatio";
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
-import { updateScreenDependentGlobals, MOUSE_POSITION } from "./globals";
+import { updateScreenDependentGlobals, MOUSE_POSITION, ELEMENTS } from "./globals";
 import { screenToMap } from "./utils/conversions";
 import {
   getEventType,
@@ -12,18 +12,36 @@ import {
 } from "./utils/events";
 
 export const initializeEventListeners = (
-  canvas: HTMLCanvasElement,
-  ctx: CanvasRenderingContext2D,
   coords: CanvasCoordinates,
   camera: Camera
 ): void => {
-  resizeWithAspectRatio(canvas, new AspectRatio(9, 16));
+  [
+    ELEMENTS.canvasMap,
+    ELEMENTS.canvasTiles,
+    ELEMENTS.canvasPost,
+    ELEMENTS.canvasStats,
+    ELEMENTS.canvasGenerators,
+    ELEMENTS.canvasInstruments,
+    ELEMENTS.menu
+  ].forEach((element) => {
+    resizeWithAspectRatio(element, new AspectRatio(9, 16));
+  });
+
+  ELEMENTS.menuButton.onclick = () => {
+    if (ELEMENTS.menu.style.visibility === "hidden") {
+      ELEMENTS.menu.style.visibility = "visible";
+      ELEMENTS.menuButton.style.transform = "rotate(45deg)";
+    } else {
+      ELEMENTS.menu.style.visibility = "hidden";
+      ELEMENTS.menuButton.style.transform = "rotate(0deg)";
+    }
+  };
 
   const onMouseMove = (e: MouseEvent) => {
     MOUSE_POSITION.screenX = e.x;
     MOUSE_POSITION.screenY = e.y;
-    MOUSE_POSITION.mapX = screenToMap.x(e.x, coords, camera, canvas);
-    MOUSE_POSITION.mapY = screenToMap.y(e.y, coords, camera, canvas);
+    MOUSE_POSITION.mapX = screenToMap.x(e.x, coords, camera, ELEMENTS.canvasMap);
+    MOUSE_POSITION.mapY = screenToMap.y(e.y, coords, camera, ELEMENTS.canvasMap);
   };
 
   const onMouseOrTouchDown = (e: MouseEvent | TouchEvent) => {
@@ -35,14 +53,12 @@ export const initializeEventListeners = (
     const onMouseOrTouchMove = (e: MouseEvent | TouchEvent) => {
       const { x, y } = calculatePositionDelta(
         e,
-        canvas.clientWidth,
+        ELEMENTS.canvasMap.clientWidth,
         xStart,
-        canvas.clientHeight,
+        ELEMENTS.canvasMap.clientHeight,
         yStart
       );
-      camera.position.x -= x;
-      camera.position.y += y;
-      camera.updateEntityArrayBounds();
+      camera.move(x, y);
     };
 
     const cleanUp = () => {
@@ -73,9 +89,11 @@ export const initializeEventListeners = (
   document.addEventListener("touchstart", onMouseOrTouchDown);
 
   const onResize = () => {
-    updateScreenDependentGlobals(ctx, coords);
+    updateScreenDependentGlobals(coords);
+    // runs animations pegged to camera movement
+    camera.move(0, 0);
   };
 
   const observer = new ResizeObserver(onResize);
-  observer.observe(canvas);
+  observer.observe(ELEMENTS.canvasMap);
 };
