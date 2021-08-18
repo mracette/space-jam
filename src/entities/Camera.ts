@@ -13,7 +13,7 @@ import {
   CANVAS_CONTEXTS,
   ELEMENTS
 } from "../globals";
-import { AUDIO_CTX, EntityArrayElement, ENTITY_ARRAY } from "../index";
+import { AUDIO_CTX, EntityArrayElement, ENTITY_ARRAY, PREVIEW_ENTITY } from "../index";
 import { clearCanvasAndState } from "../utils/canvas";
 import { rgbWithAlpha } from "../utils/colors";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
@@ -176,22 +176,25 @@ export class Camera extends Entity {
 
     // instruments loop
     clearCanvasAndState(ELEMENTS.canvasInstruments);
-    CANVAS_CONTEXTS.instruments.fillStyle = COLORS.BACKGROUND;
+    CANVAS_CONTEXTS.instrument.fillStyle = COLORS.BACKGROUND;
     this.applyToEntityArray(({ entity }) => {
       if (entity?.name === "instrument") {
-        entity?.render(CANVAS_CONTEXTS.instruments, this.coords, this);
+        entity?.render(CANVAS_CONTEXTS.instrument, this.coords, this);
       }
     });
 
     // oscillators loop
     clearCanvasAndState(ELEMENTS.canvasOscillators);
-    CANVAS_CONTEXTS.oscillators.lineCap = "round";
-    CANVAS_CONTEXTS.oscillators.lineJoin = "round";
-    CANVAS_CONTEXTS.oscillators.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
+    CANVAS_CONTEXTS.oscillator.lineCap = "round";
+    CANVAS_CONTEXTS.oscillator.lineJoin = "round";
+    CANVAS_CONTEXTS.oscillator.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
     this.applyToEntityArray(({ entity }) => {
       if (entity?.name === "oscillator") {
-        entity?.render(CANVAS_CONTEXTS.oscillators, this.coords, this);
+        entity?.render(CANVAS_CONTEXTS.oscillator, this.coords, this);
       }
     });
+
+    // preview element
+    PREVIEW_ENTITY.entity?.render(CANVAS_CONTEXTS.stats, this.coords, this);
   }
 }

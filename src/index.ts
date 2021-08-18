@@ -24,6 +24,10 @@ export interface EntityArrayElement {
   screen: Position;
 }
 
+export const PREVIEW_ENTITY: EntityArrayElement = {
+  screen: new Position()
+};
+
 export const ENTITY_ARRAY: EntityArrayElement[][] = Array.from({
   length: ENTITY_ARRAY_DIMENSIONS.W
 }).map(() => Array.from({ length: ENTITY_ARRAY_DIMENSIONS.H }, Object));
@@ -37,26 +41,26 @@ ENTITY_ARRAY.forEach((row) => {
 export const AUDIO_CTX = new (window.AudioContext || window.webkitAudioContext)();
 export const SCHEDULER = new Scheduler(AUDIO_CTX);
 
-const coords = new CanvasCoordinates(ELEMENTS.canvasMap);
+const coords = new CanvasCoordinates(ELEMENTS.canvasTiles);
 const camera = new Camera({ coords });
 
 initializeEventListeners(coords, camera);
 
-new Circle0({ x: -1, y: 0 });
-new Circle0({ x: 0, y: 1 });
-new Circle0({ x: 1, y: 0 });
-new Circle0({ x: 2, y: 1 });
-new Circle0({ x: 2, y: -1 });
-new Circle1({ x: 4, y: -1 });
-new Circle1({ x: 4, y: 3 });
-new CircleOscillator1({ x: 0, y: 0 });
-new CircleOscillator1({ x: 2, y: 0 });
-new CircleOscillator2({ x: 4, y: 1 });
+// new Circle0({ x: -1, y: 0 });
+new Circle0({ x: 0, y: 0 });
+// new Circle0({ x: 1, y: 0 });
+// new Circle0({ x: 2, y: 1 });
+// new Circle0({ x: 2, y: -1 });
+// new Circle1({ x: 4, y: -1 });
+// new Circle1({ x: 4, y: 3 });
+// new CircleOscillator1({ x: 0, y: 0 });
+// new CircleOscillator1({ x: 2, y: 0 });
+// new CircleOscillator2({ x: 4, y: 1 });
 
-new TriangleOscillator1({ x: -2, y: 4 });
-new Circle0({ x: -3, y: 3 });
-new Circle0({ x: -1, y: 3 });
-new Circle0({ x: -2, y: 5 });
+// new TriangleOscillator1({ x: -2, y: 4 });
+// new Circle0({ x: -3, y: 3 });
+// new Circle0({ x: -1, y: 3 });
+// new Circle0({ x: -2, y: 5 });
 
 const drawStats = (ctx: CanvasRenderingContext2D, coords: CanvasCoordinates) => {
   ctx.font = `${coords.width(0.035)}px sans-serif`;

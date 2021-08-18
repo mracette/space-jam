@@ -9,7 +9,6 @@ import { Camera } from "../Camera";
 
 export class TriangleOscillator extends Oscillator {
   width: number;
-  color: string;
   constructor(args: OscillatorArgs = {}) {
     super(args);
   }
@@ -40,12 +39,12 @@ export class TriangleOscillator extends Oscillator {
       cy,
       coords.width(TILE_DIMENSIONS.SIZE * this.width - LINE_WIDTH.VALUE * 2),
       coords.width(LINE_WIDTH.VALUE),
-      this.color
+      this.disabled ? this.colorDisabled : this.color
     );
 
     ctx.moveTo(cx, cy);
 
-    const cyclePosition = (AUDIO_CTX.currentTime % this.duration) / this.duration;
+    const cyclePosition = this.getCyclePosition();
 
     let px, py;
 

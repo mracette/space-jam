@@ -121,9 +121,8 @@ export const updateScreenDependentGlobals = (coords: CanvasCoordinates): void =>
 
   CANVAS_CONTEXTS.tiles.lineWidth = coords.width(LINE_WIDTH.VALUE);
   CANVAS_CONTEXTS.post.lineWidth = coords.width(LINE_WIDTH.VALUE);
-  CANVAS_CONTEXTS.map.lineWidth = coords.width(LINE_WIDTH.VALUE);
   CANVAS_CONTEXTS.stats.lineWidth = coords.width(LINE_WIDTH.VALUE);
-  CANVAS_CONTEXTS.instruments.lineWidth = coords.width(LINE_WIDTH.VALUE);
+  CANVAS_CONTEXTS.instrument.lineWidth = coords.width(LINE_WIDTH.VALUE);
 
   // draw fog and outer circle
   CANVAS_CONTEXTS.post.strokeStyle = COLORS.WHITE;
@@ -141,7 +140,6 @@ export const updateScreenDependentGlobals = (coords: CanvasCoordinates): void =>
 };
 
 export const ELEMENTS = {
-  canvasMap: document.getElementById("canvas-oscillators") as HTMLCanvasElement,
   canvasTiles: document.getElementById("canvas-tiles") as HTMLCanvasElement,
   canvasPost: document.getElementById("canvas-post") as HTMLCanvasElement,
   canvasStats: document.getElementById("canvas-stats") as HTMLCanvasElement,
@@ -155,17 +153,16 @@ export const ELEMENTS = {
 };
 
 export const CANVAS_CONTEXTS = {
-  map: ELEMENTS.canvasMap.getContext("2d"),
   tiles: ELEMENTS.canvasTiles.getContext("2d"),
   post: ELEMENTS.canvasPost.getContext("2d"),
   stats: ELEMENTS.canvasStats.getContext("2d"),
-  oscillators: ELEMENTS.canvasOscillators.getContext("2d"),
-  instruments: ELEMENTS.canvasInstruments.getContext("2d")
+  oscillator: ELEMENTS.canvasOscillators.getContext("2d"),
+  instrument: ELEMENTS.canvasInstruments.getContext("2d")
 };
 
 CANVAS_CONTEXTS.tiles.fillStyle = COLORS.BACKGROUND;
 CANVAS_CONTEXTS.tiles.strokeStyle = COLORS.WHITE;
-CANVAS_CONTEXTS.instruments.strokeStyle = COLORS.WHITE;
+CANVAS_CONTEXTS.instrument.strokeStyle = COLORS.WHITE;
 
 export const STYLES = {
   menuButton: {

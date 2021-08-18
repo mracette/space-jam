@@ -79,3 +79,12 @@
 | Compressed Build (Adv Zip) | 5.53 kb | 5658 | -5% |
 
 
+**add framework for appending menu items** - *Wed, 18 Aug 2021 02:57:47 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 37.31 kb | 38201 | NA |
+| Build | 22.33 kb | 22865 | -40% |
+| Compressed Build | 6.21 kb | 6356 | -72% |
+| Compressed Build (Adv Zip) | 5.95 kb | 6089 | -4% |
+
+

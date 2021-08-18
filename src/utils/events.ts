@@ -1,15 +1,17 @@
 import { AspectRatio } from "../core/AspectRatio";
 
-export const getEventType = (e: MouseEvent | TouchEvent): "touch" | "mouse" => {
+export const getEventType = (e: MouseEvent | TouchEvent): "touch" | "mouse" | "click" => {
   if (e.type.startsWith("touch")) {
     return "touch";
   } else if (e.type.startsWith("mouse")) {
     return "mouse";
+  } else if (e.type.startsWith("click")) {
+    return "click";
   }
 };
 
 export const getMouseOrTouchPosition = (
-  event: MouseEvent | TouchEvent
+  event: MouseEvent | TouchEvent | PointerEvent
 ): { x: number; y: number } => {
   let x: number;
   let y: number;
@@ -18,10 +20,10 @@ export const getMouseOrTouchPosition = (
     const touchEvent = event as TouchEvent;
     x = touchEvent?.touches[0].clientX;
     y = touchEvent?.touches[0].clientY;
-  } else if (type === "mouse") {
+  } else if (type === "mouse" || type === "click") {
     const mouseEvent = event as MouseEvent;
-    x = mouseEvent.clientX;
-    y = mouseEvent.clientY;
+    x = mouseEvent.pageX;
+    y = mouseEvent.pageY;
   }
   return { x, y };
 };

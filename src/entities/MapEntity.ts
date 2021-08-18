@@ -9,6 +9,7 @@ export type MapEntityArgs = EntityArgs & PositionArgs & ScaleArgs;
 export class MapEntity extends Entity {
   position: Position;
   scale: Scale;
+  screenPosition: Position;
   constructor(args: MapEntityArgs = {}) {
     super(args);
     const { x, y, scale } = args;

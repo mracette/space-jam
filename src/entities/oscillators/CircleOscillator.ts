@@ -1,13 +1,6 @@
 import { Oscillator, OscillatorArgs } from "./Oscillator";
 import { CanvasCoordinates } from "../../core/Coords";
-import {
-  CANVAS_CONTEXTS,
-  COLORS,
-  DURATIONS,
-  LINE_WIDTH,
-  TAU,
-  TILE_DIMENSIONS
-} from "../../globals";
+import { DURATIONS, LINE_WIDTH, TAU, TILE_DIMENSIONS } from "../../globals";
 import { AUDIO_CTX } from "../../index";
 import { mapToScreen } from "../../utils/conversions";
 import { rotatePoint } from "../../utils/math";
@@ -21,7 +14,6 @@ export class CircleOscillator extends Oscillator {
   repeatingEvents: number[];
   sequence: number[][];
   radius: number;
-  color: string;
   constructor(args: OscillatorArgs & CircleOscillatorArgs = {}) {
     super(args);
   }
@@ -51,12 +43,12 @@ export class CircleOscillator extends Oscillator {
       cy,
       coords.width(TILE_DIMENSIONS.HALF - LINE_WIDTH.VALUE),
       coords.width(LINE_WIDTH.VALUE),
-      this.color
+      this.disabled ? this.colorDisabled : this.color
     );
 
     ctx.moveTo(cx, cy);
 
-    const cyclePosition = (AUDIO_CTX.currentTime % this.duration) / this.duration;
+    const cyclePosition = this.getCyclePosition();
 
     const point = rotatePoint(
       cx + coords.width(TILE_DIMENSIONS.SIZE * this.radius),
