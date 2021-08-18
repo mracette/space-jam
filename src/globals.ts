@@ -88,17 +88,15 @@ export const enum DURATIONS {
   WHOLE = BPM.SPB * 4,
   HALF = BPM.SPB * 2,
   QUARTER = BPM.SPB,
+  QUARTER_TRIPLETS = (BPM.SPB * 2) / 3,
   EIGHT = BPM.SPB / 2,
+  EIGHT_TRIPLETS = BPM.SPB / 2 / 3,
   SIXTEENTH = BPM.SPB / 4
 }
 
 export const enum ENTITY_STATE {
-  PLAYING = 0,
-  STOPPED = 1
-}
-
-export const enum LIGHT_UP_DURATION {
-  VALUE = 0.5
+  PLAYING = "playing",
+  STOPPED = "stopped"
 }
 
 export const STATS = {
@@ -188,6 +186,5 @@ export const STYLES = {
 };
 
 Object.entries(ELEMENTS).forEach(([k, v]) => {
-  console.log(k as unknown, v);
   Object.assign(v.style, STYLES[k as keyof typeof STYLES]);
 });

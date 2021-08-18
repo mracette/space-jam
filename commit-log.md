@@ -52,3 +52,12 @@
 | Compressed Build (Adv Zip) | 4.01 kb | 4111 | -5% |
 
 
+**multi-canvas refactor** - *Tue, 17 Aug 2021 04:17:30 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 34.98 kb | 35816 | NA |
+| Build | 18.63 kb | 19073 | -47% |
+| Compressed Build | 5.51 kb | 5645 | -70% |
+| Compressed Build (Adv Zip) | 5.27 kb | 5394 | -4% |
+
+

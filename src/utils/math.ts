@@ -13,3 +13,5 @@ export const rotatePoint = (
     y: Math.sin(angle) * (px - cx) + Math.cos(angle) * (py - cy) + cy
   };
 };
+
+export const lerp = (x0: number, x1: number, t: number): number => x0 * t + x1 * (1 - t);

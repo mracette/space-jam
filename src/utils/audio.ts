@@ -1,9 +1,9 @@
-import { BPM } from "../globals";
+import { DURATIONS } from "../globals";
+import { AUDIO_CTX } from "../index";
 
-export const nextSubdivision = (audioCtx: AudioContext, beats: number): number => {
-  const timeElapsed = audioCtx.currentTime;
-  const beatsElapsed = timeElapsed / BPM.SPB;
-  const subdivisionsElapsed = Math.floor(beatsElapsed / beats);
-  const nextSubdivision = (subdivisionsElapsed + 1) * beats * BPM.SPB;
+export const nextSubdivision = (duration: DURATIONS): number => {
+  const timeElapsed = AUDIO_CTX.currentTime;
+  const durationsElapsed = timeElapsed / duration;
+  const nextSubdivision = ~~durationsElapsed + duration;
   return nextSubdivision;
 };

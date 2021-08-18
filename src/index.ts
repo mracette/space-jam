@@ -4,6 +4,7 @@ import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
 import { CircleGenerator1 } from "./entities/generators/CircleGenerator1";
 import { CircleGenerator2 } from "./entities/generators/CircleGenerator2";
+import { TriangleGenerator1 } from "./entities/generators/TriangleGenerator1";
 import { Circle0 } from "./entities/instruments/Circle0";
 import { Circle1 } from "./entities/instruments/Circle1";
 import { initializeEventListeners } from "./events";
@@ -19,7 +20,7 @@ import {
 export interface EntityArrayElement {
   entity?: any;
   state?: ENTITY_STATE;
-  stateDuration?: number;
+  stateEndsTime?: number;
   screen: Position;
 }
 
@@ -52,6 +53,11 @@ new CircleGenerator1({ x: 0, y: 0 });
 new CircleGenerator1({ x: 2, y: 0 });
 new CircleGenerator2({ x: 4, y: 1 });
 
+new TriangleGenerator1({ x: -2, y: 4 });
+new Circle0({ x: -3, y: 3 });
+new Circle0({ x: -1, y: 3 });
+new Circle0({ x: -2, y: 5 });
+
 const drawStats = (ctx: CanvasRenderingContext2D, coords: CanvasCoordinates) => {
   ctx.font = `${coords.width(0.035)}px sans-serif`;
   ctx.fillStyle = COLORS.WHITE;
@@ -59,14 +65,8 @@ const drawStats = (ctx: CanvasRenderingContext2D, coords: CanvasCoordinates) => 
   ctx.fillText(text, coords.nx(-0.95), coords.ny(-0.95));
 };
 
-let prevTime = 0;
-let delta = 0;
-
-const main = (time: number) => {
-  delta = time - prevTime;
-  prevTime = time;
-  camera.render(delta);
-  prevTime;
+const main = () => {
+  camera.render();
   drawStats(CANVAS_CONTEXTS.stats, coords);
   window.requestAnimationFrame(main);
 };

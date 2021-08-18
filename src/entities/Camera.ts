@@ -13,7 +13,7 @@ import {
   CANVAS_CONTEXTS,
   ELEMENTS
 } from "../globals";
-import { EntityArrayElement, ENTITY_ARRAY } from "../index";
+import { AUDIO_CTX, EntityArrayElement, ENTITY_ARRAY } from "../index";
 import { clearCanvasAndState } from "../utils/canvas";
 import { rgbWithAlpha } from "../utils/colors";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
@@ -25,16 +25,6 @@ const drawTile = (
   fill = false,
   stroke = true
 ) => {
-  // if (opacity) {
-  //   CANVAS_CONTEXTS.tiles.fillStyle = rgbWithAlpha(...COLORS.MAIN_GREEN_RGB, opacity);
-  //   CANVAS_CONTEXTS.tiles.fillRect(
-  //     cx,
-  //     cy,
-  //     coords.width(TILE_DIMENSIONS.SIZE),
-  //     coords.width(TILE_DIMENSIONS.SIZE)
-  //   );
-  // }
-  // CANVAS_CONTEXTS.tiles.beginPath();
   stroke &&
     CANVAS_CONTEXTS.tiles.strokeRect(
       cx,
@@ -166,21 +156,21 @@ export class Camera extends Entity {
     }
   }
 
-  render(delta: number): void {
+  render(): void {
     // stats loop
     clearCanvasAndState(ELEMENTS.canvasStats);
     this.applyToEntityArray((mapEntity) => {
       const {
-        stateDuration,
+        stateEndsTime,
         entity,
+        state,
         screen: { x, y }
       } = mapEntity;
-      mapEntity.stateDuration -= delta / 1000;
-      if (stateDuration <= 0) {
-        mapEntity.state = ENTITY_STATE.STOPPED;
-      }
-      if (stateDuration >= -1 && entity?.notes) {
+      if (stateEndsTime > AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
         drawNoteIncrease(CANVAS_CONTEXTS.stats, this.coords, x, y, entity.notes);
+      }
+      if (stateEndsTime <= AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
+        mapEntity.state = ENTITY_STATE.STOPPED;
       }
     });
 
@@ -195,6 +185,8 @@ export class Camera extends Entity {
 
     // generators loop
     clearCanvasAndState(ELEMENTS.canvasGenerators);
+    CANVAS_CONTEXTS.generators.lineCap = "round";
+    CANVAS_CONTEXTS.generators.lineJoin = "round";
     CANVAS_CONTEXTS.generators.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
     this.applyToEntityArray(({ entity }) => {
       if (entity?.name === "generator") {
