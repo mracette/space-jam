@@ -1,4 +1,5 @@
 import { Entity, EntityArgs } from "./Entity";
+import { OSCILLATOR_DEFINITIONS } from "./oscillators/definitions";
 import { Position, PositionArgs } from "../components/Position";
 import { Velocity, VelocityArgs } from "../components/Velocity";
 import { CanvasCoordinates } from "../core/Coords";
@@ -11,7 +12,8 @@ import {
   LINE_WIDTH,
   ENTITY_STATE,
   CANVAS_CONTEXTS,
-  ELEMENTS
+  ELEMENTS,
+  STATS
 } from "../globals";
 import { AUDIO_CTX, EntityArrayElement, ENTITY_ARRAY, PREVIEW_ENTITY } from "../index";
 import { clearCanvasAndState } from "../utils/canvas";
@@ -166,11 +168,23 @@ export class Camera extends Entity {
         state,
         screen: { x, y }
       } = mapEntity;
-      if (stateEndsTime > AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
-        drawNoteIncrease(CANVAS_CONTEXTS.stats, this.coords, x, y, entity.notes);
-      }
-      if (stateEndsTime <= AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
-        mapEntity.state = ENTITY_STATE.STOPPED;
+      if (entity?.name === "instrument") {
+        if (stateEndsTime > AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
+          drawNoteIncrease(CANVAS_CONTEXTS.stats, this.coords, x, y, entity.notes);
+          OSCILLATOR_DEFINITIONS.forEach((type) => {
+            type.forEach((def) => {
+              const button = document.getElementById(def.id) as HTMLButtonElement;
+              if (def.cost < STATS.notes) {
+                button.disabled = false;
+              } else {
+                button.disabled = true;
+              }
+            });
+          });
+        }
+        if (stateEndsTime <= AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
+          mapEntity.state = ENTITY_STATE.STOPPED;
+        }
       }
     });
 

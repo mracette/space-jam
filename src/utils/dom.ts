@@ -13,3 +13,16 @@ export const toggleMenu = (): void => {
     MENU_VISIBLE = false;
   }
 };
+
+export const abbreviateNumber = (n: number): string => {
+  const m = n / 1000000;
+  if (m > 1) {
+    return m + "M";
+  }
+  const k = n / 1000;
+  if (k > 1) {
+    return k + "K";
+  } else {
+    return n + "";
+  }
+};

@@ -60,12 +60,15 @@ export const COLORS = {
   BACKGROUND_RGB: [39, 40, 56],
   MAIN_GREEN: "#5bba6f",
   MAIN_GREEN_RGB: [91, 186, 111],
-  MAIN_PURPLE: "#7C77B9",
+  MAIN_PURPLE: "#bd5bff",
   MAIN_PURPLE_RGB: [124, 119, 185],
   HOT_PINK: "#ff4c7a",
   HOT_PINK_RGB: [255, 76, 122],
   HOT_BLUE: "#00f9ff",
-  HOT_BLUE_RGB: [0, 249, 255]
+  HOT_BLUE_RGB: [0, 249, 255],
+  HOT_GREEN: "#00e19e",
+  HOT_GREEN_RGB: [0, 225, 158],
+  DISABLED: "#B0C4DE"
 };
 
 export let GRADIENT_FOG: CanvasGradient;
@@ -89,11 +92,13 @@ export const enum BPM {
 
 export const enum DURATIONS {
   WHOLE = BPM.SPB * 4,
+  WHOLE_TRIPLETS = (BPM.SPB * 8) / 3,
   HALF = BPM.SPB * 2,
+  HALF_TRIPLETS = (BPM.SPB * 4) / 3,
   QUARTER = BPM.SPB,
   QUARTER_TRIPLETS = (BPM.SPB * 2) / 3,
-  EIGHT = BPM.SPB / 2,
-  EIGHT_TRIPLETS = BPM.SPB / 2 / 3,
+  EIGHTH = BPM.SPB / 2,
+  EIGHTH_TRIPLETS = BPM.SPB / 2 / 3,
   SIXTEENTH = BPM.SPB / 4
 }
 
@@ -103,7 +108,7 @@ export const enum ENTITY_STATE {
 }
 
 export const STATS = {
-  notes: 0
+  notes: 100
 };
 
 export const updateScreenDependentGlobals = (coords: CanvasCoordinates): void => {
@@ -146,10 +151,11 @@ export const ELEMENTS = {
   canvasOscillators: document.getElementById("canvas-oscillators") as HTMLCanvasElement,
   canvasInstruments: document.getElementById("canvas-instruments") as HTMLCanvasElement,
   menuButton: document.getElementById("menu-button") as HTMLButtonElement,
+  menuCol: document.getElementById("menu-col") as HTMLDivElement,
   menu: document.getElementById("menu") as HTMLDivElement,
-  cOsc: document.getElementById("c-osc") as HTMLDivElement,
-  tOsc: document.getElementById("t-osc") as HTMLDivElement,
-  sOsc: document.getElementById("s-osc") as HTMLDivElement
+  cOsc: document.getElementById("cOsc") as HTMLDivElement,
+  tOsc: document.getElementById("tOsc") as HTMLDivElement,
+  sOsc: document.getElementById("sOsc") as HTMLDivElement
 };
 
 export const CANVAS_CONTEXTS = {
@@ -179,10 +185,23 @@ export const STYLES = {
   },
   menu: {
     // visibility: "hidden",
-    background: "rgba(0,0,0,.75)"
+    background: "rgba(0,0,0,.75)",
+    justifyContent: "flex-start"
+  },
+  menuCol: {
+    justifyContent: "flex-start"
   },
   canvasTiles: {
     background: COLORS.BACKGROUND
+  },
+  cOsc: {
+    width: "unset"
+  },
+  tOsc: {
+    width: "unset"
+  },
+  sOsc: {
+    width: "unset"
   }
 };
 

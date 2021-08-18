@@ -16,6 +16,10 @@
         height: 100%;
     }
 
+    :disabled {
+        filter: brightness(.5) grayscale(.75)
+    }
+
     html .fill-absolute {
         position: absolute;
         top: 0;
@@ -50,9 +54,14 @@
         <canvas class="centered" id="canvas-post"></canvas>
         <canvas class="centered" id="canvas-stats"></canvas>
         <div class="centered flex flex-centered" id="menu">
-            <div id="c-osc" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
-            <div id="t-osc" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
-            <div id="s-osc" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
+            <div class="flex flex-col" id="menu-col">
+                <p style="height: unset;">Oscillators</p>
+                <div style="height: unset;" class="flex flex-centered">
+                    <div id="cOsc" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
+                    <div id="tOsc" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
+                    <div id="sOsc" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
+                </div>
+            </div>
         </div>
         <button id="menu-button">
             +

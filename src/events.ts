@@ -14,7 +14,7 @@ import {
 } from "./globals";
 import { clearCanvasAndState } from "./utils/canvas";
 import { mapToEntityArray, mapToScreen, screenToMap } from "./utils/conversions";
-import { MENU_VISIBLE, toggleMenu } from "./utils/dom";
+import { abbreviateNumber, MENU_VISIBLE, toggleMenu } from "./utils/dom";
 import {
   getEventType,
   getMouseOrTouchPosition,
@@ -42,6 +42,8 @@ export const initializeEventListeners = (
   OSCILLATOR_DEFINITIONS.forEach((type) => {
     type.forEach((def) => {
       const button = document.createElement("button");
+      button.disabled = true;
+      button.id = def.id;
       const canvas = document.createElement("canvas");
 
       (ELEMENTS as any)[def.type].append(button);
@@ -102,7 +104,7 @@ export const initializeEventListeners = (
         ctx.font = `${canvas.width / 5}px ${FONT_STYLE}`;
         ctx.fillStyle = COLORS.WHITE;
         ctx.textAlign = "center";
-        const text = def.cost + "♪";
+        const text = abbreviateNumber(def.cost);
         const metrics = ctx.measureText(text);
         ctx.fillText(text, canvas.width / 2, metrics.actualBoundingBoxAscent * 1.75);
       });

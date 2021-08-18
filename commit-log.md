@@ -88,3 +88,12 @@
 | Compressed Build (Adv Zip) | 5.95 kb | 6089 | -4% |
 
 
+**fix timing issues with new placements** - *Wed, 18 Aug 2021 13:40:13 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 39.04 kb | 39981 | NA |
+| Build | 22.79 kb | 23338 | -42% |
+| Compressed Build | 6.51 kb | 6667 | -71% |
+| Compressed Build (Adv Zip) | 6.21 kb | 6354 | -5% |
+
+

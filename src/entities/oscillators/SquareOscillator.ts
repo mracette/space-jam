@@ -7,7 +7,7 @@ import { equilateralTriangle } from "../../utils/geometry";
 import { lerp } from "../../utils/math";
 import { Camera } from "../Camera";
 
-export class TriangleOscillator extends Oscillator {
+export class SquareOscillator extends Oscillator {
   width: number;
   constructor(args: OscillatorArgs = {}) {
     super(args);
@@ -26,7 +26,7 @@ export class TriangleOscillator extends Oscillator {
     ctx.fillStyle = color;
     ctx.lineWidth = lineWidth;
     ctx.beginPath();
-    equilateralTriangle(ctx, cx, cy, width);
+    ctx.strokeRect(cx - width / 2, cy - width / 2, width, width);
     ctx.stroke();
   }
 
@@ -34,7 +34,7 @@ export class TriangleOscillator extends Oscillator {
     const cx = mapToScreen.x(this.position.x + 0.5, coords, camera);
     const cy = mapToScreen.y(this.position.y - 0.5, coords, camera);
 
-    TriangleOscillator.renderBaseShape(
+    SquareOscillator.renderBaseShape(
       ctx,
       cx,
       cy,
@@ -50,7 +50,7 @@ export class TriangleOscillator extends Oscillator {
     let px, py;
 
     for (let i = 0; i < this.sequence.length; i++) {
-      const cycleSegment = (i + 1) / this.sequence.length; // 1/3, 2/3, 3/3
+      const cycleSegment = (i + 1) / this.sequence.length;
       if (cyclePosition < cycleSegment) {
         const proportion = (cycleSegment - cyclePosition) * this.sequence.length;
         px = mapToScreen.x(

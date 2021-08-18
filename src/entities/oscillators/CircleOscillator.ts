@@ -1,7 +1,6 @@
 import { Oscillator, OscillatorArgs } from "./Oscillator";
 import { CanvasCoordinates } from "../../core/Coords";
-import { DURATIONS, LINE_WIDTH, TAU, TILE_DIMENSIONS } from "../../globals";
-import { AUDIO_CTX } from "../../index";
+import { COLORS, LINE_WIDTH, TAU, TILE_DIMENSIONS } from "../../globals";
 import { mapToScreen } from "../../utils/conversions";
 import { rotatePoint } from "../../utils/math";
 import { Camera } from "../Camera";
@@ -10,12 +9,12 @@ import { Camera } from "../Camera";
 export interface CircleOscillatorArgs {}
 
 export class CircleOscillator extends Oscillator {
-  interval: DURATIONS;
-  repeatingEvents: number[];
-  sequence: number[][];
   radius: number;
+
   constructor(args: OscillatorArgs & CircleOscillatorArgs = {}) {
     super(args);
+    this.colorDisabled = COLORS.DISABLED;
+    this.radius = 1;
   }
 
   static renderBaseShape(

@@ -6,6 +6,7 @@ import { Circle0 } from "./entities/instruments/Circle0";
 import { Circle1 } from "./entities/instruments/Circle1";
 import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { CircleOscillator2 } from "./entities/oscillators/CircleOscillator2";
+import { SquareOscillator1 } from "./entities/oscillators/SquareOscillator1";
 import { TriangleOscillator1 } from "./entities/oscillators/TriangleOscillator1";
 import { initializeEventListeners } from "./events";
 import {
@@ -46,21 +47,8 @@ const camera = new Camera({ coords });
 
 initializeEventListeners(coords, camera);
 
-// new Circle0({ x: -1, y: 0 });
 new Circle0({ x: 0, y: 0 });
-// new Circle0({ x: 1, y: 0 });
-// new Circle0({ x: 2, y: 1 });
-// new Circle0({ x: 2, y: -1 });
-// new Circle1({ x: 4, y: -1 });
-// new Circle1({ x: 4, y: 3 });
-// new CircleOscillator1({ x: 0, y: 0 });
-// new CircleOscillator1({ x: 2, y: 0 });
-// new CircleOscillator2({ x: 4, y: 1 });
-
-// new TriangleOscillator1({ x: -2, y: 4 });
-// new Circle0({ x: -3, y: 3 });
-// new Circle0({ x: -1, y: 3 });
-// new Circle0({ x: -2, y: 5 });
+new CircleOscillator1({ x: -1, y: 0 }).move(-1, 0);
 
 const drawStats = (ctx: CanvasRenderingContext2D, coords: CanvasCoordinates) => {
   ctx.font = `${coords.width(0.035)}px sans-serif`;

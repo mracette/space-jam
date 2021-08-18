@@ -1,4 +1,4 @@
-import { DURATIONS, ENTITY_STATE, STATS } from "../../globals";
+import { COLORS, DURATIONS, ENTITY_STATE, STATS } from "../../globals";
 import { AUDIO_CTX, ENTITY_ARRAY, SCHEDULER } from "../../index";
 import { nextSubdivision } from "../../utils/audio";
 import { mapToEntityArray } from "../../utils/conversions";
@@ -19,6 +19,7 @@ export class Oscillator extends MapEntity {
     super(args);
     this.name = "oscillator";
     this.repeatingEvents = [];
+    this.colorDisabled = COLORS.DISABLED;
   }
 
   static fitsInMap(x: number, y: number): boolean {
@@ -61,7 +62,7 @@ export class Oscillator extends MapEntity {
         SCHEDULER.scheduleRepeating(nextIntervalSequence, this.duration, () => {
           if (mapEntity.entity && mapEntity.state !== ENTITY_STATE.PLAYING) {
             mapEntity.state = ENTITY_STATE.PLAYING;
-            mapEntity.stateEndsTime = AUDIO_CTX.currentTime + this.interval;
+            mapEntity.stateEndsTime = AUDIO_CTX.currentTime + DURATIONS.QUARTER * 0.9;
             STATS.notes += mapEntity?.entity?.notes || 0;
           }
         })
