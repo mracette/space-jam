@@ -16,11 +16,11 @@ export const mapToScreen = {
   x: (x: number, coords: CanvasCoordinates, camera: Camera): number =>
     coords.width(0.5) + // centers in canvas
     (x - camera.position.x) * coords.width(TILE_DIMENSIONS.SIZE) - // scales map position to tile size relative to camera
-    coords.width(TILE_DIMENSIONS.SIZE / 2), // centers within grid
+    coords.width(TILE_DIMENSIONS.HALF), // centers within grid
   y: (y: number, coords: CanvasCoordinates, camera: Camera): number =>
     coords.height(0.5) + // centers in canvas
     (camera.position.y - y) * coords.width(TILE_DIMENSIONS.SIZE) - // scales map position to tile size relative to camera
-    coords.width(TILE_DIMENSIONS.SIZE / 2) // centers within grid
+    coords.width(TILE_DIMENSIONS.HALF) // centers within grid
 };
 
 export const screenToMap = {

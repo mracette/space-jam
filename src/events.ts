@@ -2,8 +2,17 @@ import { AUDIO_CTX } from "./index";
 import { AspectRatio } from "./core/AspectRatio";
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
-import { updateScreenDependentGlobals, MOUSE_POSITION, ELEMENTS } from "./globals";
+import { OSCILLATOR_DEFINITIONS } from "./entities/oscillators/definitions";
+import {
+  updateScreenDependentGlobals,
+  MOUSE_POSITION,
+  ELEMENTS,
+  COLORS,
+  FONT_STYLE
+} from "./globals";
+import { clearCanvasAndState } from "./utils/canvas";
 import { screenToMap } from "./utils/conversions";
+import { MENU_VISIBLE, toggleMenu } from "./utils/dom";
 import {
   getEventType,
   getMouseOrTouchPosition,
@@ -27,15 +36,45 @@ export const initializeEventListeners = (
     resizeWithAspectRatio(element, new AspectRatio(9, 16));
   });
 
-  ELEMENTS.menuButton.onclick = () => {
-    if (ELEMENTS.menu.style.visibility === "hidden") {
-      ELEMENTS.menu.style.visibility = "visible";
-      ELEMENTS.menuButton.style.transform = "rotate(45deg)";
-    } else {
-      ELEMENTS.menu.style.visibility = "hidden";
-      ELEMENTS.menuButton.style.transform = "rotate(0deg)";
-    }
-  };
+  ELEMENTS.menuButton.onclick = toggleMenu;
+
+  OSCILLATOR_DEFINITIONS.forEach((type) => {
+    type.forEach((def) => {
+      const button = document.createElement("button");
+      const canvas = document.createElement("canvas");
+
+      (ELEMENTS as any)[def.type].append(button);
+      button.append(canvas);
+
+      Object.assign(button.style, {
+        width: "7.5vh",
+        height: "7.5vh",
+        background: COLORS.BACKGROUND
+      });
+
+      const observer = new ResizeObserver(() => {
+        clearCanvasAndState(canvas);
+        const ctx = canvas.getContext("2d");
+        (def.class as any).renderBaseShape(
+          ctx,
+          canvas.width / 2,
+          canvas.height / 1.75,
+          canvas.width * def.buttonSize,
+          canvas.width / 15,
+          def.color
+        );
+        ctx.stroke();
+        ctx.font = `${canvas.width / 5}px ${FONT_STYLE}`;
+        ctx.fillStyle = COLORS.WHITE;
+        ctx.textAlign = "center";
+        const text = def.cost + "♪";
+        const metrics = ctx.measureText(text);
+        ctx.fillText(text, canvas.width / 2, metrics.actualBoundingBoxAscent * 1.75);
+      });
+
+      observer.observe(button);
+    });
+  });
 
   const onMouseMove = (e: MouseEvent) => {
     MOUSE_POSITION.screenX = e.x;
@@ -47,41 +86,43 @@ export const initializeEventListeners = (
   const onMouseOrTouchDown = (e: MouseEvent | TouchEvent) => {
     AUDIO_CTX.resume();
 
-    const { x: xStart, y: yStart } = getMouseOrTouchPosition(e);
-    const type = getEventType(e);
+    if (!MENU_VISIBLE) {
+      const { x: xStart, y: yStart } = getMouseOrTouchPosition(e);
+      const type = getEventType(e);
 
-    const onMouseOrTouchMove = (e: MouseEvent | TouchEvent) => {
-      const { x, y } = calculatePositionDelta(
-        e,
-        ELEMENTS.canvasMap.clientWidth,
-        xStart,
-        ELEMENTS.canvasMap.clientHeight,
-        yStart
-      );
-      camera.move(x, y);
-    };
+      const onMouseOrTouchMove = (e: MouseEvent | TouchEvent) => {
+        const { x, y } = calculatePositionDelta(
+          e,
+          ELEMENTS.canvasMap.clientWidth,
+          xStart,
+          ELEMENTS.canvasMap.clientHeight,
+          yStart
+        );
+        camera.move(x, y);
+      };
 
-    const cleanUp = () => {
-      document.removeEventListener("mousemove", onMouseOrTouchMove);
-      document.removeEventListener("touchmove", onMouseOrTouchMove);
-      document.addEventListener("mousemove", onMouseMove);
-    };
+      const cleanUp = () => {
+        document.removeEventListener("mousemove", onMouseOrTouchMove);
+        document.removeEventListener("touchmove", onMouseOrTouchMove);
+        document.addEventListener("mousemove", onMouseMove);
+      };
 
-    // bind mouse and touch listeners
-    if (type === "mouse") {
-      document.addEventListener("mousemove", onMouseOrTouchMove);
-      // clean up at end of interaction
-      document.addEventListener("mouseup", cleanUp, { once: true });
-    } else {
-      document.addEventListener("touchmove", onMouseOrTouchMove);
-      // clean up at end of interaction
-      document.addEventListener("touchend", cleanUp, { once: true });
+      // bind mouse and touch listeners
+      if (type === "mouse") {
+        document.addEventListener("mousemove", onMouseOrTouchMove);
+        // clean up at end of interaction
+        document.addEventListener("mouseup", cleanUp, { once: true });
+      } else {
+        document.addEventListener("touchmove", onMouseOrTouchMove);
+        // clean up at end of interaction
+        document.addEventListener("touchend", cleanUp, { once: true });
+      }
+
+      // remove mouse listener while mouse/touch down
+      document.removeEventListener("mousemove", onMouseMove);
+      MOUSE_POSITION.mapX = undefined;
+      MOUSE_POSITION.mapY = undefined;
     }
-
-    // remove mouse listener while mouse/touch down
-    document.removeEventListener("mousemove", onMouseMove);
-    MOUSE_POSITION.mapX = undefined;
-    MOUSE_POSITION.mapY = undefined;
   };
 
   document.addEventListener("mousemove", onMouseMove);

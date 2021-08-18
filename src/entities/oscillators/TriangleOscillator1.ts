@@ -1,11 +1,12 @@
 import { OscillatorArgs } from "./Oscillator";
 import { TriangleOscillator } from "./TriangleOscillator";
-import { DURATIONS } from "../../globals";
+import { COLORS, DURATIONS } from "../../globals";
 
 export class TriangleOscillator1 extends TriangleOscillator {
   constructor(args: OscillatorArgs = {}) {
     super(args);
     this.interval = DURATIONS.QUARTER_TRIPLETS;
+    this.color = COLORS.HOT_PINK;
     this.width = 1;
     this.sequence = [
       [0, 1],

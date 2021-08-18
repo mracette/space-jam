@@ -70,3 +70,12 @@
 | Compressed Build (Adv Zip) | 5.50 kb | 5630 | -4% |
 
 
+**generators -> oscillators** - *Wed, 18 Aug 2021 00:23:18 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 35.44 kb | 36288 | NA |
+| Build | 20.88 kb | 21386 | -41% |
+| Compressed Build | 5.79 kb | 5927 | -72% |
+| Compressed Build (Adv Zip) | 5.53 kb | 5658 | -5% |
+
+

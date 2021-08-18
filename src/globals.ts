@@ -37,7 +37,8 @@ export const enum ENTITY_ARRAY_DIMENSIONS {
 }
 
 export const enum TILE_DIMENSIONS {
-  SIZE = 0.05 // as a percentage of the canvas width
+  SIZE = 0.05, // as a percentage of the canvas width
+  HALF = 0.025 // as a percentage of the canvas width
 }
 
 export const MOUSE_POSITION: {
@@ -62,7 +63,9 @@ export const COLORS = {
   MAIN_PURPLE: "#7C77B9",
   MAIN_PURPLE_RGB: [124, 119, 185],
   HOT_PINK: "#ff4c7a",
-  HOT_PINK_RGB: [255, 76, 122]
+  HOT_PINK_RGB: [255, 76, 122],
+  HOT_BLUE: "#00f9ff",
+  HOT_BLUE_RGB: [0, 249, 255]
 };
 
 export let GRADIENT_FOG: CanvasGradient;
@@ -137,8 +140,6 @@ export const updateScreenDependentGlobals = (coords: CanvasCoordinates): void =>
   CANVAS_CONTEXTS.post.stroke();
 };
 
-export const MENU_VISIBLE = false;
-
 export const ELEMENTS = {
   canvasMap: document.getElementById("canvas-oscillators") as HTMLCanvasElement,
   canvasTiles: document.getElementById("canvas-tiles") as HTMLCanvasElement,
@@ -147,7 +148,10 @@ export const ELEMENTS = {
   canvasOscillators: document.getElementById("canvas-oscillators") as HTMLCanvasElement,
   canvasInstruments: document.getElementById("canvas-instruments") as HTMLCanvasElement,
   menuButton: document.getElementById("menu-button") as HTMLButtonElement,
-  menu: document.getElementById("menu") as HTMLDivElement
+  menu: document.getElementById("menu") as HTMLDivElement,
+  cOsc: document.getElementById("c-osc") as HTMLDivElement,
+  tOsc: document.getElementById("t-osc") as HTMLDivElement,
+  sOsc: document.getElementById("s-osc") as HTMLDivElement
 };
 
 export const CANVAS_CONTEXTS = {
@@ -177,7 +181,7 @@ export const STYLES = {
     transitionDuration: "250ms"
   },
   menu: {
-    visibility: "hidden",
+    // visibility: "hidden",
     background: "rgba(0,0,0,.75)"
   },
   canvasTiles: {
@@ -188,3 +192,5 @@ export const STYLES = {
 Object.entries(ELEMENTS).forEach(([k, v]) => {
   Object.assign(v.style, STYLES[k as keyof typeof STYLES]);
 });
+
+export const FONT_STYLE = '"Verdana", sans-serif';

@@ -1,5 +1,5 @@
 import { CircleOscillator, CircleOscillatorArgs } from "./CircleOscillator";
-import { DURATIONS } from "../../globals";
+import { COLORS, DURATIONS } from "../../globals";
 
 export class CircleOscillator2 extends CircleOscillator {
   interval: DURATIONS;
@@ -10,6 +10,7 @@ export class CircleOscillator2 extends CircleOscillator {
     super(args);
     this.interval = DURATIONS.HALF;
     this.radius = 2;
+    this.color = COLORS.HOT_BLUE;
     this.sequence = [
       [2, 0],
       [0, -2],

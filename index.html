@@ -9,7 +9,6 @@
 <style>
     * {
         color: white;
-        font-family: "Verdana", sans-serif;
         text-align: center;
         padding: 0;
         margin: 0;
@@ -25,6 +24,10 @@
 
     .flex {
         display: flex
+    }
+
+    .flex-col {
+        flex-direction: column;
     }
 
     .flex-centered {
@@ -46,7 +49,11 @@
         <canvas class="centered" id="canvas-oscillators"></canvas>
         <canvas class="centered" id="canvas-post"></canvas>
         <canvas class="centered" id="canvas-stats"></canvas>
-        <div class="centered" id="menu"></div>
+        <div class="centered flex flex-centered" id="menu">
+            <div id="c-osc" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
+            <div id="t-osc" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
+            <div id="s-osc" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
+        </div>
         <button id="menu-button">
             +
         </button>

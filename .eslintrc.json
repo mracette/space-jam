@@ -38,6 +38,7 @@
       "no-prototype-builtins": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-var-requires": "off",
-      "no-sparse-arrays": "off"
+      "no-sparse-arrays": "off",
+      "prefer-const": "off"
     }
 }
