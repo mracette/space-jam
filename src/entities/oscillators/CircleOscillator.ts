@@ -1,4 +1,4 @@
-import { Generator, GeneratorArgs } from "./Generator";
+import { Oscillator, OscillatorArgs } from "./Oscillator";
 import { CanvasCoordinates } from "../../core/Coords";
 import { COLORS, DURATIONS, LINE_WIDTH, TAU, TILE_DIMENSIONS } from "../../globals";
 import { AUDIO_CTX } from "../../index";
@@ -7,14 +7,14 @@ import { rotatePoint } from "../../utils/math";
 import { Camera } from "../Camera";
 
 /* eslint-disable-next-line */
-export interface CircleGeneratorArgs {}
+export interface CircleOscillatorArgs {}
 
-export class CircleGenerator extends Generator {
+export class CircleOscillator extends Oscillator {
   interval: DURATIONS;
   repeatingEvents: number[];
   sequence: number[][];
   radius: number;
-  constructor(args: GeneratorArgs & CircleGeneratorArgs = {}) {
+  constructor(args: OscillatorArgs & CircleOscillatorArgs = {}) {
     super(args);
   }
 

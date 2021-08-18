@@ -20,7 +20,7 @@ export const initializeEventListeners = (
     ELEMENTS.canvasTiles,
     ELEMENTS.canvasPost,
     ELEMENTS.canvasStats,
-    ELEMENTS.canvasGenerators,
+    ELEMENTS.canvasOscillators,
     ELEMENTS.canvasInstruments,
     ELEMENTS.menu
   ].forEach((element) => {

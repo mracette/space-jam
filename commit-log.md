@@ -61,3 +61,12 @@
 | Compressed Build (Adv Zip) | 5.27 kb | 5394 | -4% |
 
 
+**peg *everything* to the audio clock and reduce duplication using inheritance** - *Wed, 18 Aug 2021 00:13:07 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 35.35 kb | 36198 | NA |
+| Build | 20.29 kb | 20780 | -43% |
+| Compressed Build | 5.75 kb | 5885 | -72% |
+| Compressed Build (Adv Zip) | 5.50 kb | 5630 | -4% |
+
+

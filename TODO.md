@@ -1,5 +1,5 @@
 * change cursor to indicate ability to click and drag the map
-* ensure all generators are perfectly synced
+* ensure all oscillators are perfectly synced
 
 optimization
 * figure out why cpu usage increases over time

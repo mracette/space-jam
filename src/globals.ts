@@ -140,11 +140,11 @@ export const updateScreenDependentGlobals = (coords: CanvasCoordinates): void =>
 export const MENU_VISIBLE = false;
 
 export const ELEMENTS = {
-  canvasMap: document.getElementById("canvas-generators") as HTMLCanvasElement,
+  canvasMap: document.getElementById("canvas-oscillators") as HTMLCanvasElement,
   canvasTiles: document.getElementById("canvas-tiles") as HTMLCanvasElement,
   canvasPost: document.getElementById("canvas-post") as HTMLCanvasElement,
   canvasStats: document.getElementById("canvas-stats") as HTMLCanvasElement,
-  canvasGenerators: document.getElementById("canvas-generators") as HTMLCanvasElement,
+  canvasOscillators: document.getElementById("canvas-oscillators") as HTMLCanvasElement,
   canvasInstruments: document.getElementById("canvas-instruments") as HTMLCanvasElement,
   menuButton: document.getElementById("menu-button") as HTMLButtonElement,
   menu: document.getElementById("menu") as HTMLDivElement
@@ -155,7 +155,7 @@ export const CANVAS_CONTEXTS = {
   tiles: ELEMENTS.canvasTiles.getContext("2d"),
   post: ELEMENTS.canvasPost.getContext("2d"),
   stats: ELEMENTS.canvasStats.getContext("2d"),
-  generators: ELEMENTS.canvasGenerators.getContext("2d"),
+  oscillators: ELEMENTS.canvasOscillators.getContext("2d"),
   instruments: ELEMENTS.canvasInstruments.getContext("2d")
 };
 

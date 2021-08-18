@@ -183,14 +183,14 @@ export class Camera extends Entity {
       }
     });
 
-    // generators loop
-    clearCanvasAndState(ELEMENTS.canvasGenerators);
-    CANVAS_CONTEXTS.generators.lineCap = "round";
-    CANVAS_CONTEXTS.generators.lineJoin = "round";
-    CANVAS_CONTEXTS.generators.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
+    // oscillators loop
+    clearCanvasAndState(ELEMENTS.canvasOscillators);
+    CANVAS_CONTEXTS.oscillators.lineCap = "round";
+    CANVAS_CONTEXTS.oscillators.lineJoin = "round";
+    CANVAS_CONTEXTS.oscillators.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
     this.applyToEntityArray(({ entity }) => {
-      if (entity?.name === "generator") {
-        entity?.render(CANVAS_CONTEXTS.generators, this.coords, this);
+      if (entity?.name === "oscillator") {
+        entity?.render(CANVAS_CONTEXTS.oscillators, this.coords, this);
       }
     });
   }

@@ -2,11 +2,11 @@ import { Position } from "./components/Position";
 import Scheduler from "./core/AudioScheduler";
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
-import { CircleGenerator1 } from "./entities/generators/CircleGenerator1";
-import { CircleGenerator2 } from "./entities/generators/CircleGenerator2";
-import { TriangleGenerator1 } from "./entities/generators/TriangleGenerator1";
 import { Circle0 } from "./entities/instruments/Circle0";
 import { Circle1 } from "./entities/instruments/Circle1";
+import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
+import { CircleOscillator2 } from "./entities/oscillators/CircleOscillator2";
+import { TriangleOscillator1 } from "./entities/oscillators/TriangleOscillator1";
 import { initializeEventListeners } from "./events";
 import {
   ELEMENTS,
@@ -49,11 +49,11 @@ new Circle0({ x: 2, y: 1 });
 new Circle0({ x: 2, y: -1 });
 new Circle1({ x: 4, y: -1 });
 new Circle1({ x: 4, y: 3 });
-new CircleGenerator1({ x: 0, y: 0 });
-new CircleGenerator1({ x: 2, y: 0 });
-new CircleGenerator2({ x: 4, y: 1 });
+new CircleOscillator1({ x: 0, y: 0 });
+new CircleOscillator1({ x: 2, y: 0 });
+new CircleOscillator2({ x: 4, y: 1 });
 
-new TriangleGenerator1({ x: -2, y: 4 });
+new TriangleOscillator1({ x: -2, y: 4 });
 new Circle0({ x: -3, y: 3 });
 new Circle0({ x: -1, y: 3 });
 new Circle0({ x: -2, y: 5 });

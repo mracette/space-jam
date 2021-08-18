@@ -1,12 +1,12 @@
-import { CircleGenerator, CircleGeneratorArgs } from "./CircleGenerator";
+import { CircleOscillator, CircleOscillatorArgs } from "./CircleOscillator";
 import { DURATIONS } from "../../globals";
 
-export class CircleGenerator1 extends CircleGenerator {
+export class CircleOscillator1 extends CircleOscillator {
   interval: DURATIONS;
   sequence: number[][];
   duration: number;
   radius: number;
-  constructor(args: CircleGeneratorArgs = {}) {
+  constructor(args: CircleOscillatorArgs = {}) {
     super(args);
     this.interval = DURATIONS.QUARTER;
     this.radius = 1;

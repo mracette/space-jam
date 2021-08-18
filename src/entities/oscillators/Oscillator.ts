@@ -4,17 +4,17 @@ import { nextSubdivision } from "../../utils/audio";
 import { mapToEntityArray } from "../../utils/conversions";
 import { MapEntity, MapEntityArgs } from "../MapEntity";
 
-export type GeneratorArgs = MapEntityArgs;
+export type OscillatorArgs = MapEntityArgs;
 
-export class Generator extends MapEntity {
+export class Oscillator extends MapEntity {
   interval: DURATIONS;
   repeatingEvents: number[];
   sequence: number[][];
   duration: number;
   nextCycle: number;
-  constructor(args: GeneratorArgs) {
+  constructor(args: OscillatorArgs) {
     super(args);
-    this.name = "generator";
+    this.name = "oscillator";
     this.repeatingEvents = [];
   }
 
