@@ -13,16 +13,17 @@ export class SquareOscillator extends Oscillator {
   renderBaseShape(
     cx: number,
     cy: number,
+    ctx: CanvasRenderingContext2D = CANVAS_CONTEXTS.oscillator,
     width: number = COORDS.width(TILE_DIMENSIONS.SIZE * this.width - LINE_WIDTH.DOUBLE),
     lineWidth: number = COORDS.width(LINE_WIDTH.VALUE),
     color: string = this.disabled ? this.colorDisabled : this.color
   ): void {
-    CANVAS_CONTEXTS.oscillator.strokeStyle = color;
-    CANVAS_CONTEXTS.oscillator.fillStyle = color;
-    CANVAS_CONTEXTS.oscillator.lineWidth = lineWidth;
-    CANVAS_CONTEXTS.oscillator.beginPath();
-    CANVAS_CONTEXTS.oscillator.strokeRect(cx - width / 2, cy - width / 2, width, width);
-    CANVAS_CONTEXTS.oscillator.stroke();
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = lineWidth;
+    ctx.beginPath();
+    ctx.strokeRect(cx - width / 2, cy - width / 2, width, width);
+    ctx.stroke();
   }
 
   render(): void {

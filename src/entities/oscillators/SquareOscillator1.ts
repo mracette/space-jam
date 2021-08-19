@@ -19,5 +19,6 @@ export class SquareOscillator1 extends SquareOscillator {
       [-1, 1]
     ];
     this.duration = this.interval * this.sequence.length;
+    this.init();
   }
 }

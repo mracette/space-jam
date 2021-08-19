@@ -14,21 +14,23 @@ export class TriangleOscillator extends Oscillator {
   renderBaseShape(
     cx: number,
     cy: number,
+    ctx: CanvasRenderingContext2D = CANVAS_CONTEXTS.oscillator,
     width: number = COORDS.width(TILE_DIMENSIONS.SIZE * this.width - LINE_WIDTH.DOUBLE),
     lineWidth: number = COORDS.width(LINE_WIDTH.VALUE),
     color: string = this.disabled ? this.colorDisabled : this.color
   ): void {
-    CANVAS_CONTEXTS.oscillator.strokeStyle = color;
-    CANVAS_CONTEXTS.oscillator.fillStyle = color;
-    CANVAS_CONTEXTS.oscillator.lineWidth = lineWidth;
-    CANVAS_CONTEXTS.oscillator.beginPath();
-    equilateralTriangle(CANVAS_CONTEXTS.oscillator, cx, cy, width);
-    CANVAS_CONTEXTS.oscillator.stroke();
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = lineWidth;
+    ctx.beginPath();
+    equilateralTriangle(ctx, cx, cy, width);
+    ctx.stroke();
   }
 
   render(): void {
     const cx = mapToScreen.x(this.position.x + 0.5);
     const cy = mapToScreen.y(this.position.y - 0.5);
     this.renderBaseShape(cx, cy);
+    this.renderArm(cx, cy);
   }
 }

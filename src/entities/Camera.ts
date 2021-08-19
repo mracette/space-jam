@@ -1,4 +1,5 @@
 import { Entity, EntityArgs } from "./Entity";
+import { INSTRUMENT_DEFINITIONS } from "./instruments/definitions";
 import { OSCILLATOR_DEFINITIONS } from "./oscillators/definitions";
 import { CanvasCoordinates } from "../core/Coords";
 import { Vector2, Vector2Args } from "../core/Vector2";
@@ -70,6 +71,9 @@ interface CameraArgs {
 export class Camera extends Entity {
   position: Vector2;
   coords: CanvasCoordinates;
+  previewEntity:
+    | typeof OSCILLATOR_DEFINITIONS[number]
+    | typeof INSTRUMENT_DEFINITIONS[number];
   /**
    * contains the upper/lower bounds of the entity array elements
    * that are currently in the camera's viewport
@@ -198,7 +202,7 @@ export class Camera extends Entity {
     CANVAS_CONTEXTS.instrument.fillStyle = COLORS.BACKGROUND;
     this.applyToEntityArray(({ entity }) => {
       if (entity?.name === "instrument") {
-        entity?.render(CANVAS_CONTEXTS.instrument, this.coords, this);
+        entity.render();
       }
     });
 
@@ -209,8 +213,11 @@ export class Camera extends Entity {
     CANVAS_CONTEXTS.oscillator.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
     this.applyToEntityArray(({ entity }) => {
       if (entity?.name === "oscillator") {
-        entity?.render(CANVAS_CONTEXTS.oscillator, this.coords, this);
+        entity.render();
       }
     });
+
+    // render the preview entity if applicable
+    this.previewEntity?.render();
   }
 }

@@ -1,4 +1,7 @@
-import { OSCILLATOR_DEFINITIONS } from "./entities/oscillators/definitions";
+import {
+  OSCILLATOR_CONSTRUCTORS,
+  OSCILLATOR_DEFINITIONS
+} from "./entities/oscillators/definitions";
 import { ELEMENTS, COLORS, FONT_STYLE } from "./globals";
 import { dragOscillatorToMap } from "./interactions";
 import { clearCanvasAndState } from "./utils/canvas";
@@ -14,6 +17,7 @@ const drawOscillatorUi = (
   oscillator.renderBaseShape(
     canvas.width / 2,
     canvas.height / 1.75,
+    ctx,
     canvas.width * (type === "co" ? 0.15 : 0.3),
     canvas.width / 15
   );
@@ -27,7 +31,7 @@ const drawOscillatorUi = (
 };
 
 export const setupOscillatorUI = (): void => {
-  OSCILLATOR_DEFINITIONS.forEach((oscillator) => {
+  OSCILLATOR_DEFINITIONS.forEach((oscillator, i) => {
     const button = document.createElement("button");
     const canvas = document.createElement("canvas");
     button.append(canvas);
@@ -47,7 +51,7 @@ export const setupOscillatorUI = (): void => {
     button.onclick = (e: MouseEvent | TouchEvent) => {
       e.stopPropagation();
       toggleMenu();
-      dragOscillatorToMap(oscillator);
+      dragOscillatorToMap(oscillator, OSCILLATOR_CONSTRUCTORS[i]);
     };
 
     const observer = new ResizeObserver(() => {

@@ -66,8 +66,6 @@ export const initializeEventListeners = (): void => {
 
       // remove mouse listener while mouse/touch down
       document.removeEventListener("mousemove", onMouseMove);
-      MOUSE_POSITION.mapX = undefined;
-      MOUSE_POSITION.mapY = undefined;
     }
   };
 

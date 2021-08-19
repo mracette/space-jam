@@ -7,7 +7,7 @@ import {
   TAU,
   TILE_DIMENSIONS
 } from "../../globals";
-import { AUDIO_CTX, COORDS, ENTITY_ARRAY, SCHEDULER } from "../../index";
+import { AUDIO_CTX, CAMERA, COORDS, ENTITY_ARRAY, SCHEDULER } from "../../index";
 import { nextSubdivision } from "../../utils/audio";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import { lerp } from "../../utils/math";
@@ -29,8 +29,11 @@ export class Oscillator extends MapEntity {
     this.name = "oscillator";
     this.repeatingEvents = [];
     this.colorDisabled = COLORS.DISABLED;
+  }
+
+  init(): void {
     if (!this.preview) {
-      this.placeOnMap(this.position.x, this.position.y);
+      this.placeOnMap();
     }
   }
 
@@ -38,19 +41,26 @@ export class Oscillator extends MapEntity {
     return (AUDIO_CTX.currentTime % this.duration) / this.duration;
   }
 
-  fitsInMap(x: number, y: number): boolean {
-    return !ENTITY_ARRAY[mapToEntityArray.x(x)][mapToEntityArray.y(y)].entity;
+  fitsInMap(): boolean {
+    const { xLower, xUpper, yLower, yUpper } = CAMERA.entityArrayBounds;
+    const { x, y } = this.position;
+    const arrX = mapToEntityArray.x(x);
+    const arrY = mapToEntityArray.y(y);
+    const isInView = arrX > xLower && arrX < xUpper && arrY > yLower && arrY < yUpper;
+    const mapEntity = ENTITY_ARRAY[mapToEntityArray.x(x)][mapToEntityArray.y(y)].entity;
+    return isInView && !mapEntity;
   }
 
-  placeOnMap(x: number, y: number): void {
+  placeOnMap(): void {
     this.preview = false;
-    this.position.x = x;
-    this.position.y = y;
-    ENTITY_ARRAY[mapToEntityArray.x(x)][mapToEntityArray.y(y)].entity = this;
+    // @ts-ignore
+    ENTITY_ARRAY[mapToEntityArray.x(this.position.x)][
+      mapToEntityArray.y(this.position.y)
+    ].entity = this;
     this.repeatingEvents.forEach((event) => {
       SCHEDULER.cancel(event);
     });
-    this.createRepeatingEvent();
+    this.createRepeatingEvents();
   }
 
   renderArm(cx: number, cy: number): void {
@@ -97,7 +107,7 @@ export class Oscillator extends MapEntity {
     }
   }
 
-  createRepeatingEvent(): void {
+  createRepeatingEvents(): void {
     const entityArrayX = mapToEntityArray.x(this.position.x);
     const entityArrayY = mapToEntityArray.y(this.position.y);
     const cyclePositionIndex = Math.ceil(this.getCyclePosition() * this.sequence.length);

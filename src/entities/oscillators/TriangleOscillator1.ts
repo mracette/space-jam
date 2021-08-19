@@ -14,5 +14,6 @@ export class TriangleOscillator1 extends TriangleOscillator {
       [-1, -1]
     ];
     this.duration = this.interval * this.sequence.length;
+    this.init();
   }
 }

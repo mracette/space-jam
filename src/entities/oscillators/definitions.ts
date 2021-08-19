@@ -7,7 +7,6 @@ import { SquareOscillator3 } from "./SquareOscillator3";
 import { TriangleOscillator1 } from "./TriangleOscillator1";
 import { TriangleOscillator2 } from "./TriangleOscillator2";
 import { TriangleOscillator3 } from "./TriangleOscillator3";
-import { Basic1 } from "../instruments/Basic1";
 
 const args = { preview: true };
 
@@ -23,12 +22,14 @@ export const OSCILLATOR_DEFINITIONS = [
   new SquareOscillator3(args)
 ];
 
-export const INSTRUMENT_DEFINITIONS = [
-  {
-    id: "1",
-    cost: 5,
-    unlockCost: 0,
-    unlocked: true,
-    class: Basic1
-  }
+export const OSCILLATOR_CONSTRUCTORS = [
+  CircleOscillator1,
+  CircleOscillator2,
+  CircleOscillator3,
+  TriangleOscillator1,
+  TriangleOscillator2,
+  TriangleOscillator3,
+  SquareOscillator1,
+  SquareOscillator2,
+  SquareOscillator3
 ];

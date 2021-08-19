@@ -40,7 +40,7 @@ export const enum ENTITY_ARRAY_DIMENSIONS {
 export const enum TILE_DIMENSIONS {
   SIZE = 0.05,
   HALF = 0.025,
-  QUARTER = 0.00625
+  QUARTER = 0.0125
 }
 
 export const MOUSE_POSITION: {

@@ -15,5 +15,6 @@ export class CircleOscillator1 extends CircleOscillator {
       [-1, 0]
     ];
     this.duration = this.interval * this.sequence.length;
+    this.init();
   }
 }

@@ -4,6 +4,9 @@
 * add lifetime notes to stats
 * mobile check
 
+bugs
+* fix placement of entity on drag of map
+
 optimization
 * figure out why cpu usage increases over time
 * move radial gradient to a separate canvas that isn't called each frame

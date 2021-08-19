@@ -106,3 +106,12 @@
 | Compressed Build (Adv Zip) | 6.69 kb | 6855 | -4% |
 
 
+**whoops another refactor (wip)** - *Thu, 19 Aug 2021 03:19:27 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 31.23 kb | 31975 | NA |
+| Build | 27.36 kb | 28013 | -12% |
+| Compressed Build | 6.30 kb | 6455 | -77% |
+| Compressed Build (Adv Zip) | 6.06 kb | 6204 | -4% |
+
+

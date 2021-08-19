@@ -1,5 +1,5 @@
 import { CANVAS_CONTEXTS, LINE_WIDTH, TILE_DIMENSIONS } from "../../globals";
-import { CAMERA, COORDS, ENTITY_ARRAY } from "../../index";
+import { COORDS, ENTITY_ARRAY } from "../../index";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import { MapEntity } from "../MapEntity";
 
@@ -23,14 +23,14 @@ export class Instrument extends MapEntity {
   }
 
   move(x: number, y: number): void {
-    this.position.x = x;
-    this.position.y = y;
+    this.position.set(x, y);
     const ex = mapToEntityArray.x(x);
     const ey = mapToEntityArray.y(y);
     this.shape.forEach((s) => {
       const [sx, sy] = s;
       ENTITY_ARRAY[ex + sx][ex + sy].blocked = true;
     });
+    // @ts-ignore
     ENTITY_ARRAY[ex][ey].entity = this;
   }
 
