@@ -195,7 +195,7 @@ export const STYLES = {
     justifyContent: "flex-start"
   },
   canvasTiles: {
-    background: COLORS.BACKGROUND
+    background: COLORS.MAIN_GREEN
   },
   co: {
     width: "unset"

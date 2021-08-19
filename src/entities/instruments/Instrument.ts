@@ -1,4 +1,4 @@
-import { CANVAS_CONTEXTS, LINE_WIDTH, TILE_DIMENSIONS } from "../../globals";
+import { CANVAS_CONTEXTS, COLORS, LINE_WIDTH, TAU, TILE_DIMENSIONS } from "../../globals";
 import { COORDS, ENTITY_ARRAY } from "../../index";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import { MapEntity } from "../MapEntity";
@@ -6,10 +6,15 @@ import { MapEntity } from "../MapEntity";
 export class Instrument extends MapEntity {
   notes: number;
   shape: number[][];
-  scale: number;
   constructor(args: ConstructorParameters<typeof MapEntity>[0]) {
     super(args);
     this.name = "instrument";
+  }
+
+  init(): void {
+    if (!this.preview) {
+      this.placeOnMap();
+    }
   }
 
   fitsInMap(x: number, y: number): boolean {
@@ -22,25 +27,46 @@ export class Instrument extends MapEntity {
     return !entityArrayIsBlocked && !adjacentSpacesAreBlocked;
   }
 
-  move(x: number, y: number): void {
-    this.position.set(x, y);
-    const ex = mapToEntityArray.x(x);
-    const ey = mapToEntityArray.y(y);
-    this.shape.forEach((s) => {
-      const [sx, sy] = s;
-      ENTITY_ARRAY[ex + sx][ex + sy].blocked = true;
-    });
+  placeOnMap(): void {
+    this.preview = false;
+    const ex = mapToEntityArray.x(this.position.x);
+    const ey = mapToEntityArray.y(this.position.y);
     // @ts-ignore
     ENTITY_ARRAY[ex][ey].entity = this;
+    this.shape.forEach(([dx, dy]) => {
+      ENTITY_ARRAY[ex + dx][ey + dy].blocked = true;
+    });
   }
 
   render(): void {
-    const scaleOffset = (this.scale - 1) / 2;
-    CANVAS_CONTEXTS.instrument.fillRect(
-      mapToScreen.x(this.position.x - scaleOffset) + COORDS.width(LINE_WIDTH.HALF),
-      mapToScreen.y(this.position.y + scaleOffset) + COORDS.width(LINE_WIDTH.HALF),
-      COORDS.width(TILE_DIMENSIONS.SIZE * this.scale - LINE_WIDTH.VALUE),
-      COORDS.width(TILE_DIMENSIONS.SIZE * this.scale - LINE_WIDTH.VALUE)
-    );
+    for (let i = 0; i < this.shape.length; i++) {
+      const [dx, dy] = this.shape[i];
+      // CANVAS_CONTEXTS.instrument.fillRect(
+      //   mapToScreen.x(this.position.x + dx) + COORDS.width(LINE_WIDTH.HALF),
+      //   mapToScreen.y(this.position.y + dy) + COORDS.width(LINE_WIDTH.HALF),
+      //   COORDS.width(TILE_DIMENSIONS.SIZE),
+      //   COORDS.width(TILE_DIMENSIONS.SIZE)
+      // );
+      // if (i + 1 < this.shape.length) {
+      //   const [dxx, dyy] = this.shape[i + 1];
+      //   CANVAS_CONTEXTS.instrument.fillRect(
+      //     mapToScreen.x(this.position.x + (dx + dxx) / 2) + COORDS.width(LINE_WIDTH.HALF),
+      //     mapToScreen.y(this.position.y + (dy + dyy) / 2) + COORDS.width(LINE_WIDTH.HALF),
+      //     COORDS.width(TILE_DIMENSIONS.SIZE - LINE_WIDTH.VALUE),
+      //     COORDS.width(TILE_DIMENSIONS.SIZE - LINE_WIDTH.VALUE)
+      //   );
+      // }
+      if (dx === 0 && dy === 0) {
+        CANVAS_CONTEXTS.instrument.beginPath();
+        CANVAS_CONTEXTS.instrument.arc(
+          mapToScreen.x(this.position.x + 0.5),
+          mapToScreen.y(this.position.y - 0.5),
+          COORDS.width(TILE_DIMENSIONS.QUARTER),
+          0,
+          TAU
+        );
+        CANVAS_CONTEXTS.instrument.stroke();
+      }
+    }
   }
 }

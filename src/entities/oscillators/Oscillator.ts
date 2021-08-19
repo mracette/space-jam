@@ -46,9 +46,11 @@ export class Oscillator extends MapEntity {
     const { x, y } = this.position;
     const arrX = mapToEntityArray.x(x);
     const arrY = mapToEntityArray.y(y);
+    const arr = ENTITY_ARRAY[arrX][arrY];
     const isInView = arrX > xLower && arrX < xUpper && arrY > yLower && arrY < yUpper;
-    const mapEntity = ENTITY_ARRAY[mapToEntityArray.x(x)][mapToEntityArray.y(y)].entity;
-    return isInView && !mapEntity;
+    const spaceIsTaken = Boolean(arr.entity);
+    const isBlocked = arr.blocked;
+    return isInView && !spaceIsTaken && !isBlocked;
   }
 
   placeOnMap(): void {

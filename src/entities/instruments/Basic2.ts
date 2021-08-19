@@ -5,14 +5,16 @@ export class Basic2 extends Instrument {
     super(args);
     this.notes = 5;
     this.shape = [
+      [-1, 1],
       [0, 1],
       [1, 1],
       [1, 0],
-      [1, -1],
-      [0, -1],
-      [-1, -1],
+      [0, 0],
       [-1, 0],
-      [-1, 1]
+      [-1, -1],
+      [0, -1],
+      [1, -1]
     ];
+    this.init();
   }
 }

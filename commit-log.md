@@ -115,3 +115,12 @@
 | Compressed Build (Adv Zip) | 6.06 kb | 6204 | -4% |
 
 
+**cleap up refactor and solidify interactions and osc setup** - *Thu, 19 Aug 2021 04:27:25 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 31.83 kb | 32591 | NA |
+| Build | 27.66 kb | 28327 | -13% |
+| Compressed Build | 6.47 kb | 6624 | -77% |
+| Compressed Build (Adv Zip) | 6.20 kb | 6348 | -4% |
+
+

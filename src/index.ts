@@ -2,6 +2,7 @@ import Scheduler from "./core/AudioScheduler";
 import { CanvasCoordinates } from "./core/COORDS";
 import { Camera } from "./entities/Camera";
 import { Basic1 } from "./entities/instruments/Basic1";
+import { Basic2 } from "./entities/instruments/Basic2";
 import { INSTRUMENT_DEFINITIONS } from "./entities/instruments/definitions";
 import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { OSCILLATOR_DEFINITIONS } from "./entities/oscillators/definitions";
@@ -28,7 +29,8 @@ export const CAMERA = new Camera({ coords: COORDS });
 initializeEventListeners();
 setupOscillatorUI();
 
-new Basic1({ x: 0, y: 0 });
+// new Basic1({ x: 0, y: 0 });
+new Basic2({ x: 1, y: 1 });
 new CircleOscillator1({ x: -1, y: 0 });
 
 const main = () => {

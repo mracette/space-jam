@@ -129,14 +129,16 @@ export class Camera extends Entity {
 
     // reset state and canvas
     clearCanvasAndState(ELEMENTS.canvasTiles);
-    CANVAS_CONTEXTS.tiles.fillStyle = COLORS.BACKGROUND;
+    // CANVAS_CONTEXTS.tiles.fillStyle = COLORS.BACKGROUND;
     CANVAS_CONTEXTS.tiles.strokeStyle = COLORS.WHITE;
     CANVAS_CONTEXTS.tiles.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
-    CANVAS_CONTEXTS.tiles.fillRect(0, 0, this.coords.width(), this.coords.height());
+    // CANVAS_CONTEXTS.tiles.fillRect(0, 0, this.coords.width(), this.coords.height());
 
     // redraw tiles
-    this.applyToEntityArray((_, i, j) => {
-      drawTile(this.coords, entityArrayToScreen.x(i), entityArrayToScreen.y(j));
+    this.applyToEntityArray((arr, i, j) => {
+      if (arr.entity?.name === "oscillator" || !arr.blocked) {
+        drawTile(this.coords, entityArrayToScreen.x(i), entityArrayToScreen.y(j));
+      }
     });
   }
 
@@ -199,7 +201,9 @@ export class Camera extends Entity {
 
     // instruments loop
     clearCanvasAndState(ELEMENTS.canvasInstruments);
-    CANVAS_CONTEXTS.instrument.fillStyle = COLORS.BACKGROUND;
+    CANVAS_CONTEXTS.instrument.fillStyle = COLORS.MAIN_PURPLE;
+    CANVAS_CONTEXTS.instrument.strokeStyle = COLORS.WHITE;
+    CANVAS_CONTEXTS.instrument.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
     this.applyToEntityArray(({ entity }) => {
       if (entity?.name === "instrument") {
         entity.render();
