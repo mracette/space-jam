@@ -157,47 +157,47 @@ export class Camera extends Entity {
   }
 
   render(): void {
-    // stats loop
-    clearCanvasAndState(ELEMENTS.canvasStats);
+    // // stats loop
+    // clearCanvasAndState(ELEMENTS.canvasStats);
 
-    // draw overall game stats
-    CANVAS_CONTEXTS.stats.font = `${COORDS.width(0.035)}px sans-serif`;
-    CANVAS_CONTEXTS.stats.fillStyle = COLORS.WHITE;
-    const text = "Notes: " + STATS.notes;
-    CANVAS_CONTEXTS.stats.fillText(text, COORDS.nx(-0.95), COORDS.ny(-0.95));
+    // // draw overall game stats
+    // CANVAS_CONTEXTS.stats.font = `${COORDS.width(0.035)}px sans-serif`;
+    // CANVAS_CONTEXTS.stats.fillStyle = COLORS.WHITE;
+    // const text = "Notes: " + STATS.notes;
+    // CANVAS_CONTEXTS.stats.fillText(text, COORDS.nx(-0.95), COORDS.ny(-0.95));
 
-    // draw map stats
-    this.applyToEntityArray((mapEntity, i, j) => {
-      const { stateEndsTime, entity, state } = mapEntity;
-      if (entity?.name === "instrument") {
-        if (stateEndsTime > AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
-          drawNoteIncrease(
-            CANVAS_CONTEXTS.stats,
-            this.coords,
-            entityArrayToScreen.x(i),
-            entityArrayToScreen.y(j),
-            entity.notes
-          );
+    // // draw map stats
+    // this.applyToEntityArray((mapEntity, i, j) => {
+    //   const { stateEndsTime, entity, state } = mapEntity;
+    //   if (entity?.name === "instrument") {
+    //     if (stateEndsTime > AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
+    //       drawNoteIncrease(
+    //         CANVAS_CONTEXTS.stats,
+    //         this.coords,
+    //         entityArrayToScreen.x(i),
+    //         entityArrayToScreen.y(j),
+    //         entity.notes
+    //       );
 
-          // update enabled / disabled based on cost and available notes
-          if (MENU_VISIBLE) {
-            OSCILLATOR_DEFINITIONS.forEach((oscillator) => {
-              const button = document.getElementById(oscillator.id) as HTMLButtonElement;
-              if (oscillator.cost < STATS.notes) {
-                button.disabled = false;
-              } else {
-                button.disabled = true;
-              }
-            });
-          }
-        }
+    //       // update enabled / disabled based on cost and available notes
+    //       if (MENU_VISIBLE) {
+    //         OSCILLATOR_DEFINITIONS.forEach((oscillator) => {
+    //           const button = document.getElementById(oscillator.id) as HTMLButtonElement;
+    //           if (oscillator.cost < STATS.notes) {
+    //             button.disabled = false;
+    //           } else {
+    //             button.disabled = true;
+    //           }
+    //         });
+    //       }
+    //     }
 
-        // change state if stateEndsTime has elapsed
-        if (stateEndsTime <= AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
-          mapEntity.state = ENTITY_STATE.STOPPED;
-        }
-      }
-    });
+    //     // change state if stateEndsTime has elapsed
+    //     if (stateEndsTime <= AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
+    //       mapEntity.state = ENTITY_STATE.STOPPED;
+    //     }
+    //   }
+    // });
 
     // instruments loop
     clearCanvasAndState(ELEMENTS.canvasInstruments);

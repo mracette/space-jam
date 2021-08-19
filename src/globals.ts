@@ -187,7 +187,7 @@ export const STYLES = {
     transitionDuration: "250ms"
   },
   menu: {
-    // visibility: "hidden",
+    visibility: "hidden",
     background: "rgba(0,0,0,.75)",
     justifyContent: "flex-start"
   },

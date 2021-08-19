@@ -2,10 +2,11 @@ import {
   OSCILLATOR_CONSTRUCTORS,
   OSCILLATOR_DEFINITIONS
 } from "./entities/oscillators/definitions";
-import { ELEMENTS, COLORS, FONT_STYLE } from "./globals";
+import { ELEMENTS, COLORS, FONT_STYLE, CANVAS_CONTEXTS } from "./globals";
 import { dragOscillatorToMap } from "./interactions";
 import { clearCanvasAndState } from "./utils/canvas";
 import { abbreviateNumber, toggleMenu } from "./utils/dom";
+import { perlin } from "./utils/perlin";
 
 const drawOscillatorUi = (
   canvas: HTMLCanvasElement,
@@ -61,4 +62,39 @@ export const setupOscillatorUI = (): void => {
 
     observer.observe(button);
   });
+};
+
+export const setUpPerlinNoise = (): void => {
+  const GRID_SIZE = 5;
+  const RESOLUTION = 100;
+  const COLOR_SCALE = 360;
+  const COLOR_ROUND = 25;
+
+  let pixel_size = ELEMENTS.canvasStats.width / RESOLUTION;
+  let num_pixels = GRID_SIZE / RESOLUTION;
+
+  perlin.seed();
+
+  const roundColor = (n: number) => {
+    return Math.round(n / COLOR_ROUND) * COLOR_ROUND;
+  };
+
+  const render = () => {
+    for (let y = 0; y < GRID_SIZE; y += num_pixels / GRID_SIZE) {
+      for (let x = 0; x < GRID_SIZE; x += num_pixels / GRID_SIZE) {
+        let v = parseInt(perlin.get(x, y) * COLOR_SCALE + "");
+        console.log(x, y);
+        CANVAS_CONTEXTS.stats.fillStyle = "hsl(" + roundColor(v) + ",50%,50%)";
+        CANVAS_CONTEXTS.stats.fillRect(
+          (x / GRID_SIZE) * ELEMENTS.canvasStats.width,
+          (y / GRID_SIZE) * ELEMENTS.canvasStats.width,
+          pixel_size,
+          pixel_size
+        );
+      }
+    }
+  };
+
+  const observer = new ResizeObserver(render);
+  observer.observe(ELEMENTS.canvasStats);
 };

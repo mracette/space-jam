@@ -124,3 +124,12 @@
 | Compressed Build (Adv Zip) | 6.20 kb | 6348 | -4% |
 
 
+**instrument shapes** - *Thu, 19 Aug 2021 14:17:52 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 32.13 kb | 32899 | NA |
+| Build | 27.95 kb | 28625 | -13% |
+| Compressed Build | 6.58 kb | 6737 | -76% |
+| Compressed Build (Adv Zip) | 6.29 kb | 6442 | -4% |
+
+
