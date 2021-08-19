@@ -1,11 +1,12 @@
-import { OscillatorArgs } from "./Oscillator";
 import { SquareOscillator } from "./SquareOscillator";
 import { COLORS, DURATIONS } from "../../globals";
 
 export class SquareOscillator1 extends SquareOscillator {
-  constructor(args: OscillatorArgs = {}) {
+  constructor(args: ConstructorParameters<typeof SquareOscillator>[0] = {}) {
     super(args);
     this.interval = DURATIONS.SIXTEENTH;
+    this.id = "so1";
+    this.cost = 1000;
     this.color = COLORS.HOT_PINK;
     this.sequence = [
       [0, 1],

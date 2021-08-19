@@ -1,22 +1,15 @@
 import { Entity, EntityArgs } from "./Entity";
-import { Position, PositionArgs } from "../components/Position";
-import { Scale, ScaleArgs } from "../components/Scale";
-import { ENTITY_ARRAY } from "../index";
-import { mapToEntityArray } from "../utils/conversions";
+import { Vector2, Vector2Args } from "../core/Vector2";
 
-export type MapEntityArgs = EntityArgs & PositionArgs & ScaleArgs;
+type MapEntityArgs = EntityArgs & Vector2Args & { preview?: boolean };
 
 export class MapEntity extends Entity {
-  position: Position;
-  scale: Scale;
-  screenPosition: Position;
+  position: Vector2;
+  preview: boolean;
   constructor(args: MapEntityArgs = {}) {
     super(args);
-    const { x, y, scale } = args;
-    this.position = new Position(x, y);
-    this.scale = new Scale(scale);
-    ENTITY_ARRAY[mapToEntityArray.x(this.position.x)][
-      mapToEntityArray.y(this.position.y)
-    ].entity = this;
+    const { x, y, preview = false } = args;
+    this.preview = preview;
+    this.position = new Vector2(x, y);
   }
 }

@@ -36,9 +36,11 @@ export const enum ENTITY_ARRAY_DIMENSIONS {
   MAX_Y = MAP_DIMENSION.SIZE - 1
 }
 
+// as a percentage of the canvas width
 export const enum TILE_DIMENSIONS {
-  SIZE = 0.05, // as a percentage of the canvas width
-  HALF = 0.025 // as a percentage of the canvas width
+  SIZE = 0.05,
+  HALF = 0.025,
+  QUARTER = 0.00625
 }
 
 export const MOUSE_POSITION: {
@@ -81,7 +83,8 @@ export const enum SAMPLE_RATE {
 
 export const enum LINE_WIDTH {
   VALUE = 0.006,
-  HALF = 0.003
+  HALF = 0.003,
+  DOUBLE = 0.012
 }
 
 export const enum BPM {
@@ -153,9 +156,9 @@ export const ELEMENTS = {
   menuButton: document.getElementById("menu-button") as HTMLButtonElement,
   menuCol: document.getElementById("menu-col") as HTMLDivElement,
   menu: document.getElementById("menu") as HTMLDivElement,
-  cOsc: document.getElementById("cOsc") as HTMLDivElement,
-  tOsc: document.getElementById("tOsc") as HTMLDivElement,
-  sOsc: document.getElementById("sOsc") as HTMLDivElement
+  co: document.getElementById("co") as HTMLDivElement,
+  to: document.getElementById("to") as HTMLDivElement,
+  so: document.getElementById("so") as HTMLDivElement
 };
 
 export const CANVAS_CONTEXTS = {
@@ -194,13 +197,13 @@ export const STYLES = {
   canvasTiles: {
     background: COLORS.BACKGROUND
   },
-  cOsc: {
+  co: {
     width: "unset"
   },
-  tOsc: {
+  to: {
     width: "unset"
   },
-  sOsc: {
+  so: {
     width: "unset"
   }
 };

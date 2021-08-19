@@ -1,20 +1,8 @@
-import { AUDIO_CTX, EntityArrayElement, ENTITY_ARRAY, PREVIEW_ENTITY } from "./index";
-import { Position } from "./components/Position";
+import { AUDIO_CTX, CAMERA, COORDS } from "./index";
 import { AspectRatio } from "./core/AspectRatio";
-import { CanvasCoordinates } from "./core/Coords";
-import { Camera } from "./entities/Camera";
-import { OSCILLATOR_DEFINITIONS } from "./entities/oscillators/definitions";
-import { Oscillator } from "./entities/oscillators/Oscillator";
-import {
-  updateScreenDependentGlobals,
-  MOUSE_POSITION,
-  ELEMENTS,
-  COLORS,
-  FONT_STYLE
-} from "./globals";
-import { clearCanvasAndState } from "./utils/canvas";
-import { mapToEntityArray, mapToScreen, screenToMap } from "./utils/conversions";
-import { abbreviateNumber, MENU_VISIBLE, toggleMenu } from "./utils/dom";
+import { updateScreenDependentGlobals, MOUSE_POSITION, ELEMENTS } from "./globals";
+import { screenToMap } from "./utils/conversions";
+import { MENU_VISIBLE, toggleMenu } from "./utils/dom";
 import {
   getEventType,
   getMouseOrTouchPosition,
@@ -22,10 +10,7 @@ import {
   calculatePositionDelta
 } from "./utils/events";
 
-export const initializeEventListeners = (
-  coords: CanvasCoordinates,
-  camera: Camera
-): void => {
+export const initializeEventListeners = (): void => {
   [
     ELEMENTS.canvasTiles,
     ELEMENTS.canvasPost,
@@ -39,85 +24,11 @@ export const initializeEventListeners = (
 
   ELEMENTS.menuButton.onclick = toggleMenu;
 
-  OSCILLATOR_DEFINITIONS.forEach((type) => {
-    type.forEach((def) => {
-      const button = document.createElement("button");
-      button.disabled = true;
-      button.id = def.id;
-      const canvas = document.createElement("canvas");
-
-      (ELEMENTS as any)[def.type].append(button);
-      button.append(canvas);
-
-      button.onclick = (e: MouseEvent | TouchEvent) => {
-        const { x, y } = getMouseOrTouchPosition(e);
-        // @ts-ignore
-        PREVIEW_ENTITY.entity = new def.class({
-          x: screenToMap.x(x, coords, camera, ELEMENTS.canvasOscillators),
-          y: screenToMap.y(y, coords, camera, ELEMENTS.canvasOscillators)
-        });
-        PREVIEW_ENTITY.screen = new Position(x, y);
-        toggleMenu();
-
-        const previewEntityOnMouseMove = () => {
-          const x = Math.round(MOUSE_POSITION.mapX);
-          const y = Math.round(MOUSE_POSITION.mapY);
-          PREVIEW_ENTITY.entity.position.x = x;
-          PREVIEW_ENTITY.entity.position.y = y;
-          PREVIEW_ENTITY.entity.disabled = !Oscillator.fitsInMap(x, y);
-        };
-
-        const placeEntityIfPossible = () => {
-          if (!PREVIEW_ENTITY.entity.disabled) {
-            const px = PREVIEW_ENTITY.entity.position.x;
-            const py = PREVIEW_ENTITY.entity.position.y;
-            PREVIEW_ENTITY.entity.move(px, py);
-            PREVIEW_ENTITY.entity = null;
-            document.removeEventListener("mousemove", previewEntityOnMouseMove);
-          } else {
-            document.addEventListener("mousedown", placeEntityIfPossible, { once: true });
-          }
-        };
-
-        document.addEventListener("mousemove", previewEntityOnMouseMove);
-        document.addEventListener("mousedown", placeEntityIfPossible, { once: true });
-      };
-
-      Object.assign(button.style, {
-        width: "7.5vh",
-        height: "7.5vh",
-        background: COLORS.BACKGROUND
-      });
-
-      const observer = new ResizeObserver(() => {
-        clearCanvasAndState(canvas);
-        const ctx = canvas.getContext("2d");
-        (def.class as any).renderBaseShape(
-          ctx,
-          canvas.width / 2,
-          canvas.height / 1.75,
-          canvas.width * def.buttonSize,
-          canvas.width / 15,
-          def.color
-        );
-        ctx.stroke();
-        ctx.font = `${canvas.width / 5}px ${FONT_STYLE}`;
-        ctx.fillStyle = COLORS.WHITE;
-        ctx.textAlign = "center";
-        const text = abbreviateNumber(def.cost);
-        const metrics = ctx.measureText(text);
-        ctx.fillText(text, canvas.width / 2, metrics.actualBoundingBoxAscent * 1.75);
-      });
-
-      observer.observe(button);
-    });
-  });
-
   const onMouseMove = (e: MouseEvent) => {
     MOUSE_POSITION.screenX = e.x;
     MOUSE_POSITION.screenY = e.y;
-    MOUSE_POSITION.mapX = screenToMap.x(e.x, coords, camera, ELEMENTS.canvasStats);
-    MOUSE_POSITION.mapY = screenToMap.y(e.y, coords, camera, ELEMENTS.canvasStats);
+    MOUSE_POSITION.mapX = screenToMap.x(e.x);
+    MOUSE_POSITION.mapY = screenToMap.y(e.y);
   };
 
   const onMouseOrTouchDown = (e: MouseEvent | TouchEvent) => {
@@ -135,7 +46,7 @@ export const initializeEventListeners = (
           ELEMENTS.canvasTiles.clientHeight,
           yStart
         );
-        camera.move(x, y);
+        CAMERA.move(x, y);
       };
 
       const cleanUp = () => {
@@ -144,14 +55,12 @@ export const initializeEventListeners = (
         document.addEventListener("mousemove", onMouseMove);
       };
 
-      // bind mouse and touch listeners
+      // bind mouse and touch listeners and clean up at the end of the interaction
       if (type === "mouse") {
         document.addEventListener("mousemove", onMouseOrTouchMove);
-        // clean up at end of interaction
         document.addEventListener("mouseup", cleanUp, { once: true });
       } else {
         document.addEventListener("touchmove", onMouseOrTouchMove);
-        // clean up at end of interaction
         document.addEventListener("touchend", cleanUp, { once: true });
       }
 
@@ -167,9 +76,9 @@ export const initializeEventListeners = (
   document.addEventListener("touchstart", onMouseOrTouchDown);
 
   const onResize = () => {
-    updateScreenDependentGlobals(coords);
+    updateScreenDependentGlobals(COORDS);
     // runs animations pegged to camera movement
-    camera.move(0, 0);
+    CAMERA.move(0, 0);
   };
 
   const observer = new ResizeObserver(onResize);

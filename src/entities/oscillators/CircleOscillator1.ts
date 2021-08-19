@@ -1,11 +1,13 @@
-import { CircleOscillator, CircleOscillatorArgs } from "./CircleOscillator";
+import { CircleOscillator } from "./CircleOscillator";
 import { COLORS, DURATIONS } from "../../globals";
 
 export class CircleOscillator1 extends CircleOscillator {
-  constructor(args: CircleOscillatorArgs = {}) {
+  constructor(args: ConstructorParameters<typeof CircleOscillator>[0] = {}) {
     super(args);
-    this.interval = DURATIONS.QUARTER;
+    this.id = "co1";
+    this.cost = 25;
     this.color = COLORS.HOT_PINK;
+    this.interval = DURATIONS.QUARTER;
     this.sequence = [
       [0, 1],
       [1, 0],

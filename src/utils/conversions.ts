@@ -1,6 +1,5 @@
-import { CanvasCoordinates } from "../core/Coords";
-import { Camera } from "../entities/Camera";
-import { MAP_DIMENSIONS, TILE_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals";
+import { ELEMENTS, MAP_DIMENSIONS, TILE_DIMENSIONS } from "../globals";
+import { CAMERA, COORDS } from "../index";
 
 export const entityArrayToMap = {
   x: (x: number): number => x - MAP_DIMENSIONS.W_HALF,
@@ -13,54 +12,44 @@ export const mapToEntityArray = {
 };
 
 export const mapToScreen = {
-  x: (x: number, coords: CanvasCoordinates, camera: Camera): number =>
-    coords.width(0.5) + // centers in canvas
-    (x - camera.position.x) * coords.width(TILE_DIMENSIONS.SIZE) - // scales map position to tile size relative to camera
-    coords.width(TILE_DIMENSIONS.HALF), // centers within grid
-  y: (y: number, coords: CanvasCoordinates, camera: Camera): number =>
-    coords.height(0.5) + // centers in canvas
-    (camera.position.y - y) * coords.width(TILE_DIMENSIONS.SIZE) - // scales map position to tile size relative to camera
-    coords.width(TILE_DIMENSIONS.HALF) // centers within grid
+  x: (x: number): number =>
+    COORDS.width(0.5) + // centers in canvas
+    (x - CAMERA.position.x) * COORDS.width(TILE_DIMENSIONS.SIZE) - // scales map position to tile size relative to camera
+    COORDS.width(TILE_DIMENSIONS.HALF), // centers within grid
+  y: (y: number): number =>
+    COORDS.height(0.5) + // centers in canvas
+    (CAMERA.position.y - y) * COORDS.width(TILE_DIMENSIONS.SIZE) - // scales map position to tile size relative to camera
+    COORDS.width(TILE_DIMENSIONS.HALF) // centers within grid
 };
 
 export const screenToMap = {
-  x: (
-    x: number,
-    coords: CanvasCoordinates,
-    camera: Camera,
-    canvas: HTMLCanvasElement
-  ): number => {
-    const { left, right } = canvas.getBoundingClientRect();
+  x: (x: number): number => {
+    // using ELEMENTS.canvasTiles works because all canvas element are always the same size
+    const { left, right } = ELEMENTS.canvasTiles.getBoundingClientRect();
     if (x < left || x > right) {
       return undefined;
     } else {
-      const widthTiles = coords.width() / coords.width(TILE_DIMENSIONS.SIZE);
-      const n = (2 * (x - left)) / coords.width(); // [0, 1] across canvas
-      const nTile = -widthTiles / 2 + n * widthTiles + camera.position.x;
-      return Math.round(nTile);
+      const tilesInCanvasX = COORDS.width() / COORDS.width(TILE_DIMENSIONS.SIZE);
+      const xNormal = (2 * (x - left)) / COORDS.width(); // [0, 1] across canvas
+      const xMap = -tilesInCanvasX / 2 + xNormal * tilesInCanvasX + CAMERA.position.x;
+      return Math.round(xMap);
     }
   },
-  y: (
-    y: number,
-    coords: CanvasCoordinates,
-    camera: Camera,
-    canvas: HTMLCanvasElement
-  ): number => {
-    const { top, bottom } = canvas.getBoundingClientRect();
+  y: (y: number): number => {
+    // using ELEMENTS.canvasTiles works because all canvas element are always the same size
+    const { top, bottom } = ELEMENTS.canvasTiles.getBoundingClientRect();
     if (y < top || y > bottom) {
       return undefined;
     } else {
-      const heightTiles = coords.height() / coords.width(TILE_DIMENSIONS.SIZE);
-      const n = (2 * (bottom - y - top)) / coords.height(); // [0, 1] across canvas
-      const nTile = -heightTiles / 2 + n * heightTiles + camera.position.y;
-      return Math.round(nTile);
+      const tilesInCanvasY = COORDS.height() / COORDS.width(TILE_DIMENSIONS.SIZE);
+      const yNormal = (2 * (bottom - y - top)) / COORDS.height(); // [0, 1] across canvas
+      const yMap = -tilesInCanvasY / 2 + yNormal * tilesInCanvasY + CAMERA.position.y;
+      return Math.round(yMap);
     }
   }
 };
 
 export const entityArrayToScreen = {
-  x: (x: number, coords: CanvasCoordinates, camera: Camera): number =>
-    mapToScreen.x(entityArrayToMap.x(x), coords, camera),
-  y: (y: number, coords: CanvasCoordinates, camera: Camera): number =>
-    mapToScreen.y(entityArrayToMap.y(y), coords, camera)
+  x: (x: number): number => mapToScreen.x(entityArrayToMap.x(x)),
+  y: (y: number): number => mapToScreen.y(entityArrayToMap.y(y))
 };

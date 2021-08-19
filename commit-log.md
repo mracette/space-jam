@@ -97,3 +97,12 @@
 | Compressed Build (Adv Zip) | 6.21 kb | 6354 | -5% |
 
 
+**finish the remainder of the oscillators; button functionality; bug fixes** - *Wed, 18 Aug 2021 20:46:16 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 40.12 kb | 41083 | NA |
+| Build | 28.95 kb | 29648 | -28% |
+| Compressed Build | 7.00 kb | 7168 | -76% |
+| Compressed Build (Adv Zip) | 6.69 kb | 6855 | -4% |
+
+

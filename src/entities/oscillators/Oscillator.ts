@@ -1,10 +1,17 @@
-import { COLORS, DURATIONS, ENTITY_STATE, STATS } from "../../globals";
-import { AUDIO_CTX, ENTITY_ARRAY, SCHEDULER } from "../../index";
+import {
+  CANVAS_CONTEXTS,
+  COLORS,
+  DURATIONS,
+  ENTITY_STATE,
+  STATS,
+  TAU,
+  TILE_DIMENSIONS
+} from "../../globals";
+import { AUDIO_CTX, COORDS, ENTITY_ARRAY, SCHEDULER } from "../../index";
 import { nextSubdivision } from "../../utils/audio";
-import { mapToEntityArray } from "../../utils/conversions";
-import { MapEntity, MapEntityArgs } from "../MapEntity";
-
-export type OscillatorArgs = MapEntityArgs;
+import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
+import { lerp } from "../../utils/math";
+import { MapEntity } from "../MapEntity";
 
 export class Oscillator extends MapEntity {
   interval: DURATIONS;
@@ -14,30 +21,80 @@ export class Oscillator extends MapEntity {
   color: string;
   colorDisabled: string;
   disabled: boolean;
+  id: string;
+  cost: number;
 
-  constructor(args: OscillatorArgs) {
+  constructor(args: ConstructorParameters<typeof MapEntity>[0] = {}) {
     super(args);
     this.name = "oscillator";
     this.repeatingEvents = [];
     this.colorDisabled = COLORS.DISABLED;
-  }
-
-  static fitsInMap(x: number, y: number): boolean {
-    return !ENTITY_ARRAY[mapToEntityArray.x(x)][mapToEntityArray.y(y)].entity;
+    if (!this.preview) {
+      this.placeOnMap(this.position.x, this.position.y);
+    }
   }
 
   getCyclePosition(): number {
     return (AUDIO_CTX.currentTime % this.duration) / this.duration;
   }
 
-  move(x: number, y: number): void {
-    this.repeatingEvents.forEach((event) => {
-      SCHEDULER.cancel(event);
-    });
+  fitsInMap(x: number, y: number): boolean {
+    return !ENTITY_ARRAY[mapToEntityArray.x(x)][mapToEntityArray.y(y)].entity;
+  }
+
+  placeOnMap(x: number, y: number): void {
+    this.preview = false;
     this.position.x = x;
     this.position.y = y;
     ENTITY_ARRAY[mapToEntityArray.x(x)][mapToEntityArray.y(y)].entity = this;
+    this.repeatingEvents.forEach((event) => {
+      SCHEDULER.cancel(event);
+    });
     this.createRepeatingEvent();
+  }
+
+  renderArm(cx: number, cy: number): void {
+    CANVAS_CONTEXTS.oscillator.moveTo(cx, cy);
+
+    const cyclePosition = this.getCyclePosition();
+    let px, py;
+
+    for (let i = 0; i < this.sequence.length; i++) {
+      const cycleSegment = (i + 1) / this.sequence.length;
+      if (cyclePosition < cycleSegment) {
+        const proportion = (cycleSegment - cyclePosition) * this.sequence.length;
+        px = mapToScreen.x(
+          this.position.x +
+            0.5 +
+            lerp(
+              this.sequence[i][0],
+              this.sequence[(i + 1) % this.sequence.length][0],
+              proportion
+            )
+        );
+        py = mapToScreen.y(
+          this.position.y -
+            0.5 +
+            lerp(
+              this.sequence[i][1],
+              this.sequence[(i + 1) % this.sequence.length][1],
+              proportion
+            )
+        );
+        CANVAS_CONTEXTS.oscillator.lineTo(px, py);
+        CANVAS_CONTEXTS.oscillator.stroke();
+        CANVAS_CONTEXTS.oscillator.beginPath();
+        CANVAS_CONTEXTS.oscillator.arc(
+          px,
+          py,
+          COORDS.width(TILE_DIMENSIONS.QUARTER),
+          0,
+          TAU
+        );
+        CANVAS_CONTEXTS.oscillator.fill();
+        break;
+      }
+    }
   }
 
   createRepeatingEvent(): void {
@@ -45,17 +102,11 @@ export class Oscillator extends MapEntity {
     const entityArrayY = mapToEntityArray.y(this.position.y);
     const cyclePositionIndex = Math.ceil(this.getCyclePosition() * this.sequence.length);
     const nextInterval = nextSubdivision(this.interval);
+
     for (let i = 0; i < this.sequence.length; i++) {
       const nextIntervalSequence = nextInterval + i * this.interval;
       const sequenceIndex = (i + cyclePositionIndex) % this.sequence.length;
       const sequenceEntry = this.sequence[sequenceIndex];
-      console.log(
-        i,
-        sequenceIndex,
-        nextIntervalSequence,
-        nextInterval,
-        this.sequence[sequenceIndex]
-      );
       const mapEntity =
         ENTITY_ARRAY[entityArrayX + sequenceEntry[0]][entityArrayY + sequenceEntry[1]];
       this.repeatingEvents.push(

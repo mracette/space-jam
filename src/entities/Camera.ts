@@ -1,8 +1,7 @@
 import { Entity, EntityArgs } from "./Entity";
 import { OSCILLATOR_DEFINITIONS } from "./oscillators/definitions";
-import { Position, PositionArgs } from "../components/Position";
-import { Velocity, VelocityArgs } from "../components/Velocity";
 import { CanvasCoordinates } from "../core/Coords";
+import { Vector2, Vector2Args } from "../core/Vector2";
 import {
   COLORS,
   TILE_DIMENSIONS,
@@ -15,10 +14,11 @@ import {
   ELEMENTS,
   STATS
 } from "../globals";
-import { AUDIO_CTX, EntityArrayElement, ENTITY_ARRAY, PREVIEW_ENTITY } from "../index";
+import { AUDIO_CTX, COORDS, EntityArrayElement, ENTITY_ARRAY } from "../index";
 import { clearCanvasAndState } from "../utils/canvas";
 import { rgbWithAlpha } from "../utils/colors";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
+import { MENU_VISIBLE } from "../utils/dom";
 
 const drawTile = (
   coords: CanvasCoordinates,
@@ -68,8 +68,7 @@ interface CameraArgs {
 }
 
 export class Camera extends Entity {
-  position: Position;
-  velocity: Velocity;
+  position: Vector2;
   coords: CanvasCoordinates;
   /**
    * contains the upper/lower bounds of the entity array elements
@@ -82,14 +81,10 @@ export class Camera extends Entity {
     yUpper: number;
   };
 
-  constructor({
-    name = "camera",
-    coords
-  }: EntityArgs & CameraArgs & PositionArgs & VelocityArgs) {
+  constructor({ name = "camera", coords }: EntityArgs & CameraArgs & Vector2Args) {
     super({ name });
     this.coords = coords;
-    this.position = new Position();
-    this.velocity = new Velocity();
+    this.position = new Vector2();
     this.entityArrayBounds = {
       xLower: undefined,
       xUpper: undefined,
@@ -135,12 +130,9 @@ export class Camera extends Entity {
     CANVAS_CONTEXTS.tiles.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
     CANVAS_CONTEXTS.tiles.fillRect(0, 0, this.coords.width(), this.coords.height());
 
-    this.applyToEntityArray((entity, i, j) => {
-      // update the screen position of each entity in the camera's view
-      entity.screen.x = entityArrayToScreen.x(i, this.coords, this);
-      entity.screen.y = entityArrayToScreen.y(j, this.coords, this);
-      // re-draws tiles
-      drawTile(this.coords, entity.screen.x, entity.screen.y);
+    // redraw tiles
+    this.applyToEntityArray((_, i, j) => {
+      drawTile(this.coords, entityArrayToScreen.x(i), entityArrayToScreen.y(j));
     });
   }
 
@@ -161,27 +153,40 @@ export class Camera extends Entity {
   render(): void {
     // stats loop
     clearCanvasAndState(ELEMENTS.canvasStats);
-    this.applyToEntityArray((mapEntity) => {
-      const {
-        stateEndsTime,
-        entity,
-        state,
-        screen: { x, y }
-      } = mapEntity;
+
+    // draw overall game stats
+    CANVAS_CONTEXTS.stats.font = `${COORDS.width(0.035)}px sans-serif`;
+    CANVAS_CONTEXTS.stats.fillStyle = COLORS.WHITE;
+    const text = "Notes: " + STATS.notes;
+    CANVAS_CONTEXTS.stats.fillText(text, COORDS.nx(-0.95), COORDS.ny(-0.95));
+
+    // draw map stats
+    this.applyToEntityArray((mapEntity, i, j) => {
+      const { stateEndsTime, entity, state } = mapEntity;
       if (entity?.name === "instrument") {
         if (stateEndsTime > AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
-          drawNoteIncrease(CANVAS_CONTEXTS.stats, this.coords, x, y, entity.notes);
-          OSCILLATOR_DEFINITIONS.forEach((type) => {
-            type.forEach((def) => {
-              const button = document.getElementById(def.id) as HTMLButtonElement;
-              if (def.cost < STATS.notes) {
+          drawNoteIncrease(
+            CANVAS_CONTEXTS.stats,
+            this.coords,
+            entityArrayToScreen.x(i),
+            entityArrayToScreen.y(j),
+            entity.notes
+          );
+
+          // update enabled / disabled based on cost and available notes
+          if (MENU_VISIBLE) {
+            OSCILLATOR_DEFINITIONS.forEach((oscillator) => {
+              const button = document.getElementById(oscillator.id) as HTMLButtonElement;
+              if (oscillator.cost < STATS.notes) {
                 button.disabled = false;
               } else {
                 button.disabled = true;
               }
             });
-          });
+          }
         }
+
+        // change state if stateEndsTime has elapsed
         if (stateEndsTime <= AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
           mapEntity.state = ENTITY_STATE.STOPPED;
         }
@@ -207,8 +212,5 @@ export class Camera extends Entity {
         entity?.render(CANVAS_CONTEXTS.oscillator, this.coords, this);
       }
     });
-
-    // preview element
-    PREVIEW_ENTITY.entity?.render(CANVAS_CONTEXTS.stats, this.coords, this);
   }
 }
