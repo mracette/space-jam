@@ -9,7 +9,8 @@
     "build:prod": "export OPTIMIZE='false' && webpack --mode=production --node-env=production",
     "build:prod:no-optimize": "export OPTIMIZE='false' && webpack --mode=production --node-env=production && yarn eslint ./build/main.js --fix --no-ignore",
     "build": "webpack --mode=production --node-env=production",
-    "start:dev": "webpack serve"
+    "start": "webpack serve",
+    "start:designer": "export DESIGN_MODE='true' && webpack serve"
   },
   "author": "",
   "license": "ISC",

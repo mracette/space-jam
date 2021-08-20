@@ -1,5 +1,6 @@
 import { CircleOscillator } from "./CircleOscillator";
-import { COLORS, DURATIONS } from "../../globals";
+import { DURATIONS } from "../../globals";
+import { COLORS } from "../../globals/colors";
 
 export class CircleOscillator3 extends CircleOscillator {
   constructor(args: ConstructorParameters<typeof CircleOscillator>[0] = {}) {

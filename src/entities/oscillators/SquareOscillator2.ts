@@ -1,5 +1,6 @@
 import { SquareOscillator } from "./SquareOscillator";
-import { COLORS, DURATIONS } from "../../globals";
+import { DURATIONS } from "../../globals";
+import { COLORS } from "../../globals/colors";
 
 export class SquareOscillator2 extends SquareOscillator {
   constructor(args: ConstructorParameters<typeof SquareOscillator>[0] = {}) {

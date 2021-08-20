@@ -1,4 +1,6 @@
 import { CanvasCoordinates } from "./core/Coords";
+import { COLORS } from "./globals/colors";
+import { clearCanvasAndState } from "./utils/canvas";
 
 const enum MAP_DIMENSION {
   SIZE = 255 // must be odd
@@ -55,24 +57,6 @@ export const MOUSE_POSITION: {
   mapY: undefined
 };
 
-export const COLORS = {
-  CLEAR: "rgba(0,0,0,0)",
-  WHITE: "#FFFFFF",
-  BACKGROUND: "#272838",
-  BACKGROUND_RGB: [39, 40, 56],
-  MAIN_GREEN: "#5bba6f",
-  MAIN_GREEN_RGB: [91, 186, 111],
-  MAIN_PURPLE: "#bd5bff",
-  MAIN_PURPLE_RGB: [124, 119, 185],
-  HOT_PINK: "#ff4c7a",
-  HOT_PINK_RGB: [255, 76, 122],
-  HOT_BLUE: "#00f9ff",
-  HOT_BLUE_RGB: [0, 249, 255],
-  HOT_GREEN: "#00e19e",
-  HOT_GREEN_RGB: [0, 225, 158],
-  DISABLED: "#B0C4DE"
-};
-
 export let GRADIENT_FOG: CanvasGradient;
 
 export const TAU = Math.PI * 2;
@@ -127,12 +111,9 @@ export const updateScreenDependentGlobals = (coords: CanvasCoordinates): void =>
   GRADIENT_FOG.addColorStop(0.25, COLORS.CLEAR);
   GRADIENT_FOG.addColorStop(1, COLORS.BACKGROUND);
 
-  CANVAS_CONTEXTS.tiles.lineWidth = coords.width(LINE_WIDTH.VALUE);
-  CANVAS_CONTEXTS.post.lineWidth = coords.width(LINE_WIDTH.VALUE);
-  CANVAS_CONTEXTS.stats.lineWidth = coords.width(LINE_WIDTH.VALUE);
-  CANVAS_CONTEXTS.instrument.lineWidth = coords.width(LINE_WIDTH.VALUE);
-
   // draw fog and outer circle
+  clearCanvasAndState(ELEMENTS.canvasPost);
+  CANVAS_CONTEXTS.post.lineWidth = coords.width(LINE_WIDTH.VALUE);
   CANVAS_CONTEXTS.post.strokeStyle = COLORS.WHITE;
   CANVAS_CONTEXTS.post.fillStyle = GRADIENT_FOG;
   CANVAS_CONTEXTS.post.fillRect(0, 0, coords.width(), coords.height());
@@ -187,7 +168,7 @@ export const STYLES = {
     transitionDuration: "250ms"
   },
   menu: {
-    // visibility: "hidden",
+    visibility: "hidden",
     background: "rgba(0,0,0,.75)",
     justifyContent: "flex-start"
   },
@@ -195,7 +176,7 @@ export const STYLES = {
     justifyContent: "flex-start"
   },
   canvasTiles: {
-    background: COLORS.MAIN_GREEN
+    background: COLORS.BACKGROUND
   },
   co: {
     width: "unset"

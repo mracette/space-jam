@@ -15,6 +15,12 @@ export class Basic2 extends Instrument {
       [0, -1],
       [1, -1]
     ];
+    this.outline = [
+      [-1, 1],
+      [1, 1],
+      [1, -1],
+      [-1, -1]
+    ];
     this.init();
   }
 }

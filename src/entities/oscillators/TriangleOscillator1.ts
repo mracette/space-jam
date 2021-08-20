@@ -1,5 +1,6 @@
 import { TriangleOscillator } from "./TriangleOscillator";
-import { COLORS, DURATIONS } from "../../globals";
+import { DURATIONS } from "../../globals";
+import { COLORS } from "../../globals/colors";
 
 export class TriangleOscillator1 extends TriangleOscillator {
   constructor(args: ConstructorParameters<typeof TriangleOscillator>[0] = {}) {

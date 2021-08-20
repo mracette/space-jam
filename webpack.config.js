@@ -6,11 +6,12 @@ const path = require("path");
 
 const isProduction = process.env.NODE_ENV === "production";
 const optimize = process.env.OPTIMIZE === "true";
+const designMode = process.env.DESIGN_MODE === "true";
 
 const stylesHandler = "style-loader";
 
 const config = {
-  entry: "./src/index.ts",
+  entry: designMode ? "./designer/index.ts" : "./src/index.ts",
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "bundle.js"
@@ -21,7 +22,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html"
+      template: designMode ? "./designer/template.html" : "index.html"
     })
   ],
   module: {

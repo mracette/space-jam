@@ -1,12 +1,12 @@
 import {
   CANVAS_CONTEXTS,
-  COLORS,
   DURATIONS,
   ENTITY_STATE,
   STATS,
   TAU,
   TILE_DIMENSIONS
 } from "../../globals";
+import { COLORS } from "../../globals/colors";
 import { AUDIO_CTX, CAMERA, COORDS, ENTITY_ARRAY, SCHEDULER } from "../../index";
 import { nextSubdivision } from "../../utils/audio";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";

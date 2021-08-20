@@ -22,7 +22,7 @@ export class CircleOscillator extends Oscillator {
   ): void {
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
-    ctx.lineWidth = lineWidth || COORDS.width(LINE_WIDTH.VALUE);
+    ctx.lineWidth = lineWidth;
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, TAU);
   }

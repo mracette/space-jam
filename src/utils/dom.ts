@@ -1,6 +1,6 @@
 import { ELEMENTS } from "../globals";
 
-export let MENU_VISIBLE = true;
+export let MENU_VISIBLE = false;
 
 export const toggleMenu = (): void => {
   if (ELEMENTS.menu.style.visibility === "hidden") {
