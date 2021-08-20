@@ -2,6 +2,7 @@ export const COLORS = {
   CLEAR: "rgba(0,0,0,0)",
   WHITE: "#FFFFFF",
   BACKGROUND: "#272838",
+  BACKGROUND_LIGHT: "#3f415b",
   BACKGROUND_RGB: [39, 40, 56],
   MAIN_GREEN: "#5bba6f",
   MAIN_GREEN_RGB: [91, 186, 111],

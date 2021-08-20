@@ -22,7 +22,7 @@ export const OSCILLATOR_DEFINITIONS = [
   new SquareOscillator3(args)
 ];
 
-export const OSCILLATOR_CONSTRUCTORS = [
+export const OSCILLATOR_CLASSES = [
   CircleOscillator1,
   CircleOscillator2,
   CircleOscillator3,

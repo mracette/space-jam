@@ -1,68 +1,25 @@
 import { Entity, EntityArgs } from "./Entity";
-import { INSTRUMENT_DEFINITIONS } from "./instruments/definitions";
+import { INSTRUMENT_ENTITIES } from "./instruments/entities";
 import { OSCILLATOR_DEFINITIONS } from "./oscillators/definitions";
 import { CanvasCoordinates } from "../core/Coords";
 import { Vector2, Vector2Args } from "../core/Vector2";
 import {
-  TILE_DIMENSIONS,
   VIEWPORT_DIMENSIONS,
   ENTITY_ARRAY_DIMENSIONS,
-  TAU,
-  LINE_WIDTH,
   ENTITY_STATE,
   CANVAS_CONTEXTS,
-  ELEMENTS,
   STATS
 } from "../globals";
-import { COLORS } from "../globals/colors";
-import { AUDIO_CTX, COORDS, EntityArrayElement, ENTITY_ARRAY } from "../index";
-import { clearCanvasAndState } from "../utils/canvas";
-import { rgbWithAlpha } from "../utils/colors";
+import { AUDIO_CTX, EntityArrayElement, ENTITY_ARRAY } from "../index";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
 import { MENU_VISIBLE } from "../utils/dom";
-
-const drawTile = (
-  coords: CanvasCoordinates,
-  cx: number,
-  cy: number,
-  fill = false,
-  stroke = true
-) => {
-  stroke &&
-    CANVAS_CONTEXTS.tiles.strokeRect(
-      cx,
-      cy,
-      coords.width(TILE_DIMENSIONS.SIZE),
-      coords.width(TILE_DIMENSIONS.SIZE)
-    );
-
-  fill &&
-    CANVAS_CONTEXTS.tiles.fillRect(
-      cx,
-      cy,
-      coords.width(TILE_DIMENSIONS.SIZE),
-      coords.width(TILE_DIMENSIONS.SIZE)
-    );
-};
-
-const drawNoteIncrease = (
-  ctx: CanvasRenderingContext2D,
-  coords: CanvasCoordinates,
-  cx: number,
-  cy: number,
-  amount: number
-) => {
-  const fontSize = coords.width(0.035);
-  const tileSize = coords.width(TILE_DIMENSIONS.SIZE);
-  ctx.fillStyle = rgbWithAlpha(...COLORS.BACKGROUND_RGB, 0.5);
-  ctx.beginPath();
-  ctx.arc(cx + tileSize / 2, cy + tileSize / 2, tileSize / 2, 0, TAU);
-  ctx.fill();
-  ctx.font = `${fontSize}px sans-serif`;
-  ctx.fillStyle = COLORS.WHITE;
-  const text = "+" + amount;
-  ctx.fillText(text, cx, cy + fontSize);
-};
+import {
+  drawGameStats,
+  drawInstruments,
+  drawNoteIncrease,
+  drawOscillators,
+  drawTiles
+} from "../utils/drawing";
 
 interface CameraArgs {
   coords: CanvasCoordinates;
@@ -73,7 +30,7 @@ export class Camera extends Entity {
   coords: CanvasCoordinates;
   previewEntity:
     | typeof OSCILLATOR_DEFINITIONS[number]
-    | typeof INSTRUMENT_DEFINITIONS[number];
+    | typeof INSTRUMENT_ENTITIES[number];
   /**
    * contains the upper/lower bounds of the entity array elements
    * that are currently in the camera's viewport
@@ -98,6 +55,9 @@ export class Camera extends Entity {
     this.updateEntityArrayBounds();
   }
 
+  /**
+   * Updates the array indices considered to be in the camera's view.
+   */
   updateEntityArrayBounds(): void {
     const xRound = Math.round(this.position.x);
     const yRound = Math.round(this.position.y);
@@ -120,22 +80,11 @@ export class Camera extends Entity {
   }
 
   move(x: number, y: number): void {
-    // updates the camera's position
     this.position.x -= x;
     this.position.y += y;
-
-    // updates the array indices considered to be in the camera's view
     this.updateEntityArrayBounds();
-
-    // reset state and canvas
-    clearCanvasAndState(ELEMENTS.canvasTiles);
-    CANVAS_CONTEXTS.tiles.strokeStyle = COLORS.WHITE;
-    CANVAS_CONTEXTS.tiles.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
-
-    // redraw tiles
-    this.applyToEntityArray((arr, i, j) => {
-      drawTile(this.coords, entityArrayToScreen.x(i), entityArrayToScreen.y(j));
-    });
+    drawTiles();
+    drawInstruments();
   }
 
   applyToEntityArray(
@@ -153,20 +102,13 @@ export class Camera extends Entity {
   }
 
   render(): void {
-    // stats loop
-    clearCanvasAndState(ELEMENTS.canvasStats);
-
-    // draw overall game stats
-    CANVAS_CONTEXTS.stats.font = `${COORDS.width(0.035)}px sans-serif`;
-    CANVAS_CONTEXTS.stats.fillStyle = COLORS.WHITE;
-    const text = "Notes: " + STATS.notes;
-    CANVAS_CONTEXTS.stats.fillText(text, COORDS.nx(-0.95), COORDS.ny(-0.95));
-
-    // draw map stats
+    drawGameStats();
     this.applyToEntityArray((mapEntity, i, j) => {
       const { stateEndsTime, entity, state } = mapEntity;
       if (entity?.name === "instrument") {
+        // if true, a note is played
         if (stateEndsTime > AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
+          // draw the increase
           drawNoteIncrease(
             CANVAS_CONTEXTS.stats,
             this.coords,
@@ -195,27 +137,7 @@ export class Camera extends Entity {
       }
     });
 
-    // instruments loop
-    clearCanvasAndState(ELEMENTS.canvasInstruments);
-    CANVAS_CONTEXTS.instrument.fillStyle = COLORS.BACKGROUND;
-    CANVAS_CONTEXTS.instrument.strokeStyle = COLORS.WHITE;
-    CANVAS_CONTEXTS.instrument.lineWidth = this.coords.width(LINE_WIDTH.DOUBLE);
-    this.applyToEntityArray(({ entity }) => {
-      if (entity?.name === "instrument") {
-        entity.render();
-      }
-    });
-
-    // oscillators loop
-    clearCanvasAndState(ELEMENTS.canvasOscillators);
-    CANVAS_CONTEXTS.oscillator.lineCap = "round";
-    CANVAS_CONTEXTS.oscillator.lineJoin = "round";
-    CANVAS_CONTEXTS.oscillator.lineWidth = this.coords.width(LINE_WIDTH.VALUE);
-    this.applyToEntityArray(({ entity }) => {
-      if (entity?.name === "oscillator") {
-        entity.render();
-      }
-    });
+    drawOscillators();
 
     // render the preview entity if applicable
     this.previewEntity?.render();

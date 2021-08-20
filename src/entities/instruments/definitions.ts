@@ -1,4 +1,23 @@
-import { Basic1 } from "./Basic1";
-import { Basic2 } from "./Basic2";
-
-export const INSTRUMENT_DEFINITIONS = [new Basic1(), new Basic2()];
+export const INSTRUMENT_DEFINITIONS = [
+  {
+    id: "i1",
+    offscreen: {
+      needsUpdate: true,
+      canvas: new OffscreenCanvas(0, 0)
+    }
+  },
+  {
+    id: "i2",
+    offscreen: {
+      needsUpdate: true,
+      canvas: new OffscreenCanvas(0, 0)
+    }
+  },
+  {
+    id: "i3",
+    offscreen: {
+      needsUpdate: true,
+      canvas: new OffscreenCanvas(0, 0)
+    }
+  }
+];

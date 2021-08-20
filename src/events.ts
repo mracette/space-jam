@@ -1,8 +1,10 @@
-import { AUDIO_CTX, CAMERA, COORDS } from "./index";
+import { AUDIO_CTX, CAMERA } from "./index";
 import { AspectRatio } from "./core/AspectRatio";
-import { updateScreenDependentGlobals, MOUSE_POSITION, ELEMENTS } from "./globals";
+import { INSTRUMENT_DEFINITIONS } from "./entities/instruments/definitions";
+import { MOUSE_POSITION, ELEMENTS } from "./globals";
 import { screenToMap } from "./utils/conversions";
 import { MENU_VISIBLE, toggleMenu } from "./utils/dom";
+import { drawFog, drawStarPattern } from "./utils/drawing";
 import {
   getEventType,
   getMouseOrTouchPosition,
@@ -13,6 +15,7 @@ import {
 export const initializeEventListeners = (): void => {
   [
     ELEMENTS.canvasTiles,
+    ELEMENTS.canvasPre,
     ELEMENTS.canvasPost,
     ELEMENTS.canvasStats,
     ELEMENTS.canvasOscillators,
@@ -74,7 +77,12 @@ export const initializeEventListeners = (): void => {
   document.addEventListener("touchstart", onMouseOrTouchDown);
 
   const onResize = () => {
-    updateScreenDependentGlobals(COORDS);
+    drawStarPattern();
+    drawFog();
+    // set up updates for offscreen canvas elements
+    INSTRUMENT_DEFINITIONS.forEach((definition) => {
+      definition.offscreen.needsUpdate = true;
+    });
     // runs animations pegged to camera movement
     CAMERA.move(0, 0);
   };

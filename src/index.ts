@@ -3,15 +3,18 @@ import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
 import { Basic1 } from "./entities/instruments/Basic1";
 import { Basic2 } from "./entities/instruments/Basic2";
-import { INSTRUMENT_DEFINITIONS } from "./entities/instruments/definitions";
-import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
+import { Basic3 } from "./entities/instruments/Basic3";
+import { INSTRUMENT_ENTITIES } from "./entities/instruments/entities";
 import { OSCILLATOR_DEFINITIONS } from "./entities/oscillators/definitions";
 import { initializeEventListeners } from "./events";
 import { ELEMENTS, ENTITY_ARRAY_DIMENSIONS, ENTITY_STATE } from "./globals";
-import { setupOfflineCanvas, setupOscillatorUI } from "./setup";
+import { setupOscillatorUI } from "./setup";
+
+// @ts-ignore
+import * as Stats from "stats.js";
 
 export interface EntityArrayElement {
-  entity?: typeof OSCILLATOR_DEFINITIONS[number] & typeof INSTRUMENT_DEFINITIONS[number];
+  entity?: typeof OSCILLATOR_DEFINITIONS[number] & typeof INSTRUMENT_ENTITIES[number];
   state?: ENTITY_STATE;
   stateEndsTime?: number;
   blocked?: boolean;
@@ -28,14 +31,22 @@ export const CAMERA = new Camera({ coords: COORDS });
 
 initializeEventListeners();
 setupOscillatorUI();
-export const OFFSCREEN = setupOfflineCanvas();
 
-// new Basic1({ x: 0, y: 0 });
-new Basic2({ x: 1, y: 1 });
-new CircleOscillator1({ x: -1, y: 0 });
+new Basic3({ x: 1, y: 1 });
+new Basic2({ x: -3, y: 3 });
+new Basic1({ x: -3, y: -3 });
+// new CircleOscillator1({ x: -1, y: 0 });
+
+const stats = new Stats();
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
+stats.dom.style.width = "unset";
+stats.dom.style.height = "unset";
 
 const main = () => {
+  stats.begin();
   CAMERA.render();
+  stats.end();
   window.requestAnimationFrame(main);
 };
 

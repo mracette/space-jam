@@ -1,6 +1,4 @@
-import { CanvasCoordinates } from "./core/Coords";
 import { COLORS } from "./globals/colors";
-import { clearCanvasAndState } from "./utils/canvas";
 
 const enum MAP_DIMENSION {
   SIZE = 255 // must be odd
@@ -98,38 +96,9 @@ export const STATS = {
   notes: 100
 };
 
-export const updateScreenDependentGlobals = (coords: CanvasCoordinates): void => {
-  GRADIENT_FOG = CANVAS_CONTEXTS.post.createRadialGradient(
-    coords.nx(0),
-    coords.ny(0),
-    coords.width((VIEWPORT_DIMENSIONS.W_HALF / 2) * TILE_DIMENSIONS.SIZE),
-    coords.nx(0),
-    coords.ny(0),
-    coords.width(VIEWPORT_DIMENSIONS.W_HALF * TILE_DIMENSIONS.SIZE)
-  );
-  GRADIENT_FOG.addColorStop(0, COLORS.CLEAR);
-  GRADIENT_FOG.addColorStop(0.25, COLORS.CLEAR);
-  GRADIENT_FOG.addColorStop(1, COLORS.BACKGROUND);
-
-  // draw fog and outer circle
-  clearCanvasAndState(ELEMENTS.canvasPost);
-  CANVAS_CONTEXTS.post.lineWidth = coords.width(LINE_WIDTH.VALUE);
-  CANVAS_CONTEXTS.post.strokeStyle = COLORS.WHITE;
-  CANVAS_CONTEXTS.post.fillStyle = GRADIENT_FOG;
-  CANVAS_CONTEXTS.post.fillRect(0, 0, coords.width(), coords.height());
-  CANVAS_CONTEXTS.post.beginPath();
-  CANVAS_CONTEXTS.post.arc(
-    coords.nx(0),
-    coords.ny(0),
-    coords.width(TILE_DIMENSIONS.SIZE * VIEWPORT_DIMENSIONS.W_HALF),
-    0,
-    TAU
-  );
-  CANVAS_CONTEXTS.post.stroke();
-};
-
 export const ELEMENTS = {
   canvasTiles: document.getElementById("canvas-tiles") as HTMLCanvasElement,
+  canvasPre: document.getElementById("canvas-pre") as HTMLCanvasElement,
   canvasPost: document.getElementById("canvas-post") as HTMLCanvasElement,
   canvasStats: document.getElementById("canvas-stats") as HTMLCanvasElement,
   canvasOscillators: document.getElementById("canvas-oscillators") as HTMLCanvasElement,
@@ -144,6 +113,7 @@ export const ELEMENTS = {
 
 export const CANVAS_CONTEXTS = {
   tiles: ELEMENTS.canvasTiles.getContext("2d"),
+  pre: ELEMENTS.canvasPost.getContext("2d"),
   post: ELEMENTS.canvasPost.getContext("2d"),
   stats: ELEMENTS.canvasStats.getContext("2d"),
   oscillator: ELEMENTS.canvasOscillators.getContext("2d"),
@@ -175,7 +145,7 @@ export const STYLES = {
   menuCol: {
     justifyContent: "flex-start"
   },
-  canvasTiles: {
+  canvasPre: {
     background: COLORS.BACKGROUND
   },
   co: {
@@ -192,5 +162,8 @@ export const STYLES = {
 Object.entries(ELEMENTS).forEach(([k, v]) => {
   Object.assign(v.style, STYLES[k as keyof typeof STYLES]);
 });
+
+document.body.style.background = "black";
+// document.body.style.background = COLORS.BACKGROUND;
 
 export const FONT_STYLE = '"Verdana", sans-serif';

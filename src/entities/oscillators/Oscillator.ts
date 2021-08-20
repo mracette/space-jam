@@ -21,7 +21,6 @@ export class Oscillator extends MapEntity {
   color: string;
   colorDisabled: string;
   disabled: boolean;
-  id: string;
   cost: number;
 
   constructor(args: ConstructorParameters<typeof MapEntity>[0] = {}) {

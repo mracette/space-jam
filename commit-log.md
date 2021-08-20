@@ -124,3 +124,12 @@
 | Compressed Build (Adv Zip) | 6.20 kb | 6348 | -4% |
 
 
+**design mode; offcreen canvas; instrument outline - for some reason performance is awful** - *Fri, 20 Aug 2021 01:05:30 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 33.29 kb | 34091 | NA |
+| Build | 28.64 kb | 29331 | -14% |
+| Compressed Build | 6.91 kb | 7075 | -76% |
+| Compressed Build (Adv Zip) | 6.60 kb | 6756 | -5% |
+
+

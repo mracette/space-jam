@@ -1,13 +1,13 @@
 import { CAMERA } from "./index";
 import {
-  OSCILLATOR_CONSTRUCTORS,
+  OSCILLATOR_CLASSES,
   OSCILLATOR_DEFINITIONS
 } from "./entities/oscillators/definitions";
 import { MOUSE_POSITION } from "./globals";
 
 export const dragOscillatorToMap = (
   oscillator: typeof OSCILLATOR_DEFINITIONS[number],
-  constructor: typeof OSCILLATOR_CONSTRUCTORS[number]
+  constructor: typeof OSCILLATOR_CLASSES[number]
 ): void => {
   oscillator.position.set(MOUSE_POSITION.mapX, MOUSE_POSITION.mapY);
   CAMERA.previewEntity = oscillator;
