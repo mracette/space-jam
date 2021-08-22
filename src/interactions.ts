@@ -1,7 +1,7 @@
 import { CAMERA } from "./index";
 import { AnyInstrument } from "./entities/instruments/factories";
 import { AnyOscillator } from "./entities/oscillators/factories";
-import { MOUSE_POSITION } from "./globals";
+import { MOUSE_POSITION } from "./globals/sizes";
 
 export const dragEntityToMap = (
   entity: AnyInstrument | AnyOscillator,

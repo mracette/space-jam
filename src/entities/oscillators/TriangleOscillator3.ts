@@ -1,5 +1,5 @@
 import { TriangleOscillator } from "./TriangleOscillator";
-import { DURATIONS } from "../../globals";
+import { DURATIONS } from "../../globals/audio";
 import { COLORS } from "../../globals/colors";
 
 export class TriangleOscillator3 extends TriangleOscillator {

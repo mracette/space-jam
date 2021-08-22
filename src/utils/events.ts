@@ -1,5 +1,4 @@
-import { AspectRatio } from "../core/AspectRatio";
-import { ASPECT_RATIO } from "../globals";
+import { ASPECT_RATIO } from "../globals/sizes";
 
 export const getEventType = (e: MouseEvent | TouchEvent): "touch" | "mouse" | "click" => {
   if (e.type.startsWith("touch")) {

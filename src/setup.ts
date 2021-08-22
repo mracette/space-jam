@@ -1,5 +1,3 @@
-import { AspectRatio } from "./core/AspectRatio";
-import { CanvasCoordinates } from "./core/Coords";
 import {
   AnyInstrument,
   INSTRUMENT_FACTORIES,
@@ -10,13 +8,13 @@ import {
   OSCILLATOR_FACTORIES,
   OSCILLATOR_LIST
 } from "./entities/oscillators/factories";
-import { Oscillator } from "./entities/oscillators/Oscillator";
-import { ASPECT_RATIO, CANVAS_CONTEXTS, ELEMENTS, FONT_STYLE, TAU } from "./globals";
 import { COLORS } from "./globals/colors";
+import { ELEMENTS } from "./globals/dom";
+import { ASPECT_RATIO } from "./globals/sizes";
+import { FONT_STYLE, STYLES } from "./globals/styles";
 import { dragEntityToMap } from "./interactions";
 import { clearCanvasAndState } from "./utils/canvas";
 import { abbreviateNumber, toggleMenu } from "./utils/dom";
-import { lerp, rotatePoint } from "./utils/math";
 
 const drawMenuButtonUi = (
   canvas: HTMLCanvasElement,
@@ -94,4 +92,13 @@ export const setupMenuUI = (): void => {
 
     observer.observe(button);
   });
+};
+
+export const setupBaseStyles = (): void => {
+  Object.entries(ELEMENTS).forEach(([k, v]) => {
+    Object.assign(v.style, STYLES[k as keyof typeof STYLES]);
+  });
+
+  document.body.style.background = "black";
+  // document.body.style.background = COLORS.BACKGROUND;
 };

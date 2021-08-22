@@ -142,3 +142,12 @@
 | Compressed Build (Adv Zip) | 7.92 kb | 8111 | -4% |
 
 
+**factories and map placement** - *Sun, 22 Aug 2021 15:24:36 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 37.75 kb | 38652 | NA |
+| Build | 34.65 kb | 35485 | -8% |
+| Compressed Build | 8.43 kb | 8632 | -76% |
+| Compressed Build (Adv Zip) | 8.06 kb | 8254 | -4% |
+
+

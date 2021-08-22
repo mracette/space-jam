@@ -1,6 +1,8 @@
-import { AUDIO_CTX, CAMERA } from "./index";
+import { CAMERA } from "./index";
 import { INSTRUMENT_CACHE } from "./entities/instruments/cache";
-import { MOUSE_POSITION, ELEMENTS } from "./globals";
+import { AUDIO } from "./globals/audio";
+import { ELEMENTS } from "./globals/dom";
+import { MOUSE_POSITION } from "./globals/sizes";
 import { screenToMap } from "./utils/conversions";
 import { MENU_VISIBLE, toggleMenu } from "./utils/dom";
 import { drawFog, drawStarPattern } from "./utils/drawing";
@@ -34,7 +36,7 @@ export const initializeEventListeners = (): void => {
   };
 
   const onMouseOrTouchDown = (e: MouseEvent | TouchEvent) => {
-    AUDIO_CTX.resume();
+    AUDIO.context.resume();
 
     if (!MENU_VISIBLE) {
       const { x: xStart, y: yStart } = getMouseOrTouchPosition(e);

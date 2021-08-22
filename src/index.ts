@@ -1,4 +1,3 @@
-import Scheduler from "./core/AudioScheduler";
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
 import { Basic1 } from "./entities/instruments/Basic1";
@@ -8,8 +7,10 @@ import { AnyInstrument } from "./entities/instruments/factories";
 import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { AnyOscillator } from "./entities/oscillators/factories";
 import { initializeEventListeners } from "./events";
-import { ELEMENTS, ENTITY_ARRAY_DIMENSIONS, ENTITY_STATE } from "./globals";
-import { setupMenuUI } from "./setup";
+import { ELEMENTS } from "./globals/dom";
+import { ENTITY_STATE } from "./globals/game";
+import { ENTITY_ARRAY_DIMENSIONS } from "./globals/sizes";
+import { setupBaseStyles, setupMenuUI } from "./setup";
 
 // @ts-ignore
 import * as Stats from "stats.js";
@@ -25,13 +26,12 @@ export const ENTITY_ARRAY: EntityArrayElement[][] = Array.from({
   length: ENTITY_ARRAY_DIMENSIONS.W
 }).map(() => Array.from({ length: ENTITY_ARRAY_DIMENSIONS.H }, Object));
 
-export const AUDIO_CTX = new (window.AudioContext || window.webkitAudioContext)();
-export const SCHEDULER = new Scheduler(AUDIO_CTX);
 export const COORDS = new CanvasCoordinates(ELEMENTS.canvasTiles);
 export const CAMERA = new Camera({ coords: COORDS });
 
 initializeEventListeners();
 setupMenuUI();
+setupBaseStyles();
 
 new Basic3({ x: 1, y: 1 });
 new Basic2({ x: -3, y: 3 });

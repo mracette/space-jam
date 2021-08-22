@@ -1,4 +1,4 @@
-import { ELEMENTS } from "../globals";
+import { ELEMENTS } from "../globals/dom";
 
 export let MENU_VISIBLE = false;
 

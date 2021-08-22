@@ -1,6 +1,8 @@
 import { CacheItem, INSTRUMENT_CACHE } from "./cache";
-import { CANVAS_CONTEXTS, TAU, TILE_DIMENSIONS } from "../../globals";
 import { COLORS } from "../../globals/colors";
+import { CANVAS_CONTEXTS } from "../../globals/dom";
+import { TAU } from "../../globals/math";
+import { TILE_DIMENSIONS } from "../../globals/sizes";
 import { CAMERA, COORDS, ENTITY_ARRAY } from "../../index";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import { drawInstrumentPattern } from "../../utils/drawing";

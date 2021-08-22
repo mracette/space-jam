@@ -6,12 +6,32 @@ const path = require("path");
 
 const isProduction = process.env.NODE_ENV === "production";
 const optimize = process.env.OPTIMIZE === "true";
-const designMode = process.env.DESIGN_MODE === "true";
+const designMode = process.env.DESIGN_MODE;
 
 const stylesHandler = "style-loader";
 
+let entry, template;
+
+switch (designMode) {
+  case "audio": {
+    entry = "./editor-audio/index.ts";
+    template = "./editor-audio/template.html";
+    break;
+  }
+  case "visuals": {
+    entry = "./editor-visuals/index.ts";
+    template = "./editor-visuals/template.html";
+    break;
+  }
+  default: {
+    entry = "./src/index.ts";
+    template = "./index.html";
+    break;
+  }
+}
+
 const config = {
-  entry: designMode ? "./designer/index.ts" : "./src/index.ts",
+  entry,
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "bundle.js"
@@ -22,7 +42,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: designMode ? "./designer/template.html" : "index.html"
+      template
     })
   ],
   module: {

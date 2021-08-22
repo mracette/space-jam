@@ -1,7 +1,8 @@
 import { Oscillator } from "./Oscillator";
-import { CANVAS_CONTEXTS, LINE_WIDTH, TAU, TILE_DIMENSIONS } from "../../globals";
+import { CANVAS_CONTEXTS } from "../../globals/dom";
+import { TAU } from "../../globals/math";
+import { LINE_WIDTH, TILE_DIMENSIONS } from "../../globals/sizes";
 import { COORDS } from "../../index";
-import { mapToScreen } from "../../utils/conversions";
 import { rotatePoint } from "../../utils/math";
 
 export class CircleOscillator extends Oscillator {
@@ -47,12 +48,5 @@ export class CircleOscillator extends Oscillator {
       TAU
     );
     CANVAS_CONTEXTS.oscillator.fill();
-  }
-
-  render(): void {
-    const cx = mapToScreen.x(this.position.x + 0.5);
-    const cy = mapToScreen.y(this.position.y - 0.5);
-    this.renderBaseShape(cx, cy);
-    this.renderArm(cx, cy);
   }
 }

@@ -1,18 +1,13 @@
 import { clearCanvasAndState } from "./canvas";
-import { rgbWithAlpha } from "./colors";
 import { entityArrayToScreen } from "./conversions";
 import { lerp, rotatePoint } from "./math";
 import { CanvasCoordinates } from "../core/Coords";
-import {
-  CANVAS_CONTEXTS,
-  ELEMENTS,
-  LINE_WIDTH,
-  STATS,
-  TAU,
-  TILE_DIMENSIONS,
-  VIEWPORT_DIMENSIONS
-} from "../globals";
 import { COLORS } from "../globals/colors";
+import { CANVAS_CONTEXTS } from "../globals/dom";
+import { ELEMENTS } from "../globals/dom";
+import { STATS } from "../globals/game";
+import { TAU } from "../globals/math";
+import { LINE_WIDTH, TILE_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals/sizes";
 import { CAMERA, COORDS } from "../index";
 
 export const drawInstrumentPattern = (
@@ -135,10 +130,11 @@ export const drawNoteIncrease = (
 ): void => {
   const fontSize = coords.width(0.035);
   const tileSize = coords.width(TILE_DIMENSIONS.SIZE);
-  ctx.fillStyle = rgbWithAlpha(...COLORS.BACKGROUND_RGB, 0.5);
+  ctx.globalAlpha = 0.5;
   ctx.beginPath();
   ctx.arc(cx + tileSize / 2, cy + tileSize / 2, tileSize / 2, 0, TAU);
   ctx.fill();
+  ctx.globalAlpha = 1;
   ctx.font = `${fontSize}px sans-serif`;
   ctx.fillStyle = COLORS.WHITE;
   const text = "+" + amount;
@@ -146,26 +142,26 @@ export const drawNoteIncrease = (
 };
 
 export const drawTile = (
-  coords: CanvasCoordinates,
   cx: number,
   cy: number,
   fill = false,
-  stroke = true
+  stroke = true,
+  ctx = CANVAS_CONTEXTS.tiles
 ): void => {
   stroke &&
-    CANVAS_CONTEXTS.tiles.strokeRect(
+    ctx.strokeRect(
       cx,
       cy,
-      coords.width(TILE_DIMENSIONS.SIZE),
-      coords.width(TILE_DIMENSIONS.SIZE)
+      COORDS.width(TILE_DIMENSIONS.SIZE),
+      COORDS.width(TILE_DIMENSIONS.SIZE)
     );
 
   fill &&
-    CANVAS_CONTEXTS.tiles.fillRect(
+    ctx.fillRect(
       cx,
       cy,
-      coords.width(TILE_DIMENSIONS.SIZE),
-      coords.width(TILE_DIMENSIONS.SIZE)
+      COORDS.width(TILE_DIMENSIONS.SIZE),
+      COORDS.width(TILE_DIMENSIONS.SIZE)
     );
 };
 
@@ -197,7 +193,7 @@ export const drawTiles = (): void => {
   addClip(CANVAS_CONTEXTS.tiles);
   CANVAS_CONTEXTS.tiles.fillRect(0, 0, COORDS.width(), COORDS.height());
   CAMERA.applyToEntityArray((_, i, j) => {
-    drawTile(COORDS, entityArrayToScreen.x(i), entityArrayToScreen.y(j));
+    drawTile(entityArrayToScreen.x(i), entityArrayToScreen.y(j));
   });
 };
 
@@ -205,7 +201,7 @@ export const drawInstruments = (): void => {
   clearCanvasAndState(ELEMENTS.canvasInstruments);
   CANVAS_CONTEXTS.instrument.fillStyle = COLORS.BACKGROUND;
   CANVAS_CONTEXTS.instrument.strokeStyle = COLORS.WHITE;
-  CANVAS_CONTEXTS.instrument.lineWidth = CAMERA.coords.width(LINE_WIDTH.VALUE);
+  CANVAS_CONTEXTS.instrument.lineWidth = COORDS.width(LINE_WIDTH.VALUE);
   CANVAS_CONTEXTS.instrument.lineJoin = "round";
   addClip(CANVAS_CONTEXTS.instrument);
   CAMERA.applyToEntityArray(({ entity }) => {
@@ -219,7 +215,7 @@ export const drawOscillators = (): void => {
   clearCanvasAndState(ELEMENTS.canvasOscillators);
   CANVAS_CONTEXTS.oscillator.lineCap = "round";
   CANVAS_CONTEXTS.oscillator.lineJoin = "round";
-  CANVAS_CONTEXTS.oscillator.lineWidth = CAMERA.coords.width(LINE_WIDTH.VALUE);
+  CANVAS_CONTEXTS.oscillator.lineWidth = COORDS.width(LINE_WIDTH.VALUE);
   addClip(CANVAS_CONTEXTS.oscillator);
   CAMERA.applyToEntityArray(({ entity }) => {
     if (entity?.name === "oscillator") {

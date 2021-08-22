@@ -1,4 +1,4 @@
-import { SAMPLE_RATE } from "../globals";
+import { AUDIO, SAMPLE_RATE } from "../globals/audio";
 
 interface SingleAudioEvent {
   id: number;
@@ -18,14 +18,10 @@ interface RepeatingAudioEvent extends SingleAudioEvent {
 }
 
 export class Scheduler {
-  audioCtx: AudioContext;
   queue: (SingleAudioEvent | RepeatingAudioEvent)[];
   nextEventId: number;
 
-  constructor(audioCtx: AudioContext) {
-    // bind audio context
-    this.audioCtx = audioCtx;
-
+  constructor() {
     // for events
     this.queue = [];
 
@@ -41,10 +37,10 @@ export class Scheduler {
     const newEventId = this.nextEventId;
 
     // create a dummy buffer to trigger the event
-    const dummyBuffer = this.audioCtx.createBuffer(1, 1, SAMPLE_RATE.VALUE);
-    const dummySource = this.audioCtx.createBufferSource();
+    const dummyBuffer = AUDIO.context.createBuffer(1, 1, SAMPLE_RATE.VALUE);
+    const dummySource = AUDIO.context.createBufferSource();
     dummySource.buffer = dummyBuffer;
-    dummySource.connect(this.audioCtx.destination);
+    dummySource.connect(AUDIO.context.destination);
 
     // add to schedule queue
     this.queue.push({
@@ -71,9 +67,9 @@ export class Scheduler {
   incrementRepeating(event: RepeatingAudioEvent): void {
     event.count++;
     // the web audio spec doesn't allow buffer source nodes to be reused
-    const dummySource = this.audioCtx.createBufferSource();
+    const dummySource = AUDIO.context.createBufferSource();
     dummySource.buffer = event.source.buffer;
-    dummySource.connect(this.audioCtx.destination);
+    dummySource.connect(AUDIO.context.destination);
     dummySource.onended = () => {
       event.callback();
       // add the next occurence
@@ -90,10 +86,10 @@ export class Scheduler {
   */
   scheduleRepeating(time: number, frequency: number, callback: () => unknown): number {
     // create a dummy buffer to trigger the event
-    const dummyBuffer = this.audioCtx.createBuffer(1, 1, 44100);
-    const dummySource = this.audioCtx.createBufferSource();
+    const dummyBuffer = AUDIO.context.createBuffer(1, 1, 44100);
+    const dummySource = AUDIO.context.createBufferSource();
     dummySource.buffer = dummyBuffer;
-    dummySource.connect(this.audioCtx.destination);
+    dummySource.connect(AUDIO.context.destination);
 
     // grab the next event id value
     const newEvent = {

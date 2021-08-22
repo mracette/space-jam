@@ -1,4 +1,5 @@
-import { ELEMENTS, MAP_DIMENSIONS, TILE_DIMENSIONS } from "../globals";
+import { ELEMENTS } from "../globals/dom";
+import { MAP_DIMENSIONS, TILE_DIMENSIONS } from "../globals/sizes";
 import { CAMERA, COORDS } from "../index";
 
 export const entityArrayToMap = {

@@ -1,5 +1,5 @@
 import { SquareOscillator } from "./SquareOscillator";
-import { DURATIONS } from "../../globals";
+import { DURATIONS } from "../../globals/audio";
 import { COLORS } from "../../globals/colors";
 
 export class SquareOscillator1 extends SquareOscillator {

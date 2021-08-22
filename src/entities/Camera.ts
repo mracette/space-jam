@@ -4,14 +4,11 @@ import { Instrument } from "./instruments/Instrument";
 import { AnyOscillator, OSCILLATOR_LIST } from "./oscillators/factories";
 import { CanvasCoordinates } from "../core/Coords";
 import { Vector2, Vector2Args } from "../core/Vector2";
-import {
-  VIEWPORT_DIMENSIONS,
-  ENTITY_ARRAY_DIMENSIONS,
-  ENTITY_STATE,
-  CANVAS_CONTEXTS,
-  STATS
-} from "../globals";
-import { AUDIO_CTX, EntityArrayElement, ENTITY_ARRAY } from "../index";
+import { AUDIO } from "../globals/audio";
+import { CANVAS_CONTEXTS } from "../globals/dom";
+import { ENTITY_STATE, STATS } from "../globals/game";
+import { ENTITY_ARRAY_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals/sizes";
+import { EntityArrayElement, ENTITY_ARRAY } from "../index";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
 import { MENU_VISIBLE } from "../utils/dom";
 import {
@@ -105,7 +102,7 @@ export class Camera extends Entity {
       const { stateEndsTime, entity, state } = mapEntity;
       if (entity?.name === "instrument") {
         // if true, a note is played
-        if (stateEndsTime > AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
+        if (stateEndsTime > AUDIO.context.currentTime && state === ENTITY_STATE.PLAYING) {
           // draw the increase
           drawNoteIncrease(
             CANVAS_CONTEXTS.stats,
@@ -129,7 +126,10 @@ export class Camera extends Entity {
         }
 
         // change state if stateEndsTime has elapsed
-        if (stateEndsTime <= AUDIO_CTX.currentTime && state === ENTITY_STATE.PLAYING) {
+        if (
+          stateEndsTime <= AUDIO.context.currentTime &&
+          state === ENTITY_STATE.PLAYING
+        ) {
           mapEntity.state = ENTITY_STATE.STOPPED;
         }
       }
@@ -139,6 +139,7 @@ export class Camera extends Entity {
     drawInstruments();
 
     // render the preview entity if applicable
+    console.log(this.previewEntity);
     this.previewEntity?.render();
   }
 }

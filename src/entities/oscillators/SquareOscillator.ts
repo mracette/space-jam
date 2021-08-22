@@ -1,7 +1,7 @@
 import { Oscillator } from "./Oscillator";
-import { CANVAS_CONTEXTS, LINE_WIDTH, TILE_DIMENSIONS } from "../../globals";
+import { CANVAS_CONTEXTS } from "../../globals/dom";
+import { LINE_WIDTH, TILE_DIMENSIONS } from "../../globals/sizes";
 import { COORDS } from "../../index";
-import { mapToScreen } from "../../utils/conversions";
 
 export class SquareOscillator extends Oscillator {
   width: number;
@@ -24,12 +24,5 @@ export class SquareOscillator extends Oscillator {
     ctx.beginPath();
     ctx.strokeRect(cx - width / 2, cy - width / 2, width, width);
     ctx.stroke();
-  }
-
-  render(): void {
-    const cx = mapToScreen.x(this.position.x + 0.5);
-    const cy = mapToScreen.y(this.position.y - 0.5);
-    this.renderBaseShape(cx, cy);
-    this.renderArm(cx, cy);
   }
 }

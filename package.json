@@ -10,7 +10,8 @@
     "build:prod:no-optimize": "export OPTIMIZE='false' && webpack --mode=production --node-env=production && yarn eslint ./build/main.js --fix --no-ignore",
     "build": "webpack --mode=production --node-env=production",
     "start": "webpack serve",
-    "start:designer": "export DESIGN_MODE='true' && webpack serve"
+    "start:visuals": "export DESIGN_MODE='visuals' && webpack serve",
+    "start:audio": "export DESIGN_MODE='audio' && webpack serve"
   },
   "author": "",
   "license": "ISC",

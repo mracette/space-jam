@@ -1,15 +1,13 @@
-import {
-  CANVAS_CONTEXTS,
-  DURATIONS,
-  ENTITY_STATE,
-  STATS,
-  TAU,
-  TILE_DIMENSIONS
-} from "../../globals";
+import { AUDIO, DURATIONS, SCHEDULER } from "../../globals/audio";
 import { COLORS } from "../../globals/colors";
-import { AUDIO_CTX, CAMERA, COORDS, ENTITY_ARRAY, SCHEDULER } from "../../index";
+import { CANVAS_CONTEXTS } from "../../globals/dom";
+import { ENTITY_STATE, STATS } from "../../globals/game";
+import { TAU } from "../../globals/math";
+import { TILE_DIMENSIONS } from "../../globals/sizes";
+import { CAMERA, COORDS, ENTITY_ARRAY } from "../../index";
 import { nextSubdivision } from "../../utils/audio";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
+import { drawTile } from "../../utils/drawing";
 import { lerp } from "../../utils/math";
 import { Instrument } from "../instruments/Instrument";
 import { MapEntity } from "../MapEntity";
@@ -37,7 +35,7 @@ export class Oscillator extends MapEntity {
   }
 
   getCyclePosition(): number {
-    return (AUDIO_CTX.currentTime % this.duration) / this.duration;
+    return (AUDIO.context.currentTime % this.duration) / this.duration;
   }
 
   fitsInMap(): boolean {
@@ -62,6 +60,28 @@ export class Oscillator extends MapEntity {
       SCHEDULER.cancel(event);
     });
     this.createRepeatingEvents();
+  }
+
+  render(): void {
+    const cx = mapToScreen.x(this.position.x + 0.5);
+    const cy = mapToScreen.y(this.position.y - 0.5);
+    this.renderBaseShape(cx, cy);
+    this.renderArm(cx, cy);
+    if (this.preview) {
+      CANVAS_CONTEXTS.oscillator.globalAlpha = 0.5;
+      this.sequence.forEach((sequence) => {
+        const [sx, sy] = sequence;
+        CANVAS_CONTEXTS.oscillator.beginPath();
+        drawTile(
+          mapToScreen.x(this.position.x + sx),
+          mapToScreen.y(this.position.y + sy),
+          true,
+          false,
+          CANVAS_CONTEXTS.oscillator
+        );
+      });
+      CANVAS_CONTEXTS.oscillator.globalAlpha = 1;
+    }
   }
 
   renderArm(cx: number, cy: number): void {
@@ -108,6 +128,11 @@ export class Oscillator extends MapEntity {
     }
   }
 
+  // eslint-disable-next-line
+  renderBaseShape(x: number, y: number): void {
+    // overridden in child classes
+  }
+
   createRepeatingEvents(): void {
     const entityArrayX = mapToEntityArray.x(this.position.x);
     const entityArrayY = mapToEntityArray.y(this.position.y);
@@ -124,7 +149,7 @@ export class Oscillator extends MapEntity {
         SCHEDULER.scheduleRepeating(nextIntervalSequence, this.duration, () => {
           if (mapEntity.entity && mapEntity.state !== ENTITY_STATE.PLAYING) {
             mapEntity.state = ENTITY_STATE.PLAYING;
-            mapEntity.stateEndsTime = AUDIO_CTX.currentTime + DURATIONS.QUARTER * 0.9;
+            mapEntity.stateEndsTime = AUDIO.context.currentTime + DURATIONS.QUARTER * 0.9;
             if (mapEntity?.entity.name === "instrument") {
               STATS.notes += (mapEntity.entity as Instrument).notes;
             }

@@ -1,7 +1,7 @@
 import { Oscillator } from "./Oscillator";
-import { CANVAS_CONTEXTS, LINE_WIDTH, TILE_DIMENSIONS } from "../../globals";
+import { CANVAS_CONTEXTS } from "../../globals/dom";
+import { LINE_WIDTH, TILE_DIMENSIONS } from "../../globals/sizes";
 import { COORDS } from "../../index";
-import { mapToScreen } from "../../utils/conversions";
 import { equilateralTriangle } from "../../utils/geometry";
 
 export class TriangleOscillator extends Oscillator {
@@ -25,12 +25,5 @@ export class TriangleOscillator extends Oscillator {
     ctx.beginPath();
     equilateralTriangle(ctx, cx, cy, width);
     ctx.stroke();
-  }
-
-  render(): void {
-    const cx = mapToScreen.x(this.position.x + 0.5);
-    const cy = mapToScreen.y(this.position.y - 0.5);
-    this.renderBaseShape(cx, cy);
-    this.renderArm(cx, cy);
   }
 }
