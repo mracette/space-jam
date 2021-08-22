@@ -1,6 +1,7 @@
 import { Entity, EntityArgs } from "./Entity";
-import { INSTRUMENT_ENTITIES } from "./instruments/entities";
-import { OSCILLATOR_DEFINITIONS } from "./oscillators/definitions";
+import { AnyInstrument } from "./instruments/factories";
+import { Instrument } from "./instruments/Instrument";
+import { AnyOscillator, OSCILLATOR_LIST } from "./oscillators/factories";
 import { CanvasCoordinates } from "../core/Coords";
 import { Vector2, Vector2Args } from "../core/Vector2";
 import {
@@ -28,9 +29,7 @@ interface CameraArgs {
 export class Camera extends Entity {
   position: Vector2;
   coords: CanvasCoordinates;
-  previewEntity:
-    | typeof OSCILLATOR_DEFINITIONS[number]
-    | typeof INSTRUMENT_ENTITIES[number];
+  previewEntity: AnyOscillator | AnyInstrument;
   /**
    * contains the upper/lower bounds of the entity array elements
    * that are currently in the camera's viewport
@@ -84,7 +83,6 @@ export class Camera extends Entity {
     this.position.y += y;
     this.updateEntityArrayBounds();
     drawTiles();
-    drawInstruments();
   }
 
   applyToEntityArray(
@@ -114,12 +112,12 @@ export class Camera extends Entity {
             this.coords,
             entityArrayToScreen.x(i),
             entityArrayToScreen.y(j),
-            entity.notes
+            (entity as Instrument).notes
           );
 
           // update enabled / disabled based on cost and available notes
           if (MENU_VISIBLE) {
-            OSCILLATOR_DEFINITIONS.forEach((oscillator) => {
+            OSCILLATOR_LIST.forEach((oscillator) => {
               const button = document.getElementById(oscillator.id) as HTMLButtonElement;
               if (oscillator.cost < STATS.notes) {
                 button.disabled = false;
@@ -138,6 +136,7 @@ export class Camera extends Entity {
     });
 
     drawOscillators();
+    drawInstruments();
 
     // render the preview entity if applicable
     this.previewEntity?.render();

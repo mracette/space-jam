@@ -11,6 +11,7 @@ import { AUDIO_CTX, CAMERA, COORDS, ENTITY_ARRAY, SCHEDULER } from "../../index"
 import { nextSubdivision } from "../../utils/audio";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import { lerp } from "../../utils/math";
+import { Instrument } from "../instruments/Instrument";
 import { MapEntity } from "../MapEntity";
 
 export class Oscillator extends MapEntity {
@@ -20,7 +21,6 @@ export class Oscillator extends MapEntity {
   duration: number;
   color: string;
   colorDisabled: string;
-  disabled: boolean;
   cost: number;
 
   constructor(args: ConstructorParameters<typeof MapEntity>[0] = {}) {
@@ -48,7 +48,7 @@ export class Oscillator extends MapEntity {
     const arr = ENTITY_ARRAY[arrX][arrY];
     const isInView = arrX > xLower && arrX < xUpper && arrY > yLower && arrY < yUpper;
     const spaceIsTaken = Boolean(arr.entity);
-    const isBlocked = arr.blocked;
+    const isBlocked = arr.blocked || false;
     return isInView && !spaceIsTaken && !isBlocked;
   }
 
@@ -125,7 +125,9 @@ export class Oscillator extends MapEntity {
           if (mapEntity.entity && mapEntity.state !== ENTITY_STATE.PLAYING) {
             mapEntity.state = ENTITY_STATE.PLAYING;
             mapEntity.stateEndsTime = AUDIO_CTX.currentTime + DURATIONS.QUARTER * 0.9;
-            STATS.notes += mapEntity?.entity?.notes || 0;
+            if (mapEntity?.entity.name === "instrument") {
+              STATS.notes += (mapEntity.entity as Instrument).notes;
+            }
           }
         })
       );

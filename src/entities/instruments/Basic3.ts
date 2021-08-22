@@ -3,7 +3,8 @@ import { Instrument } from "./Instrument";
 export class Basic3 extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
-    this.id = "i3";
+    this.cost = 75;
+    this.id = "t13";
     this.notes = 5;
     this.outline = [
       [-1, 0],

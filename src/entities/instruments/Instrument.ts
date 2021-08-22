@@ -1,7 +1,7 @@
-import { INSTRUMENT_DEFINITIONS } from "./definitions";
-import { CANVAS_CONTEXTS, LINE_WIDTH, TAU, TILE_DIMENSIONS } from "../../globals";
+import { CacheItem, INSTRUMENT_CACHE } from "./cache";
+import { CANVAS_CONTEXTS, TAU, TILE_DIMENSIONS } from "../../globals";
 import { COLORS } from "../../globals/colors";
-import { COORDS, ENTITY_ARRAY } from "../../index";
+import { CAMERA, COORDS, ENTITY_ARRAY } from "../../index";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import { drawInstrumentPattern } from "../../utils/drawing";
 import {
@@ -9,10 +9,10 @@ import {
   createShapeFromOutline,
   findBoundingBoxFromOutline
 } from "../../utils/geometry";
-import { lerp, rotatePoint } from "../../utils/math";
 import { MapEntity } from "../MapEntity";
 
 export class Instrument extends MapEntity {
+  cost: number;
   notes: number;
   shape: number[][];
   outline: number[][];
@@ -21,7 +21,7 @@ export class Instrument extends MapEntity {
   boundingBox: BoundingBox;
   boundingBoxWidth: number;
   boundingBoxHeight: number;
-  definition: any;
+  cache: CacheItem;
   constructor(args: ConstructorParameters<typeof MapEntity>[0]) {
     super(args);
     this.name = "instrument";
@@ -36,20 +36,29 @@ export class Instrument extends MapEntity {
     );
     this.boundingBoxWidth = this.boundingBox.maxX - this.boundingBox.minX;
     this.boundingBoxHeight = this.boundingBox.maxY - this.boundingBox.minY;
-    this.definition = INSTRUMENT_DEFINITIONS.find((def) => def.id === this.id);
+    this.cache = INSTRUMENT_CACHE.find(({ id }) => id === this.id);
     if (!this.preview) {
       this.placeOnMap();
     }
   }
 
-  fitsInMap(x: number, y: number): boolean {
-    const ex = mapToEntityArray.x(x);
-    const ey = mapToEntityArray.y(y);
-    const entityArrayIsBlocked = Boolean(ENTITY_ARRAY[ex][ey].entity);
-    const adjacentSpacesAreBlocked = this.shape.every(
-      ([sx, sy]) => !ENTITY_ARRAY[ex + sx][ex + sy].blocked
+  fitsInMap(): boolean {
+    const { xLower, xUpper, yLower, yUpper } = CAMERA.entityArrayBounds;
+    const { x, y } = this.position;
+    const arrX = mapToEntityArray.x(x);
+    const arrY = mapToEntityArray.y(y);
+    const arr = ENTITY_ARRAY[arrX][arrY];
+    const isInView = arrX > xLower && arrX < xUpper && arrY > yLower && arrY < yUpper;
+    const spaceIsTaken = Boolean(arr.entity);
+    const isBlocked = arr.blocked || false;
+    const adjacentSpacesAreBlocked = this.shape.some(
+      ([sx, sy]) =>
+        ENTITY_ARRAY[arrX + sx][arrY + sy].blocked ||
+        false ||
+        Boolean(ENTITY_ARRAY[arrX + sx][arrY + sy].entity)
     );
-    return !entityArrayIsBlocked && !adjacentSpacesAreBlocked;
+    console.log(isInView, spaceIsTaken, isBlocked, adjacentSpacesAreBlocked);
+    return isInView && !spaceIsTaken && !isBlocked && !adjacentSpacesAreBlocked;
   }
 
   placeOnMap(): void {
@@ -63,50 +72,53 @@ export class Instrument extends MapEntity {
     });
   }
 
-  render(): void {
-    CANVAS_CONTEXTS.instrument.beginPath();
+  render(ctx: CanvasRenderingContext2D = CANVAS_CONTEXTS.instrument): void {
+    ctx.fillStyle = this.disabled ? COLORS.DISABLED : COLORS.BACKGROUND;
+    ctx.beginPath();
     for (let i = 0; i < this.outline.length; i++) {
       const [x, y] = this.outline[i];
       const sx = mapToScreen.x(this.position.x + x);
       const sy = mapToScreen.y(this.position.y + y);
       if (i === 0) {
-        CANVAS_CONTEXTS.instrument.moveTo(sx, sy);
+        ctx.moveTo(sx, sy);
       } else {
-        CANVAS_CONTEXTS.instrument.lineTo(sx, sy);
+        ctx.lineTo(sx, sy);
       }
     }
-    CANVAS_CONTEXTS.instrument.closePath();
-    CANVAS_CONTEXTS.instrument.fill();
+    ctx.closePath();
+    ctx.fill();
 
-    CANVAS_CONTEXTS.instrument.globalCompositeOperation = "source-atop";
+    ctx.globalCompositeOperation = "source-atop";
 
-    if (this.definition.offscreen.needsUpdate) {
-      this.definition.offscreen.canvas.width =
+    if (this.cache.offscreen.needsUpdate) {
+      this.cache.offscreen.canvas.width =
         this.boundingBoxWidth * COORDS.width(TILE_DIMENSIONS.SIZE);
-      this.definition.offscreen.canvas.height =
+      this.cache.offscreen.canvas.height =
         this.boundingBoxHeight * COORDS.width(TILE_DIMENSIONS.SIZE);
-      drawInstrumentPattern(this.definition.offscreen.canvas);
-      this.definition.offscreen.needsUpdate = false;
+      drawInstrumentPattern(this.cache.offscreen.canvas);
+      this.cache.offscreen.needsUpdate = false;
     }
-    CANVAS_CONTEXTS.instrument.drawImage(
-      this.definition.offscreen.canvas,
-      mapToScreen.x(this.position.x - (this.boundingBoxWidth - 1) / 2),
-      mapToScreen.y(this.position.y + (this.boundingBoxHeight - 1) / 2)
-    );
+    if (!this.disabled) {
+      ctx.drawImage(
+        this.cache.offscreen.canvas,
+        mapToScreen.x(this.position.x - (this.boundingBoxWidth - 1) / 2),
+        mapToScreen.y(this.position.y + (this.boundingBoxHeight - 1) / 2)
+      );
+    }
 
-    CANVAS_CONTEXTS.instrument.globalCompositeOperation = "source-over";
-    CANVAS_CONTEXTS.instrument.stroke();
+    ctx.globalCompositeOperation = "source-over";
+    ctx.stroke();
 
-    CANVAS_CONTEXTS.instrument.fillStyle = COLORS.WHITE;
-    CANVAS_CONTEXTS.instrument.beginPath();
-    CANVAS_CONTEXTS.instrument.arc(
+    ctx.fillStyle = COLORS.WHITE;
+    ctx.beginPath();
+    ctx.arc(
       mapToScreen.x(this.position.x + 0.5),
       mapToScreen.y(this.position.y - 0.5),
       COORDS.width(TILE_DIMENSIONS.QUARTER),
       0,
       TAU
     );
-    CANVAS_CONTEXTS.instrument.fill();
-    CANVAS_CONTEXTS.instrument.fillStyle = COLORS.BACKGROUND;
+    ctx.fill();
+    ctx.fillStyle = COLORS.BACKGROUND;
   }
 }

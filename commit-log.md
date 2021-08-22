@@ -133,3 +133,12 @@
 | Compressed Build (Adv Zip) | 6.60 kb | 6756 | -5% |
 
 
+**offscreen canvas, patterns, clipping, and misc** - *Fri, 20 Aug 2021 23:30:49 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 36.94 kb | 37825 | NA |
+| Build | 33.70 kb | 34506 | -9% |
+| Compressed Build | 8.27 kb | 8472 | -75% |
+| Compressed Build (Adv Zip) | 7.92 kb | 8111 | -4% |
+
+

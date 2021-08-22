@@ -1,20 +1,28 @@
-export const INSTRUMENT_DEFINITIONS = [
+export interface CacheItem {
+  id: string;
+  offscreen: {
+    needsUpdate: boolean;
+    canvas: OffscreenCanvas;
+  };
+}
+
+export const INSTRUMENT_CACHE: CacheItem[] = [
   {
-    id: "i1",
+    id: "t11",
     offscreen: {
       needsUpdate: true,
       canvas: new OffscreenCanvas(0, 0)
     }
   },
   {
-    id: "i2",
+    id: "t12",
     offscreen: {
       needsUpdate: true,
       canvas: new OffscreenCanvas(0, 0)
     }
   },
   {
-    id: "i3",
+    id: "t13",
     offscreen: {
       needsUpdate: true,
       canvas: new OffscreenCanvas(0, 0)

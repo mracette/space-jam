@@ -7,6 +7,7 @@ export class MapEntity extends Entity {
   id: string;
   position: Vector2;
   preview: boolean;
+  disabled: boolean;
   constructor(args: MapEntityArgs = {}) {
     super(args);
     const { x, y, preview = false, id = "" } = args;

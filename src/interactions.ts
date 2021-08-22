@@ -1,28 +1,26 @@
 import { CAMERA } from "./index";
-import {
-  OSCILLATOR_CLASSES,
-  OSCILLATOR_DEFINITIONS
-} from "./entities/oscillators/definitions";
+import { AnyInstrument } from "./entities/instruments/factories";
+import { AnyOscillator } from "./entities/oscillators/factories";
 import { MOUSE_POSITION } from "./globals";
 
-export const dragOscillatorToMap = (
-  oscillator: typeof OSCILLATOR_DEFINITIONS[number],
-  constructor: typeof OSCILLATOR_CLASSES[number]
+export const dragEntityToMap = (
+  entity: AnyInstrument | AnyOscillator,
+  factory: (args: any) => AnyInstrument | AnyOscillator
 ): void => {
-  oscillator.position.set(MOUSE_POSITION.mapX, MOUSE_POSITION.mapY);
-  CAMERA.previewEntity = oscillator;
+  entity.position.set(MOUSE_POSITION.mapX, MOUSE_POSITION.mapY);
+  CAMERA.previewEntity = entity;
 
   const onMouseMove = () => {
     const x = Math.round(MOUSE_POSITION.mapX);
     const y = Math.round(MOUSE_POSITION.mapY);
-    oscillator.position.set(x, y);
-    oscillator.disabled = !oscillator.fitsInMap();
+    entity.position.set(x, y);
+    entity.disabled = !entity.fitsInMap();
   };
 
   const placeEntityIfPossible = () => {
-    if (!oscillator.disabled) {
-      const { x, y } = oscillator.position;
-      new constructor({ x, y });
+    if (!entity.disabled) {
+      const { x, y } = entity.position;
+      factory({ x, y });
       CAMERA.previewEntity = null;
       document.removeEventListener("mousemove", onMouseMove);
     } else {

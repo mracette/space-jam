@@ -1,3 +1,4 @@
+import { AspectRatio } from "./core/AspectRatio";
 import { COLORS } from "./globals/colors";
 
 const enum MAP_DIMENSION {
@@ -108,7 +109,8 @@ export const ELEMENTS = {
   menu: document.getElementById("menu") as HTMLDivElement,
   co: document.getElementById("co") as HTMLDivElement,
   to: document.getElementById("to") as HTMLDivElement,
-  so: document.getElementById("so") as HTMLDivElement
+  so: document.getElementById("so") as HTMLDivElement,
+  t1: document.getElementById("t1") as HTMLDivElement
 };
 
 export const CANVAS_CONTEXTS = {
@@ -119,10 +121,6 @@ export const CANVAS_CONTEXTS = {
   oscillator: ELEMENTS.canvasOscillators.getContext("2d"),
   instrument: ELEMENTS.canvasInstruments.getContext("2d")
 };
-
-CANVAS_CONTEXTS.tiles.fillStyle = COLORS.BACKGROUND;
-CANVAS_CONTEXTS.tiles.strokeStyle = COLORS.WHITE;
-CANVAS_CONTEXTS.instrument.strokeStyle = COLORS.WHITE;
 
 export const STYLES = {
   menuButton: {
@@ -138,7 +136,7 @@ export const STYLES = {
     transitionDuration: "250ms"
   },
   menu: {
-    visibility: "hidden",
+    // visibility: "hidden",
     background: "rgba(0,0,0,.75)",
     justifyContent: "flex-start"
   },
@@ -167,3 +165,5 @@ document.body.style.background = "black";
 // document.body.style.background = COLORS.BACKGROUND;
 
 export const FONT_STYLE = '"Verdana", sans-serif';
+
+export const ASPECT_RATIO = new AspectRatio(9, 16);

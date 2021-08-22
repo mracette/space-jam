@@ -1,6 +1,5 @@
 import { AUDIO_CTX, CAMERA } from "./index";
-import { AspectRatio } from "./core/AspectRatio";
-import { INSTRUMENT_DEFINITIONS } from "./entities/instruments/definitions";
+import { INSTRUMENT_CACHE } from "./entities/instruments/cache";
 import { MOUSE_POSITION, ELEMENTS } from "./globals";
 import { screenToMap } from "./utils/conversions";
 import { MENU_VISIBLE, toggleMenu } from "./utils/dom";
@@ -22,7 +21,7 @@ export const initializeEventListeners = (): void => {
     ELEMENTS.canvasInstruments,
     ELEMENTS.menu
   ].forEach((element) => {
-    resizeWithAspectRatio(element, new AspectRatio(9, 16));
+    resizeWithAspectRatio(element);
   });
 
   ELEMENTS.menuButton.onclick = toggleMenu;
@@ -80,8 +79,8 @@ export const initializeEventListeners = (): void => {
     drawStarPattern();
     drawFog();
     // set up updates for offscreen canvas elements
-    INSTRUMENT_DEFINITIONS.forEach((definition) => {
-      definition.offscreen.needsUpdate = true;
+    INSTRUMENT_CACHE.forEach((cache) => {
+      cache.offscreen.needsUpdate = true;
     });
     // runs animations pegged to camera movement
     CAMERA.move(0, 0);

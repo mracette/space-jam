@@ -1,4 +1,5 @@
 import { AspectRatio } from "../core/AspectRatio";
+import { ASPECT_RATIO } from "../globals";
 
 export const getEventType = (e: MouseEvent | TouchEvent): "touch" | "mouse" | "click" => {
   if (e.type.startsWith("touch")) {
@@ -42,16 +43,13 @@ export const calculatePositionDelta = (
   };
 };
 
-export const resizeWithAspectRatio = (
-  element: HTMLElement | HTMLCanvasElement,
-  ratio: AspectRatio
-): void => {
+export const resizeWithAspectRatio = (element: HTMLElement | HTMLCanvasElement): void => {
   const parent = element.parentElement;
   const resize = () => {
     const { width, height } = parent.getBoundingClientRect();
-    const resizeRatio = Math.min(width / ratio.x, height / ratio.y);
-    const newWidth = resizeRatio * ratio.x;
-    const newHeight = resizeRatio * ratio.y;
+    const resizeRatio = Math.min(width / ASPECT_RATIO.x, height / ASPECT_RATIO.y);
+    const newWidth = resizeRatio * ASPECT_RATIO.x;
+    const newHeight = resizeRatio * ASPECT_RATIO.y;
     const dpr = window.devicePixelRatio || 1;
     (element as HTMLCanvasElement).width = newWidth * dpr;
     (element as HTMLCanvasElement).height = newHeight * dpr;
