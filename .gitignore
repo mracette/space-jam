@@ -1,6 +1,4 @@
 .DS_Store
 .vscode/*
-build/*
-build-min/*
 node_modules/
 screenshots/

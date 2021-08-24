@@ -169,3 +169,12 @@
 | Compressed Build (Adv Zip) | 9.21 kb | 9429 | -4% |
 
 
+**camera velocity** - *Tue, 24 Aug 2021 02:36:01 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.48 kb | 44520 | NA |
+| Build | 38.17 kb | 39089 | -12% |
+| Compressed Build | 9.75 kb | 9989 | -74% |
+| Compressed Build (Adv Zip) | 9.39 kb | 9612 | -4% |
+
+
