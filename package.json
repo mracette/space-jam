@@ -6,9 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:dev": "webpack --mode=development",
-    "build:prod": "export OPTIMIZE='false' && webpack --mode=production --node-env=production",
+    "build:prod": "export OPTIMIZE='true' && webpack --mode=production --node-env=production && rm build/bundle.js",
     "build:prod:no-optimize": "export OPTIMIZE='false' && webpack --mode=production --node-env=production && yarn eslint ./build/main.js --fix --no-ignore",
-    "build": "webpack --mode=production --node-env=production",
     "start": "webpack serve",
     "start:visuals": "export DESIGN_MODE='visuals' && webpack serve",
     "start:audio": "export DESIGN_MODE='audio' && webpack serve"
@@ -19,6 +18,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "@webpack-cli/generators": "^2.2.0",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
     "css-loader": "^6.2.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^6.11.0",
@@ -27,6 +27,7 @@
     "html-webpack-plugin": "^5.3.2",
     "htmlmin": "0.0.7",
     "prettier": "^2.0.5",
+    "react-dev-utils": "^11.0.4",
     "style-loader": "^3.2.1",
     "terser-webpack-plugin": "^5.1.4",
     "ts-loader": "^9.2.5",

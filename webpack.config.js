@@ -1,6 +1,8 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
 
@@ -41,9 +43,17 @@ const config = {
     host: "localhost"
   },
   plugins: [
+    new CleanWebpackPlugin({
+      dry: !isProduction
+    }),
     new HtmlWebpackPlugin({
-      template
-    })
+      template,
+      inline: true,
+      minify: {
+        collapseWhitespace: isProduction
+      }
+    }),
+    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/.*/])
   ],
   module: {
     rules: [

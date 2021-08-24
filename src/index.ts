@@ -14,7 +14,7 @@ import { setupBaseStyles, setupMenuUI } from "./setup";
 
 import { MENU_VISIBLE, updateButtonDisabled } from "./utils/dom";
 // @ts-ignore
-import * as Stats from "stats.js";
+// import * as Stats from "stats.js";
 
 export interface EntityArrayElement {
   entity?: AnyInstrument | AnyOscillator;
@@ -39,11 +39,11 @@ new Basic1({ x: 1, y: 0 });
 // new Basic1({ x: -3, y: -3 });
 new CircleOscillator1({ x: 0, y: 0 });
 
-const stats = new Stats();
-stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild(stats.dom);
-stats.dom.style.width = "unset";
-stats.dom.style.height = "unset";
+// const stats = new Stats();
+// stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+// document.body.appendChild(stats.dom);
+// stats.dom.style.width = "unset";
+// stats.dom.style.height = "unset";
 
 let prevNotes = STATS.notes;
 let prevTime = 0;
@@ -51,7 +51,7 @@ let prevTime = 0;
 const main = (time: number) => {
   const delta = (time - prevTime) / 1000;
   prevTime = time;
-  stats.begin();
+  // stats.begin();
   if (CAMERA.velocity.sum()) {
     CAMERA.move(CAMERA.velocity.x, CAMERA.velocity.y, delta);
   }
@@ -61,7 +61,7 @@ const main = (time: number) => {
     updateButtonDisabled();
   }
   prevNotes = STATS.notes;
-  stats.end();
+  // stats.end();
   window.requestAnimationFrame(main);
 };
 
