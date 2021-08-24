@@ -187,3 +187,12 @@
 | Compressed Build (Adv Zip) | 9.39 kb | 9612 | -4% |
 
 
+**making some tweaks to the webpack config** - *Tue, 24 Aug 2021 03:37:00 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.50 kb | 44544 | NA |
+| Build | 33.51 kb | 34315 | -23% |
+| Compressed Build | 8.41 kb | 8611 | -75% |
+| Compressed Build (Adv Zip) | 8.11 kb | 8309 | -4% |
+
+

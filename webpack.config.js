@@ -49,6 +49,7 @@ const config = {
     new HtmlWebpackPlugin({
       template,
       inline: true,
+      inject: "body",
       minify: {
         collapseWhitespace: isProduction
       }
