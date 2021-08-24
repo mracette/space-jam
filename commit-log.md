@@ -241,3 +241,21 @@
 | Compressed Build (Adv Zip) | 6.69 kb | 6846 | -3% |
 
 
+**replace offscreen canvas with htmlcanvas** - *Tue, 24 Aug 2021 14:58:43 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.50 kb | 44546 | NA |
+| Build | 20.14 kb | 20623 | -54% |
+| Compressed Build | 6.91 kb | 7079 | -66% |
+| Compressed Build (Adv Zip) | 6.68 kb | 6840 | -3% |
+
+
+**overscroll-behavior: none** - *Tue, 24 Aug 2021 15:19:57 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.50 kb | 44546 | NA |
+| Build | 20.17 kb | 20658 | -54% |
+| Compressed Build | 6.93 kb | 7096 | -66% |
+| Compressed Build (Adv Zip) | 6.70 kb | 6859 | -3% |
+
+
