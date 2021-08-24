@@ -9,11 +9,7 @@ canvas.className = "fill-absolute";
 
 document.body.appendChild(canvas);
 
-const draw = (
-  canvas: OffscreenCanvas | HTMLCanvasElement,
-  hueStart = 0,
-  hueEnd = 360
-): void => {
+const draw = (canvas: HTMLCanvasElement, hueStart = 0, hueEnd = 360): void => {
   const ctx = canvas.getContext("2d");
   const numRings = 10;
   const designRadius = Math.sqrt((Math.max(canvas.width, canvas.height) / 2) ** 2 * 2);

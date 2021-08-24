@@ -223,3 +223,21 @@
 | Compressed Build (Adv Zip) | 6.68 kb | 6844 | -3% |
 
 
+**add element names to terser reserved names array** - *Tue, 24 Aug 2021 14:24:38 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.58 kb | 44622 | NA |
+| Build | 20.12 kb | 20599 | -54% |
+| Compressed Build | 6.92 kb | 7086 | -66% |
+| Compressed Build (Adv Zip) | 6.69 kb | 6846 | -3% |
+
+
+**update builds** - *Tue, 24 Aug 2021 14:30:26 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.58 kb | 44622 | NA |
+| Build | 20.12 kb | 20599 | -54% |
+| Compressed Build | 6.92 kb | 7086 | -66% |
+| Compressed Build (Adv Zip) | 6.69 kb | 6846 | -3% |
+
+

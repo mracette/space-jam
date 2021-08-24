@@ -10,16 +10,14 @@ import { TAU } from "../globals/math";
 import { LINE_WIDTH, TILE_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals/sizes";
 import { CAMERA, COORDS } from "../index";
 
-export const drawInstrumentPattern = (
-  canvas: OffscreenCanvas | HTMLCanvasElement
-): void => {
+export const drawInstrumentPattern = (canvas: HTMLCanvasElement): void => {
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = COLORS.BACKGROUND_LIGHT;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 };
 
 export const drawStarPattern = (
-  canvas: OffscreenCanvas | HTMLCanvasElement = ELEMENTS.canvasPre,
+  canvas: HTMLCanvasElement = ELEMENTS.canvasPre,
   hueStart = 50,
   hueEnd = 300
 ): void => {

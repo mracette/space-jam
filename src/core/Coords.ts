@@ -1,6 +1,6 @@
 export class CanvasCoordinates {
-  canvas: HTMLCanvasElement | OffscreenCanvas;
-  constructor(canvas: HTMLCanvasElement | OffscreenCanvas) {
+  canvas: HTMLCanvasElement;
+  constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
   }
 
