@@ -196,3 +196,12 @@
 | Compressed Build (Adv Zip) | 8.11 kb | 8309 | -4% |
 
 
+**add inject: "body"** - *Tue, 24 Aug 2021 04:01:46 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.50 kb | 44544 | NA |
+| Build | 33.51 kb | 34315 | -23% |
+| Compressed Build | 8.40 kb | 8598 | -75% |
+| Compressed Build (Adv Zip) | 8.12 kb | 8313 | -3% |
+
+
