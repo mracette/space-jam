@@ -35,6 +35,11 @@ export const initializeEventListeners = (): void => {
     MOUSE_POSITION.mapY = screenToMap.y(e.y);
   };
 
+  // helps with memory to keep these outside the listener
+  const samples = 4;
+  const velocityX: number[] = [].fill(0, 0, samples);
+  const velocityY: number[] = [].fill(0, 0, samples);
+
   const onMouseOrTouchDown = (e: MouseEvent | TouchEvent) => {
     AUDIO.context.resume();
 
@@ -50,6 +55,16 @@ export const initializeEventListeners = (): void => {
           ELEMENTS.canvasTiles.clientHeight,
           yStart
         );
+
+        if ((velocityX.length = samples)) {
+          velocityX.shift();
+        }
+        if ((velocityY.length = samples)) {
+          velocityY.shift();
+        }
+        velocityX.push(x);
+        velocityY.push(y);
+
         CAMERA.move(x, y);
       };
 
@@ -57,6 +72,8 @@ export const initializeEventListeners = (): void => {
         document.removeEventListener("mousemove", onMouseOrTouchMove);
         document.removeEventListener("touchmove", onMouseOrTouchMove);
         document.addEventListener("mousemove", onMouseMove);
+        CAMERA.velocity.x = velocityX.reduce((a, b) => a + b) / samples;
+        CAMERA.velocity.y = velocityY.reduce((a, b) => a + b) / samples;
       };
 
       // bind mouse and touch listeners and clean up at the end of the interaction

@@ -8,3 +8,7 @@ export const enum ENTITY_STATE {
 export const STATS = {
   notes: 0
 };
+
+export const enum DECELERATION {
+  VALUE = 0.5
+}

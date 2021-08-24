@@ -9,4 +9,7 @@ export class Vector2 {
     this.x = x;
     this.y = y;
   }
+  sum(): number {
+    return this.x + this.y;
+  }
 }

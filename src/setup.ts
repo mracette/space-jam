@@ -64,7 +64,6 @@ const drawMenuButtonUi = (
 
 export const setupMenuUI = (): void => {
   const allEntities = [...OSCILLATOR_LIST, ...INSTRUMENT_LIST];
-  console.log(allEntities);
   allEntities.forEach((entity, i) => {
     const id = entity.id as OscillatorIds | InstrumentId;
     const name = entity.name;
@@ -73,7 +72,6 @@ export const setupMenuUI = (): void => {
     button.append(canvas);
     button.disabled = !DEBUG;
     button.id = id;
-    console.log(id);
 
     // appends button to it's corresponding <div /> in the menu
     const type = entity.id.substr(0, 2);

@@ -46,9 +46,15 @@ stats.dom.style.width = "unset";
 stats.dom.style.height = "unset";
 
 let prevNotes = STATS.notes;
+let prevTime = 0;
 
-const main = () => {
+const main = (time: number) => {
+  const delta = (time - prevTime) / 1000;
+  prevTime = time;
   stats.begin();
+  if (CAMERA.velocity.sum()) {
+    CAMERA.move(CAMERA.velocity.x, CAMERA.velocity.y, delta);
+  }
   CAMERA.render();
   if (MENU_VISIBLE && STATS.notes !== prevNotes) {
     console.log("update");

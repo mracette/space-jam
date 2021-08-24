@@ -6,7 +6,7 @@ import { CanvasCoordinates } from "../core/Coords";
 import { Vector2, Vector2Args } from "../core/Vector2";
 import { AUDIO } from "../globals/audio";
 import { CANVAS_CONTEXTS } from "../globals/dom";
-import { ENTITY_STATE } from "../globals/game";
+import { DECELERATION, ENTITY_STATE } from "../globals/game";
 import { ENTITY_ARRAY_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals/sizes";
 import { EntityArrayElement, ENTITY_ARRAY } from "../index";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
@@ -24,6 +24,7 @@ interface CameraArgs {
 
 export class Camera extends Entity {
   position: Vector2;
+  velocity: Vector2;
   coords: CanvasCoordinates;
   previewEntity: AnyOscillator | AnyInstrument;
   /**
@@ -41,6 +42,7 @@ export class Camera extends Entity {
     super({ name });
     this.coords = coords;
     this.position = new Vector2();
+    this.velocity = new Vector2();
     this.entityArrayBounds = {
       xLower: undefined,
       xUpper: undefined,
@@ -74,11 +76,29 @@ export class Camera extends Entity {
     );
   }
 
-  move(x: number, y: number): void {
+  move(x: number, y: number, delta = 0): void {
     this.position.x -= x;
     this.position.y += y;
     this.updateEntityArrayBounds();
     drawTiles();
+    if (this.velocity.sum()) {
+      this.decelerate(delta);
+    }
+  }
+
+  decelerate(delta: number): void {
+    ["x", "y"].forEach((direction) => {
+      // @ts-ignore
+      const value = this.velocity[direction];
+      const multiplier = value < 0 ? 1 : -1;
+      // @ts-ignore
+      this.velocity[direction] += multiplier * delta * DECELERATION.VALUE;
+      // @ts-ignore
+      if (Math.abs(this.velocity[direction]) < 0.01) {
+        // @ts-ignore
+        this.velocity[direction] = 0;
+      }
+    });
   }
 
   applyToEntityArray(

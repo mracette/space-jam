@@ -160,3 +160,12 @@
 | Compressed Build (Adv Zip) | 8.09 kb | 8287 | -4% |
 
 
+**factories and buttons and addressing various mechanics issues** - *Tue, 24 Aug 2021 01:25:32 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 42.13 kb | 43139 | NA |
+| Build | 37.62 kb | 38520 | -11% |
+| Compressed Build | 9.57 kb | 9802 | -75% |
+| Compressed Build (Adv Zip) | 9.21 kb | 9429 | -4% |
+
+
