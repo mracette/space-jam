@@ -214,3 +214,12 @@
 | Compressed Build (Adv Zip) | 8.27 kb | 8473 | -4% |
 
 
+**try with ts es6 modules** - *Tue, 24 Aug 2021 04:08:25 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.50 kb | 44544 | NA |
+| Build | 20.12 kb | 20604 | -54% |
+| Compressed Build | 6.92 kb | 7091 | -66% |
+| Compressed Build (Adv Zip) | 6.68 kb | 6844 | -3% |
+
+

@@ -48,13 +48,12 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       template,
-      inline: true,
+      inline: optimize,
       inject: "body",
       minify: {
         collapseWhitespace: isProduction
       }
-    }),
-    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/.*/])
+    })
   ],
   module: {
     rules: [
@@ -81,6 +80,7 @@ const config = {
 
 module.exports = () => {
   if (isProduction && optimize) {
+    config.plugins.push(new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/.*/]));
     config.mode = "production";
     config.optimization = {
       minimize: true,
@@ -88,14 +88,14 @@ module.exports = () => {
         new TerserPlugin({
           terserOptions: {
             compress: {
-              ecma: 2020,
-              unsafe: true
+              ecma: 2020
+              // unsafe: true
             },
             mangle: {
               toplevel: true,
               properties: {
                 debug: !isProduction,
-                reserved: []
+                reserved: ["co", "to", "so", "t1"]
               }
             }
           }

@@ -30,42 +30,45 @@ export const ENTITY_ARRAY: EntityArrayElement[][] = Array.from({
 export const COORDS = new CanvasCoordinates(ELEMENTS.canvasTiles);
 export const CAMERA = new Camera({ coords: COORDS });
 
-initializeEventListeners();
-setupMenuUI();
-setupBaseStyles();
+const begin = () => {
+  initializeEventListeners();
+  setupMenuUI();
+  setupBaseStyles();
 
-new Basic1({ x: 1, y: 0 });
-// new Basic2({ x: -3, y: 3 });
-// new Basic1({ x: -3, y: -3 });
-new CircleOscillator1({ x: 0, y: 0 });
+  new Basic1({ x: 1, y: 0 });
+  // new Basic2({ x: -3, y: 3 });
+  // new Basic1({ x: -3, y: -3 });
+  new CircleOscillator1({ x: 0, y: 0 });
 
-// const stats = new Stats();
-// stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-// document.body.appendChild(stats.dom);
-// stats.dom.style.width = "unset";
-// stats.dom.style.height = "unset";
+  // const stats = new Stats();
+  // stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+  // document.body.appendChild(stats.dom);
+  // stats.dom.style.width = "unset";
+  // stats.dom.style.height = "unset";
 
-let prevNotes = STATS.notes;
-let prevTime = 0;
+  let prevNotes = STATS.notes;
+  let prevTime = 0;
 
-const main = (time: number) => {
-  const delta = (time - prevTime) / 1000;
-  prevTime = time;
-  // stats.begin();
-  if (CAMERA.velocity.sum()) {
-    CAMERA.move(CAMERA.velocity.x, CAMERA.velocity.y, delta);
-  }
-  CAMERA.render();
-  if (MENU_VISIBLE && STATS.notes !== prevNotes) {
-    console.log("update");
-    updateButtonDisabled();
-  }
-  prevNotes = STATS.notes;
-  // stats.end();
-  window.requestAnimationFrame(main);
+  const render = (time: number) => {
+    const delta = (time - prevTime) / 1000;
+    prevTime = time;
+    // stats.begin();
+    if (CAMERA.velocity.sum()) {
+      CAMERA.move(CAMERA.velocity.x, CAMERA.velocity.y, delta);
+    }
+    CAMERA.render();
+    if (MENU_VISIBLE && STATS.notes !== prevNotes) {
+      updateButtonDisabled();
+    }
+    prevNotes = STATS.notes;
+    // stats.end();
+    window.requestAnimationFrame(render);
+  };
+
+  // runs animations pegged to camera movement
+  CAMERA.move(0, 0);
+
+  window.requestAnimationFrame(render);
 };
 
-// runs animations pegged to camera movement
-CAMERA.move(0, 0);
-
-window.requestAnimationFrame(main);
+begin();

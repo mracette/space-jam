@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:dev": "webpack --mode=development",
     "build:prod": "export OPTIMIZE='true' && webpack --mode=production --node-env=production && rm build/bundle.js",
-    "build:prod:no-optimize": "export OPTIMIZE='false' && webpack --mode=production --node-env=production && yarn eslint ./build/main.js --fix --no-ignore",
+    "build:prod:no-optimize": "export OPTIMIZE='false' && webpack --mode=production --node-env=production && yarn eslint ./build/bundle.js --fix --quiet --no-ignore",
     "start": "webpack serve",
     "start:visuals": "export DESIGN_MODE='visuals' && webpack serve",
     "start:audio": "export DESIGN_MODE='audio' && webpack serve"
