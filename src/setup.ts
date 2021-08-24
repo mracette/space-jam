@@ -1,15 +1,18 @@
 import {
   AnyInstrument,
+  InstrumentId,
   INSTRUMENT_FACTORIES,
   INSTRUMENT_LIST
 } from "./entities/instruments/factories";
 import {
   AnyOscillator,
+  OscillatorIds,
   OSCILLATOR_FACTORIES,
   OSCILLATOR_LIST
 } from "./entities/oscillators/factories";
 import { COLORS } from "./globals/colors";
 import { ELEMENTS } from "./globals/dom";
+import { DEBUG } from "./globals/game";
 import { ASPECT_RATIO } from "./globals/sizes";
 import { FONT_STYLE, STYLES } from "./globals/styles";
 import { dragEntityToMap } from "./interactions";
@@ -60,13 +63,17 @@ const drawMenuButtonUi = (
 };
 
 export const setupMenuUI = (): void => {
-  const allFactories = [...OSCILLATOR_FACTORIES, ...INSTRUMENT_FACTORIES];
-  [...OSCILLATOR_LIST, ...INSTRUMENT_LIST].forEach((entity, i) => {
+  const allEntities = [...OSCILLATOR_LIST, ...INSTRUMENT_LIST];
+  console.log(allEntities);
+  allEntities.forEach((entity, i) => {
+    const id = entity.id as OscillatorIds | InstrumentId;
+    const name = entity.name;
     const button = document.createElement("button");
     const canvas = document.createElement("canvas");
     button.append(canvas);
-    // button.disabled = true;
-    button.id = entity.id;
+    button.disabled = !DEBUG;
+    button.id = id;
+    console.log(id);
 
     // appends button to it's corresponding <div /> in the menu
     const type = entity.id.substr(0, 2);
@@ -81,12 +88,16 @@ export const setupMenuUI = (): void => {
     button.onclick = (e: MouseEvent | TouchEvent) => {
       e.stopPropagation();
       toggleMenu();
-      dragEntityToMap(entity, allFactories[i]);
+      dragEntityToMap(
+        allEntities[i],
+        name === "instrument"
+          ? INSTRUMENT_FACTORIES[id as InstrumentId]
+          : OSCILLATOR_FACTORIES[id as OscillatorIds]
+      );
     };
 
     const observer = new ResizeObserver(() => {
       clearCanvasAndState(canvas);
-      console.log(entity.name);
       drawMenuButtonUi(canvas, entity);
     });
 

@@ -6,7 +6,7 @@ export class SquareOscillator2 extends SquareOscillator {
   constructor(args: ConstructorParameters<typeof SquareOscillator>[0] = {}) {
     super(args);
     this.interval = DURATIONS.EIGHTH;
-    this.id = "so1";
+    this.id = "so2";
     this.cost = 10000;
     this.color = COLORS.HOT_GREEN;
     this.sequence = [

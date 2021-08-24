@@ -1,16 +1,15 @@
 import { Entity, EntityArgs } from "./Entity";
 import { AnyInstrument } from "./instruments/factories";
 import { Instrument } from "./instruments/Instrument";
-import { AnyOscillator, OSCILLATOR_LIST } from "./oscillators/factories";
+import { AnyOscillator } from "./oscillators/factories";
 import { CanvasCoordinates } from "../core/Coords";
 import { Vector2, Vector2Args } from "../core/Vector2";
 import { AUDIO } from "../globals/audio";
 import { CANVAS_CONTEXTS } from "../globals/dom";
-import { ENTITY_STATE, STATS } from "../globals/game";
+import { ENTITY_STATE } from "../globals/game";
 import { ENTITY_ARRAY_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals/sizes";
 import { EntityArrayElement, ENTITY_ARRAY } from "../index";
 import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
-import { MENU_VISIBLE } from "../utils/dom";
 import {
   drawGameStats,
   drawInstruments,
@@ -101,9 +100,8 @@ export class Camera extends Entity {
     this.applyToEntityArray((mapEntity, i, j) => {
       const { stateEndsTime, entity, state } = mapEntity;
       if (entity?.name === "instrument") {
-        // if true, a note is played
-        if (stateEndsTime > AUDIO.context.currentTime && state === ENTITY_STATE.PLAYING) {
-          // draw the increase
+        // draw the increase
+        if (state === ENTITY_STATE.PLAYING) {
           drawNoteIncrease(
             CANVAS_CONTEXTS.stats,
             this.coords,
@@ -111,18 +109,6 @@ export class Camera extends Entity {
             entityArrayToScreen.y(j),
             (entity as Instrument).notes
           );
-
-          // update enabled / disabled based on cost and available notes
-          if (MENU_VISIBLE) {
-            OSCILLATOR_LIST.forEach((oscillator) => {
-              const button = document.getElementById(oscillator.id) as HTMLButtonElement;
-              if (oscillator.cost < STATS.notes) {
-                button.disabled = false;
-              } else {
-                button.disabled = true;
-              }
-            });
-          }
         }
 
         // change state if stateEndsTime has elapsed
@@ -139,7 +125,6 @@ export class Camera extends Entity {
     drawInstruments();
 
     // render the preview entity if applicable
-    console.log(this.previewEntity);
     this.previewEntity?.render();
   }
 }

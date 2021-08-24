@@ -59,7 +59,6 @@ export class Instrument extends MapEntity {
         false ||
         Boolean(ENTITY_ARRAY[arrX + sx][arrY + sy].entity)
     );
-    console.log(isInView, spaceIsTaken, isBlocked, adjacentSpacesAreBlocked);
     return isInView && !spaceIsTaken && !isBlocked && !adjacentSpacesAreBlocked;
   }
 

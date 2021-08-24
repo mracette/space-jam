@@ -9,7 +9,7 @@ import { nextSubdivision } from "../../utils/audio";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import { drawTile } from "../../utils/drawing";
 import { lerp } from "../../utils/math";
-import { Instrument } from "../instruments/Instrument";
+import { AnyInstrument } from "../instruments/factories";
 import { MapEntity } from "../MapEntity";
 
 export class Oscillator extends MapEntity {
@@ -136,9 +136,11 @@ export class Oscillator extends MapEntity {
   createRepeatingEvents(): void {
     const entityArrayX = mapToEntityArray.x(this.position.x);
     const entityArrayY = mapToEntityArray.y(this.position.y);
-    const cyclePositionIndex = Math.ceil(this.getCyclePosition() * this.sequence.length);
+    console.log(this.getCyclePosition(), this.sequence.length);
+    const cyclePositionIndex = Math.ceil(
+      Math.max(this.getCyclePosition() || 0.1) * this.sequence.length
+    );
     const nextInterval = nextSubdivision(this.interval);
-
     for (let i = 0; i < this.sequence.length; i++) {
       const nextIntervalSequence = nextInterval + i * this.interval;
       const sequenceIndex = (i + cyclePositionIndex) % this.sequence.length;
@@ -147,12 +149,13 @@ export class Oscillator extends MapEntity {
         ENTITY_ARRAY[entityArrayX + sequenceEntry[0]][entityArrayY + sequenceEntry[1]];
       this.repeatingEvents.push(
         SCHEDULER.scheduleRepeating(nextIntervalSequence, this.duration, () => {
-          if (mapEntity.entity && mapEntity.state !== ENTITY_STATE.PLAYING) {
+          if (
+            mapEntity?.entity?.name === "instrument" &&
+            mapEntity.state !== ENTITY_STATE.PLAYING
+          ) {
             mapEntity.state = ENTITY_STATE.PLAYING;
             mapEntity.stateEndsTime = AUDIO.context.currentTime + DURATIONS.QUARTER * 0.9;
-            if (mapEntity?.entity.name === "instrument") {
-              STATS.notes += (mapEntity.entity as Instrument).notes;
-            }
+            STATS.notes += (mapEntity.entity as AnyInstrument).notes;
           }
         })
       );

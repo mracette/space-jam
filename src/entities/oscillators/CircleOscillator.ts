@@ -10,7 +10,17 @@ export class CircleOscillator extends Oscillator {
 
   constructor(args: ConstructorParameters<typeof Oscillator>[0] = {}) {
     super(args);
-    this.radius = 1;
+  }
+
+  init(): void {
+    this.sequence = [
+      [0, this.radius],
+      [this.radius, 0],
+      [0, -this.radius],
+      [-this.radius, 0]
+    ];
+    this.duration = this.interval * this.sequence.length;
+    super.init();
   }
 
   renderBaseShape(

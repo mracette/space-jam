@@ -5,6 +5,12 @@ export const enum SAMPLE_RATE {
   VALUE = 44100
 }
 
+export const enum REVERB_TIME {
+  VALUE = 2
+}
+
+export const MIXOLYDIAN_SCALE = [0, 4, 5, 7, 10];
+
 export const AUDIO = new AudioManager();
 
 export const SCHEDULER = new Scheduler();

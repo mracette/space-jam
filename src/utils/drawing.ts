@@ -128,17 +128,24 @@ export const drawNoteIncrease = (
   cy: number,
   amount: number
 ): void => {
-  const fontSize = coords.width(0.035);
+  const fontSize = coords.width(0.02);
   const tileSize = coords.width(TILE_DIMENSIONS.SIZE);
+  ctx.fillStyle = "black";
   ctx.globalAlpha = 0.5;
   ctx.beginPath();
-  ctx.arc(cx + tileSize / 2, cy + tileSize / 2, tileSize / 2, 0, TAU);
-  ctx.fill();
+  // ctx.arc(cx + tileSize / 2, cy + tileSize / 2, tileSize / 2, 0, TAU);
+  // ctx.fill();
   ctx.globalAlpha = 1;
   ctx.font = `${fontSize}px sans-serif`;
-  ctx.fillStyle = COLORS.WHITE;
+  ctx.textAlign = "center";
+  // ctx.fillStyle = COLORS.WHITE;
   const text = "+" + amount;
-  ctx.fillText(text, cx, cy + fontSize);
+  const metrics = ctx.measureText(text);
+  ctx.fillText(
+    text,
+    cx + tileSize / 2,
+    cy + tileSize / 2 + metrics.actualBoundingBoxAscent / 2
+  );
 };
 
 export const drawTile = (

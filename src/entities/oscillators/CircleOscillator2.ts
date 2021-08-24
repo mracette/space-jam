@@ -7,15 +7,9 @@ export class CircleOscillator2 extends CircleOscillator {
     super(args);
     this.id = "co2";
     this.cost = 250;
+    this.radius = 2;
     this.interval = DURATIONS.HALF;
     this.color = COLORS.HOT_GREEN;
-    this.sequence = [
-      [0, 2],
-      [2, 0],
-      [0, -2],
-      [-2, 0]
-    ];
-    this.duration = this.interval * this.sequence.length;
     this.init();
   }
 }

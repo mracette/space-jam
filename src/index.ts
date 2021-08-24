@@ -8,10 +8,11 @@ import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { AnyOscillator } from "./entities/oscillators/factories";
 import { initializeEventListeners } from "./events";
 import { ELEMENTS } from "./globals/dom";
-import { ENTITY_STATE } from "./globals/game";
+import { ENTITY_STATE, STATS } from "./globals/game";
 import { ENTITY_ARRAY_DIMENSIONS } from "./globals/sizes";
 import { setupBaseStyles, setupMenuUI } from "./setup";
 
+import { MENU_VISIBLE, updateButtonDisabled } from "./utils/dom";
 // @ts-ignore
 import * as Stats from "stats.js";
 
@@ -33,10 +34,10 @@ initializeEventListeners();
 setupMenuUI();
 setupBaseStyles();
 
-new Basic3({ x: 1, y: 1 });
-new Basic2({ x: -3, y: 3 });
-new Basic1({ x: -3, y: -3 });
-new CircleOscillator1({ x: -1, y: 0 });
+new Basic1({ x: 1, y: 0 });
+// new Basic2({ x: -3, y: 3 });
+// new Basic1({ x: -3, y: -3 });
+new CircleOscillator1({ x: 0, y: 0 });
 
 const stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -44,9 +45,16 @@ document.body.appendChild(stats.dom);
 stats.dom.style.width = "unset";
 stats.dom.style.height = "unset";
 
+let prevNotes = STATS.notes;
+
 const main = () => {
   stats.begin();
   CAMERA.render();
+  if (MENU_VISIBLE && STATS.notes !== prevNotes) {
+    console.log("update");
+    updateButtonDisabled();
+  }
+  prevNotes = STATS.notes;
   stats.end();
   window.requestAnimationFrame(main);
 };

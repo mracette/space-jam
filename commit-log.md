@@ -151,3 +151,12 @@
 | Compressed Build (Adv Zip) | 8.06 kb | 8254 | -4% |
 
 
+**cleanup and begin audio work, opting for inheritence again** - *Sun, 22 Aug 2021 22:58:35 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 39.13 kb | 40069 | NA |
+| Build | 34.67 kb | 35497 | -11% |
+| Compressed Build | 8.45 kb | 8657 | -76% |
+| Compressed Build (Adv Zip) | 8.09 kb | 8287 | -4% |
+
+
