@@ -205,3 +205,12 @@
 | Compressed Build (Adv Zip) | 8.12 kb | 8313 | -3% |
 
 
+**update typescript targets** - *Tue, 24 Aug 2021 04:03:28 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.50 kb | 44544 | NA |
+| Build | 26.96 kb | 27607 | -38% |
+| Compressed Build | 8.58 kb | 8790 | -68% |
+| Compressed Build (Adv Zip) | 8.27 kb | 8473 | -4% |
+
+
