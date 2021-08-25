@@ -37,10 +37,13 @@ export const initializeEventListeners = (): void => {
 
   // helps with memory to keep these outside the listener
   const samples = 4;
-  const velocityX: number[] = [].fill(0, 0, samples);
-  const velocityY: number[] = [].fill(0, 0, samples);
+  const velocityX: number[] = [].fill(null, 0, samples);
+  const velocityY: number[] = [].fill(null, 0, samples);
 
   const onMouseOrTouchDown = (e: MouseEvent | TouchEvent) => {
+    // prevents scrolling on mobile
+    e.preventDefault();
+
     AUDIO.context.resume();
 
     if (!MENU_VISIBLE) {
@@ -72,8 +75,10 @@ export const initializeEventListeners = (): void => {
         document.removeEventListener("mousemove", onMouseOrTouchMove);
         document.removeEventListener("touchmove", onMouseOrTouchMove);
         document.addEventListener("mousemove", onMouseMove);
-        CAMERA.velocity.x = velocityX.reduce((a, b) => a + b) / samples;
-        CAMERA.velocity.y = velocityY.reduce((a, b) => a + b) / samples;
+        const validX = velocityX.filter((n) => Boolean(n));
+        const validY = velocityY.filter((n) => Boolean(n));
+        CAMERA.velocity.x = validX.reduce((a, b) => a + b) / validX.length;
+        CAMERA.velocity.y = validY.reduce((a, b) => a + b) / validY.length;
       };
 
       // bind mouse and touch listeners and clean up at the end of the interaction
@@ -107,4 +112,6 @@ export const initializeEventListeners = (): void => {
 
   const observer = new ResizeObserver(onResize);
   observer.observe(ELEMENTS.canvasTiles);
+  window.addEventListener("resize", onResize);
+  window.addEventListener("orientationchange", onResize);
 };

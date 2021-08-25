@@ -52,15 +52,12 @@ const begin = () => {
   const render = (time: number) => {
     const delta = (time - prevTime) / 1000;
     prevTime = time;
+    prevNotes = STATS.notes;
     // stats.begin();
-    if (CAMERA.velocity.sum()) {
-      CAMERA.move(CAMERA.velocity.x, CAMERA.velocity.y, delta);
-    }
-    CAMERA.render();
+    CAMERA.render(delta);
     if (MENU_VISIBLE && STATS.notes !== prevNotes) {
       updateButtonDisabled();
     }
-    prevNotes = STATS.notes;
     // stats.end();
     window.requestAnimationFrame(render);
   };
@@ -71,4 +68,5 @@ const begin = () => {
   window.requestAnimationFrame(render);
 };
 
-window.addEventListener("DOMContentLoaded", begin);
+// window.addEventListener("DOMContentLoaded", begin);
+begin();

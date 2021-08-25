@@ -115,7 +115,10 @@ export class Camera extends Entity {
     }
   }
 
-  render(): void {
+  render(delta: number): void {
+    if (this.velocity.sum()) {
+      this.move(this.velocity.x, this.velocity.y, delta);
+    }
     drawGameStats();
     this.applyToEntityArray((mapEntity, i, j) => {
       const { stateEndsTime, entity, state } = mapEntity;

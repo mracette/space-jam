@@ -25,3 +25,6 @@ upgrades
 items
 * speed up generators in one area
 * double the notes from generators in one area
+
+mobile
+* toggle fullscreen
