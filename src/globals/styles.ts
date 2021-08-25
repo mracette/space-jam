@@ -5,11 +5,12 @@ export const FONT_STYLE = '"Verdana", sans-serif';
 
 export const STYLES = {
   menuButton: {
-    margin: "20px",
+    marginBottom: "5vh",
+    cursor: "pointer",
     border: "1px solid white",
     position: "absolute",
-    width: "60px",
-    height: "60px",
+    width: "10vh",
+    height: "10vh",
     borderRadius: "50%",
     background: "rgba(255, 255, 255, 0.1)",
     fontSize: "24px",

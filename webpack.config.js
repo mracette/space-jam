@@ -40,7 +40,8 @@ const config = {
   },
   devServer: {
     open: true,
-    host: "localhost"
+    host: "127.0.0.1",
+    disableHostCheck: true
   },
   plugins: [
     new CleanWebpackPlugin({

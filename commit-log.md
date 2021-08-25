@@ -259,3 +259,46 @@
 | Compressed Build (Adv Zip) | 6.70 kb | 6859 | -3% |
 
 
+**overscroll-behavior: none
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Tue Aug 24 10:19:56 2021 -0500
+#
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   build-min/build.zip
+#	modified:   build/index.html
+#	modified:   commit-log.md
+#	modified:   index.html
+#** - *Tue, 24 Aug 2021 15:22:22 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.50 kb | 44546 | NA |
+| Build | 20.17 kb | 20658 | -54% |
+| Compressed Build | 6.93 kb | 7096 | -66% |
+| Compressed Build (Adv Zip) | 6.70 kb | 6859 | -3% |
+
+
+**overscroll-behavior: none** - *Wed, 25 Aug 2021 02:46:42 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.57 kb | 44617 | NA |
+| Build | 20.36 kb | 20851 | -53% |
+| Compressed Build | 7.01 kb | 7174 | -66% |
+| Compressed Build (Adv Zip) | 6.77 kb | 6933 | -3% |
+
+
+**beginning adjustments for mobile** - *Wed, 25 Aug 2021 02:49:28 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 43.57 kb | 44617 | NA |
+| Build | 20.36 kb | 20851 | -53% |
+| Compressed Build | 7.01 kb | 7174 | -66% |
+| Compressed Build (Adv Zip) | 6.77 kb | 6933 | -3% |
+
+

@@ -71,4 +71,4 @@ const begin = () => {
   window.requestAnimationFrame(render);
 };
 
-begin();
+window.addEventListener("DOMContentLoaded", begin);

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+remote="$1"
+url="$2"
+
+z40=0000000000000000000000000000000000000000
+
+git add ../commit-log.md;
+git add ../build-min;
+git commit --amend --no-edit;
+
+exit 0

@@ -14,7 +14,7 @@
         margin: 0;
         width: 100%;
         height: 100%;
-        overscroll-behavior: none;
+        font-size: 1vh;
     }
 
     :disabled {
@@ -25,6 +25,12 @@
         position: absolute;
         top: 0;
         left: 0;
+        overscroll-behavior: none;
+    }
+
+    body {
+        /* mimics 'overscroll-behavior: none' on ios safari */
+        position: fixed
     }
 
     .flex {
