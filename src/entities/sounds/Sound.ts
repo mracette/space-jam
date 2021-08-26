@@ -9,4 +9,5 @@ export class Sound {
   envelop: EnvelopeValue[];
   lpFilterEnvelope: EnvelopeValue[];
   constructor(args: any) {}
+  play(time: number, note: number) {}
 }

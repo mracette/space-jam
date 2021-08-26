@@ -2,16 +2,11 @@ import { CAMERA } from "./index";
 import { INSTRUMENT_CACHE } from "./entities/instruments/cache";
 import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
-import { MOUSE_POSITION } from "./globals/sizes";
+import { MOUSE_POSITION, TILE_DIMENSIONS } from "./globals/sizes";
 import { screenToMap } from "./utils/conversions";
 import { MENU_VISIBLE, toggleMenu } from "./utils/dom";
 import { drawFog, drawStarPattern } from "./utils/drawing";
-import {
-  getEventType,
-  getMouseOrTouchPosition,
-  resizeWithAspectRatio,
-  calculatePositionDelta
-} from "./utils/events";
+import { resizeWithAspectRatio } from "./utils/events";
 
 export const initializeEventListeners = (): void => {
   [
@@ -28,76 +23,49 @@ export const initializeEventListeners = (): void => {
 
   ELEMENTS.menuButton.onclick = toggleMenu;
 
-  const onMouseMove = (e: MouseEvent) => {
+  const updateMousePosition = (e: MouseEvent) => {
     MOUSE_POSITION.screenX = e.x;
     MOUSE_POSITION.screenY = e.y;
     MOUSE_POSITION.mapX = screenToMap.x(e.x);
     MOUSE_POSITION.mapY = screenToMap.y(e.y);
   };
 
-  // helps with memory to keep these outside the listener
-  const samples = 4;
-  const velocityX: number[] = [].fill(null, 0, samples);
-  const velocityY: number[] = [].fill(null, 0, samples);
-
-  const onMouseOrTouchDown = (e: MouseEvent | TouchEvent) => {
-    // prevents scrolling on mobile
-    e.preventDefault();
-
+  const onMouseOrTouchDown = (e: MouseEvent) => {
     AUDIO.context.resume();
+    const tileSizePixels = ELEMENTS.canvasTiles.clientWidth * TILE_DIMENSIONS.SIZE;
 
     if (!MENU_VISIBLE) {
-      const { x: xStart, y: yStart } = getMouseOrTouchPosition(e);
-      const type = getEventType(e);
-
-      const onMouseOrTouchMove = (e: MouseEvent | TouchEvent) => {
-        const { x, y } = calculatePositionDelta(
-          e,
-          ELEMENTS.canvasTiles.clientWidth,
-          xStart,
-          ELEMENTS.canvasTiles.clientHeight,
-          yStart
+      let xStart = e.clientX;
+      let yStart = e.clientY;
+      const { x: xCameraStart, y: yCameraStart } = CAMERA.position;
+      console.log(xCameraStart);
+      const updateCameraPosition = (e: MouseEvent) => {
+        const dx = e.clientX - xStart;
+        const dy = e.clientY - yStart;
+        console.log(dx);
+        CAMERA.position.set(
+          xCameraStart - dx / tileSizePixels,
+          yCameraStart + dy / tileSizePixels
         );
-
-        if ((velocityX.length = samples)) {
-          velocityX.shift();
-        }
-        if ((velocityY.length = samples)) {
-          velocityY.shift();
-        }
-        velocityX.push(x);
-        velocityY.push(y);
-
-        CAMERA.move(x, y);
+        CAMERA.updateViewport();
       };
 
       const cleanUp = () => {
-        document.removeEventListener("mousemove", onMouseOrTouchMove);
-        document.removeEventListener("touchmove", onMouseOrTouchMove);
-        document.addEventListener("mousemove", onMouseMove);
-        const validX = velocityX.filter((n) => Boolean(n));
-        const validY = velocityY.filter((n) => Boolean(n));
-        CAMERA.velocity.x = validX.reduce((a, b) => a + b) / validX.length;
-        CAMERA.velocity.y = validY.reduce((a, b) => a + b) / validY.length;
+        document.removeEventListener("mousemove", updateCameraPosition);
+        document.addEventListener("mousemove", updateMousePosition);
       };
 
       // bind mouse and touch listeners and clean up at the end of the interaction
-      if (type === "mouse") {
-        document.addEventListener("mousemove", onMouseOrTouchMove);
-        document.addEventListener("mouseup", cleanUp, { once: true });
-      } else {
-        document.addEventListener("touchmove", onMouseOrTouchMove);
-        document.addEventListener("touchend", cleanUp, { once: true });
-      }
+      document.addEventListener("mousemove", updateCameraPosition);
+      document.addEventListener("mouseup", cleanUp, { once: true });
 
       // remove mouse listener while mouse/touch down
-      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mousemove", updateMousePosition);
     }
   };
 
-  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mousemove", updateMousePosition);
   document.addEventListener("mousedown", onMouseOrTouchDown);
-  document.addEventListener("touchstart", onMouseOrTouchDown);
 
   const onResize = () => {
     drawStarPattern();
@@ -107,7 +75,7 @@ export const initializeEventListeners = (): void => {
       cache.offscreen.needsUpdate = true;
     });
     // runs animations pegged to camera movement
-    CAMERA.move(0, 0);
+    CAMERA.updateViewport();
   };
 
   const observer = new ResizeObserver(onResize);

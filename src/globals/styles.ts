@@ -18,7 +18,7 @@ export const STYLES = {
     transitionDuration: "250ms"
   },
   menu: {
-    visibility: DEBUG ? "" : "hidden",
+    visibility: "hidden",
     background: "rgba(0,0,0,.75)",
     justifyContent: "flex-start"
   },
@@ -27,6 +27,9 @@ export const STYLES = {
   },
   canvasPre: {
     background: COLORS.BACKGROUND
+  },
+  canvasStats: {
+    cursor: "grab"
   },
   co: {
     width: "unset"

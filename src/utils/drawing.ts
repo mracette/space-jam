@@ -21,34 +21,32 @@ export const drawStarPattern = (
   hueStart = 50,
   hueEnd = 300
 ): void => {
-  const ctx = canvas.getContext("2d");
-  const designRadius = Math.sqrt((Math.max(canvas.width, canvas.height) / 2) ** 2 * 2);
-  const ringDistance = designRadius / 150;
-  const numRings = designRadius / ringDistance;
-  const dotSize = ringDistance / 5;
-  const cx = canvas.width / 2;
-  const cy = canvas.height / 2;
-
-  for (let i = 0; i < numRings; i++) {
-    const ringRadius = i * ringDistance;
-    const circumference = 2 * Math.PI * ringRadius;
-    const numDots = Math.round(circumference / (dotSize * 4));
-
-    for (let j = 0; j < numDots; j++) {
-      const rotation = j * (TAU / numDots);
-      const rotationProportion = rotation / TAU;
-      const rotationProportionAdj = rotationProportion + Math.random() / 2;
-      const { x, y } = rotatePoint(cx + ringRadius, cy, cx, cy, rotation);
-      ctx.fillStyle = `hsl(${lerp(
-        hueStart,
-        hueEnd,
-        rotationProportionAdj % 1
-      )}, 50%, 50%)`;
-      ctx.beginPath();
-      ctx.arc(x, y, dotSize, 0, TAU);
-      ctx.fill();
-    }
-  }
+  // const ctx = canvas.getContext("2d");
+  // const designRadius = Math.sqrt((Math.max(canvas.width, canvas.height) / 2) ** 2 * 2);
+  // const ringDistance = designRadius / 150;
+  // const numRings = designRadius / ringDistance;
+  // const dotSize = ringDistance / 5;
+  // const cx = canvas.width / 2;
+  // const cy = canvas.height / 2;
+  // for (let i = 0; i < numRings; i++) {
+  //   const ringRadius = i * ringDistance;
+  //   const circumference = 2 * Math.PI * ringRadius;
+  //   const numDots = Math.round(circumference / (dotSize * 4));
+  //   for (let j = 0; j < numDots; j++) {
+  //     const rotation = j * (TAU / numDots);
+  //     const rotationProportion = rotation / TAU;
+  //     const rotationProportionAdj = rotationProportion + Math.random() / 2;
+  //     const { x, y } = rotatePoint(cx + ringRadius, cy, cx, cy, rotation);
+  //     ctx.fillStyle = `hsl(${lerp(
+  //       hueStart,
+  //       hueEnd,
+  //       rotationProportionAdj % 1
+  //     )}, 50%, 50%)`;
+  //     ctx.beginPath();
+  //     ctx.arc(x, y, dotSize, 0, TAU);
+  //     ctx.fill();
+  //   }
+  // }
 };
 
 export const drawOutline = (

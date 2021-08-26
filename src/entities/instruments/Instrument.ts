@@ -12,6 +12,7 @@ import {
   findBoundingBoxFromOutline
 } from "../../utils/geometry";
 import { MapEntity } from "../MapEntity";
+import { Sound } from "../sounds/Sound";
 
 export class Instrument extends MapEntity {
   cost: number;
@@ -24,6 +25,7 @@ export class Instrument extends MapEntity {
   boundingBoxWidth: number;
   boundingBoxHeight: number;
   cache: CacheItem;
+  sound: Sound;
   constructor(args: ConstructorParameters<typeof MapEntity>[0]) {
     super(args);
     this.name = "instrument";

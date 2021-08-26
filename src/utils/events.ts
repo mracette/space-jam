@@ -10,38 +10,6 @@ export const getEventType = (e: MouseEvent | TouchEvent): "touch" | "mouse" | "c
   }
 };
 
-export const getMouseOrTouchPosition = (
-  event: MouseEvent | TouchEvent | PointerEvent
-): { x: number; y: number } => {
-  let x: number;
-  let y: number;
-  const type = getEventType(event);
-  if (type === "touch") {
-    const touchEvent = event as TouchEvent;
-    x = touchEvent?.touches[0].clientX;
-    y = touchEvent?.touches[0].clientY;
-  } else if (type === "mouse" || type === "click") {
-    const mouseEvent = event as MouseEvent;
-    x = mouseEvent.pageX;
-    y = mouseEvent.pageY;
-  }
-  return { x, y };
-};
-
-export const calculatePositionDelta = (
-  event: MouseEvent | TouchEvent,
-  width: number,
-  startX: number,
-  height: number,
-  startY: number
-): { x: number; y: number } => {
-  const { x, y } = getMouseOrTouchPosition(event);
-  return {
-    x: (x - startX) / width,
-    y: (y - startY) / height
-  };
-};
-
 export const resizeWithAspectRatio = (element: HTMLElement | HTMLCanvasElement): void => {
   const parent = element.parentElement;
   const resize = () => {

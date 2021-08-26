@@ -1,4 +1,4 @@
-export const DEBUG = false;
+export const DEBUG = true;
 
 export const enum ENTITY_STATE {
   PLAYING = "playing",
@@ -8,7 +8,3 @@ export const enum ENTITY_STATE {
 export const STATS = {
   notes: 0
 };
-
-export const enum DECELERATION {
-  VALUE = 0.5
-}

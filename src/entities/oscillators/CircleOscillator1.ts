@@ -1,6 +1,7 @@
 import { CircleOscillator } from "./CircleOscillator";
 import { DURATIONS } from "../../globals/audio";
 import { COLORS } from "../../globals/colors";
+import { Organ } from "../sounds/synth-sounds/Organ";
 
 export class CircleOscillator1 extends CircleOscillator {
   constructor(args: ConstructorParameters<typeof CircleOscillator>[0] = {}) {

@@ -7,8 +7,9 @@ import { AnyInstrument } from "./entities/instruments/factories";
 import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { AnyOscillator } from "./entities/oscillators/factories";
 import { initializeEventListeners } from "./events";
+import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
-import { ENTITY_STATE, STATS } from "./globals/game";
+import { DEBUG, ENTITY_STATE, STATS } from "./globals/game";
 import { ENTITY_ARRAY_DIMENSIONS } from "./globals/sizes";
 import { setupBaseStyles, setupMenuUI } from "./setup";
 
@@ -30,14 +31,15 @@ export const ENTITY_ARRAY: EntityArrayElement[][] = Array.from({
 export const COORDS = new CanvasCoordinates(ELEMENTS.canvasTiles);
 export const CAMERA = new Camera({ coords: COORDS });
 
-const begin = () => {
+const begin = async () => {
+  await AUDIO.init();
   initializeEventListeners();
   setupMenuUI();
   setupBaseStyles();
+  updateButtonDisabled();
+  CAMERA.updateViewport();
 
   new Basic1({ x: 1, y: 0 });
-  // new Basic2({ x: -3, y: 3 });
-  // new Basic1({ x: -3, y: -3 });
   new CircleOscillator1({ x: 0, y: 0 });
 
   // const stats = new Stats();
@@ -47,23 +49,20 @@ const begin = () => {
   // stats.dom.style.height = "unset";
 
   let prevNotes = STATS.notes;
-  let prevTime = 0;
+  // let prevTime = 0;
 
   const render = (time: number) => {
-    const delta = (time - prevTime) / 1000;
-    prevTime = time;
+    // const delta = (time - prevTime) / 1000;
+    // prevTime = time;
     prevNotes = STATS.notes;
     // stats.begin();
-    CAMERA.render(delta);
+    CAMERA.render();
     if (MENU_VISIBLE && STATS.notes !== prevNotes) {
       updateButtonDisabled();
     }
     // stats.end();
     window.requestAnimationFrame(render);
   };
-
-  // runs animations pegged to camera movement
-  CAMERA.move(0, 0);
 
   window.requestAnimationFrame(render);
 };

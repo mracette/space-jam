@@ -1,4 +1,5 @@
 import { Instrument } from "./Instrument";
+import { Organ } from "../sounds/synth-sounds/Organ";
 
 export class Basic1 extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
@@ -12,6 +13,7 @@ export class Basic1 extends Instrument {
       [1, -1],
       [0, -1]
     ];
+    this.sound = new Organ();
     this.init();
   }
 }

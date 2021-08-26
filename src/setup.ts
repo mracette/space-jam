@@ -70,7 +70,6 @@ export const setupMenuUI = (): void => {
     const button = document.createElement("button");
     const canvas = document.createElement("canvas");
     button.append(canvas);
-    button.disabled = !DEBUG;
     button.id = id;
 
     // appends button to it's corresponding <div /> in the menu

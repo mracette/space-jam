@@ -3,7 +3,7 @@ import { OSCILLATOR_LIST } from "../entities/oscillators/factories";
 import { ELEMENTS } from "../globals/dom";
 import { DEBUG, STATS } from "../globals/game";
 
-export let MENU_VISIBLE = DEBUG;
+export let MENU_VISIBLE = false;
 
 export const toggleMenu = (): void => {
   if (ELEMENTS.menu.style.visibility === "hidden") {
@@ -32,6 +32,7 @@ export const abbreviateNumber = (n: number): string => {
 };
 
 export const updateButtonDisabled = (): void => {
+  if (DEBUG) return;
   [...INSTRUMENT_LIST, ...OSCILLATOR_LIST].forEach((entity) => {
     const button = document.getElementById(entity.id) as HTMLButtonElement;
     if (entity.cost <= STATS.notes) {
