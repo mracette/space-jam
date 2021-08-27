@@ -23,7 +23,9 @@ export class AudioManager {
   static reverbTime = 2;
   static sr = 44100;
   constructor() {
-    this.context = new (window.AudioContext || window.webkitAudioContext)();
+    this.context = new (window.AudioContext || window.webkitAudioContext)({
+      sampleRate: SAMPLE_RATE.VALUE
+    });
     this.offline = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(
       2,
       SAMPLE_RATE.VALUE * REVERB_TIME.VALUE,

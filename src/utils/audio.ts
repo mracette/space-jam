@@ -18,9 +18,9 @@ export const applyEnvelop = (
     param.linearRampToValueAtTime(current, startTime);
     envelop.forEach(({ value, time, exp = false }) => {
       if (exp) {
-        param.exponentialRampToValueAtTime(current * value, startTime + time);
+        param.exponentialRampToValueAtTime(value, startTime + time);
       } else {
-        param.linearRampToValueAtTime(current * value, startTime + time);
+        param.linearRampToValueAtTime(value, startTime + time);
       }
     });
   }

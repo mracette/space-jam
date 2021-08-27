@@ -1,7 +1,9 @@
-import { Organ } from "../src/entities/sounds/synth-sounds/Organ";
-import { TinCan } from "../src/entities/sounds/synth-sounds/TinCan";
-import { TinSaw } from "../src/entities/sounds/synth-sounds/TinSaw";
-import { TinSquare } from "../src/entities/sounds/synth-sounds/TinSquare";
+import { LongSaw } from "../src/entities/sounds/harmonic-synth/LongSaw";
+import { Organ } from "../src/entities/sounds/harmonic-synth/Organ";
+import { TinSaw } from "../src/entities/sounds/harmonic-synth/TinSaw";
+import { TinSine } from "../src/entities/sounds/harmonic-synth/TinSine";
+import { TinSquare } from "../src/entities/sounds/harmonic-synth/TinSquare";
+import { Eight0Eight } from "../src/entities/sounds/waveform-synth/808";
 import { AUDIO, MIXOLYDIAN_SCALE } from "../src/globals/audio";
 
 const testInstruments = [
@@ -11,15 +13,23 @@ const testInstruments = [
   },
   {
     name: "tin-can",
-    instrument: new TinCan()
+    instrument: new TinSine()
   },
   {
     name: "tin-square",
     instrument: new TinSquare()
   },
   {
-    name: "tin-square",
+    name: "tin-saw",
     instrument: new TinSaw()
+  },
+  {
+    name: "long-saw",
+    instrument: new LongSaw()
+  },
+  {
+    name: "808",
+    instrument: new Eight0Eight()
   }
 ];
 

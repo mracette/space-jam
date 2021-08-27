@@ -1,5 +1,7 @@
 import { Instrument } from "./Instrument";
-import { Organ } from "../sounds/synth-sounds/Organ";
+import { MIXOLYDIAN_SCALE } from "../../globals/audio";
+import { Organ } from "../sounds/harmonic-synth/Organ";
+import { TinSquare } from "../sounds/harmonic-synth/TinSquare";
 
 export class Basic1 extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
@@ -13,7 +15,7 @@ export class Basic1 extends Instrument {
       [1, -1],
       [0, -1]
     ];
-    this.sound = new Organ();
+    this.sound = new TinSquare({ note: MIXOLYDIAN_SCALE[0] });
     this.init();
   }
 }

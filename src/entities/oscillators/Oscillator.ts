@@ -156,11 +156,7 @@ export class Oscillator extends MapEntity {
             mapEntity.state = ENTITY_STATE.PLAYING;
             mapEntity.stateEndsTime = AUDIO.context.currentTime + DURATIONS.QUARTER * 0.9;
             STATS.notes += (mapEntity.entity as AnyInstrument).notes;
-            console.log((mapEntity.entity as AnyInstrument).sound);
-            (mapEntity.entity as AnyInstrument).sound.play(
-              AUDIO.context.currentTime,
-              MIXOLYDIAN_SCALE[Math.floor(Math.random() * MIXOLYDIAN_SCALE.length)]
-            );
+            (mapEntity.entity as AnyInstrument).sound.play(AUDIO.context.currentTime);
           }
         })
       );
