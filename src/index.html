@@ -2,29 +2,33 @@
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1.01'>
 <title>JS13k 2021</title>
 
-<body>
-    <div class="flex flex-centered fill-absolute">
+<body class="full">
+    <div class="full flex flex-centered fill-absolute">
         <canvas class="centered" id="canvas-pre"></canvas>
         <canvas class="centered" id="canvas-tiles"></canvas>
         <canvas class="centered" id="canvas-instruments"></canvas>
         <canvas class="centered" id="canvas-oscillators"></canvas>
         <canvas class="centered" id="canvas-post"></canvas>
         <canvas class="centered" id="canvas-stats"></canvas>
-        <div class="centered flex flex-centered" id="menu">
-            <div class="flex flex-col" id="menu-col">
-                <p style="height: unset;">Oscillators</p>
-                <div style="height: unset;" class="flex flex-centered">
-                    <div id="co" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
-                    <div id="to" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
-                    <div id="so" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
+        <div class="full centered flex flex-centered" id="menu">
+            <div class="full flex flex-col" id="menu-col">
+                <h1 class="mb-2 mt-2" style="height: unset;">Oscillators</h1>
+                <h2 class="mb-2" style="height: unset;">Use oscillators to play instruments</h2>
+                <div class="mb-5" style="height: unset;" class="flex flex-centered">
+                    <div id="co" class="full-w flex flex-row flex-centered"></div>
+                    <div id="to" class="full-w flex flex-row flex-centered"></div>
+                    <div id="so" class="full-w flex flex-row flex-centered"></div>
                 </div>
-                <p style="height: unset;">Instruments</p>
-                <div style="height: unset;" class="flex flex-centered">
-                    <div id="in" class="flex flex-col flex-centered" style="justify-content: flex-start;"></div>
+                <h1 class="mb-2" style="height: unset;">Instruments</h1>
+                <h2 class="mb-2" style="height: unset;">Use instruments to create sounds and collect notes</h2>
+                <div class="full" style="height: unset;" class="flex flex-centered">
+                    <div id="in" class="flex flex-row flex-centered">
+                        <p class="mb-2" style="height: unset;">Drums</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <button id="menu-button">
+        <button class="mb-5" id="menu-button">
             +
         </button>
     </div>

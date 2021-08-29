@@ -69,18 +69,13 @@ export const setupMenuUI = (): void => {
     const name = entity.name;
     const button = document.createElement("button");
     const canvas = document.createElement("canvas");
+    canvas.classList.add("full");
     button.append(canvas);
     button.id = id;
 
     // appends button to it's corresponding <div /> in the menu
     const type = entity.id.substr(0, 2);
     (ELEMENTS as any)[type].append(button);
-
-    Object.assign(button.style, {
-      width: "7.5vh",
-      height: "7.5vh",
-      background: COLORS.BACKGROUND
-    });
 
     button.onclick = (e: MouseEvent | TouchEvent) => {
       e.stopPropagation();
