@@ -1,16 +1,13 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
 const TerserPlugin = require("terser-webpack-plugin");
+
 const path = require("path");
 
 const isProduction = process.env.NODE_ENV === "production";
 const optimize = process.env.OPTIMIZE === "true";
 const designMode = process.env.DESIGN_MODE;
-
-const stylesHandler = "style-loader";
 
 let entry, template;
 
@@ -27,7 +24,7 @@ switch (designMode) {
   }
   default: {
     entry = "./src/index.ts";
-    template = "./index.html";
+    template = "./src/index.html";
     break;
   }
 }
@@ -65,7 +62,7 @@ const config = {
       },
       {
         test: /\.css$/i,
-        use: [stylesHandler, "css-loader"]
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,

@@ -1,3 +1,4 @@
+import "./styles.css";
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
 import { Basic3 } from "./entities/instruments/Basic3";
