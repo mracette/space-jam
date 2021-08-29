@@ -96,7 +96,7 @@ module.exports = () => {
               toplevel: true,
               properties: {
                 debug: !isProduction,
-                reserved: ["co", "to", "so", "t1"]
+                reserved: ["co", "to", "so", "in"]
               }
             }
           }

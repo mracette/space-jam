@@ -1,22 +1,20 @@
 import { Instrument } from "./Instrument";
+import { HiHat } from "../sounds/waveform-synth/HiHat";
 
-export class Basic3 extends Instrument {
+export class IHat extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
-    this.cost = 75;
+    this.display = "HiHat";
     this.id = "in3";
-    this.notes = 5;
+    this.cost = 5;
+    this.notes = 1;
     this.outline = [
-      [-1, 0],
       [0, 0],
-      [0, 1],
-      [2, 1],
-      [2, -1],
+      [1, 0],
       [1, -1],
-      [1, -2],
-      [-1, -2],
-      [-1, 0]
+      [0, -1]
     ];
+    this.sound = new HiHat({ note: 0 });
     this.init();
   }
 }

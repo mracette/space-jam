@@ -1,7 +1,6 @@
 import { Sound } from "../Sound";
 
-export class Eight0Eight extends Sound {
-  harmonics: number[];
+export class Kick extends Sound {
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
     this.noteAdj = -24;

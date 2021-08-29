@@ -11,7 +11,7 @@ export const ELEMENTS = {
   co: document.getElementById("co") as HTMLDivElement,
   to: document.getElementById("to") as HTMLDivElement,
   so: document.getElementById("so") as HTMLDivElement,
-  t1: document.getElementById("t1") as HTMLDivElement
+  in: document.getElementById("in") as HTMLDivElement
 };
 
 export const CANVAS_CONTEXTS = {

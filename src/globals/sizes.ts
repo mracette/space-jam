@@ -62,3 +62,8 @@ export const enum LINE_WIDTH {
   HALF = 0.003,
   DOUBLE = 0.012
 }
+
+export const enum FONT_SIZE {
+  VALUE = 0.035,
+  HALF = 0.0175
+}

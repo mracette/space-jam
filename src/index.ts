@@ -1,11 +1,12 @@
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
-import { Basic1 } from "./entities/instruments/Basic1";
-import { Basic2 } from "./entities/instruments/Basic2";
 import { Basic3 } from "./entities/instruments/Basic3";
 import { AnyInstrument } from "./entities/instruments/factories";
+import { IKick } from "./entities/instruments/IKick";
+import { ISnare } from "./entities/instruments/ISnare";
 import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { AnyOscillator } from "./entities/oscillators/factories";
+import { Snare } from "./entities/sounds/waveform-synth/Snare";
 import { initializeEventListeners } from "./events";
 import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
@@ -39,7 +40,8 @@ const begin = async () => {
   updateButtonDisabled();
   CAMERA.updateViewport();
 
-  new Basic1({ x: 1, y: 0 });
+  new IKick({ x: 1, y: 0 });
+  new ISnare({ x: -1, y: 0 });
   new CircleOscillator1({ x: 0, y: 0 });
 
   // const stats = new Stats();

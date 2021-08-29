@@ -15,6 +15,7 @@ import { MapEntity } from "../MapEntity";
 import { Sound } from "../sounds/Sound";
 
 export class Instrument extends MapEntity {
+  display: string;
   cost: number;
   notes: number;
   shape: number[][];
@@ -111,17 +112,16 @@ export class Instrument extends MapEntity {
 
     ctx.globalCompositeOperation = "source-over";
     ctx.stroke();
-
+    const cx = mapToScreen.x(this.position.x + 0.5);
+    const cy = mapToScreen.y(this.position.y - 0.5);
     ctx.fillStyle = COLORS.WHITE;
     ctx.beginPath();
-    ctx.arc(
-      mapToScreen.x(this.position.x + 0.5),
-      mapToScreen.y(this.position.y - 0.5),
-      COORDS.width(TILE_DIMENSIONS.QUARTER),
-      0,
-      TAU
-    );
+    ctx.arc(cx, cy, COORDS.width(TILE_DIMENSIONS.QUARTER), 0, TAU);
     ctx.fill();
     ctx.fillStyle = COLORS.BACKGROUND;
+
+    const label = this.display.substr(0, 1);
+    const metrics = ctx.measureText(label);
+    ctx.fillText(this.display.substr(0, 1), cx, cy + metrics.actualBoundingBoxAscent / 2);
   }
 }

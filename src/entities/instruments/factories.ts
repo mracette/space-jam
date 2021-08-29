@@ -1,12 +1,15 @@
-import { Basic1 } from "./Basic1";
-import { Basic2 } from "./Basic2";
 import { Basic3 } from "./Basic3";
+import { IHat } from "./IHat";
+import { IKick } from "./IKick";
 import { Instrument } from "./Instrument";
+import { ISnare } from "./ISnare";
+import { ITom } from "./ITom";
 
 export const INSTRUMENT_FACTORIES = {
-  t11: (args: ConstructorParameters<typeof Instrument>[0]): Basic1 => new Basic1(args),
-  t12: (args: ConstructorParameters<typeof Instrument>[0]): Basic2 => new Basic2(args),
-  t13: (args: ConstructorParameters<typeof Instrument>[0]): Basic3 => new Basic3(args)
+  in1: (args: ConstructorParameters<typeof Instrument>[0]): IKick => new IKick(args),
+  in2: (args: ConstructorParameters<typeof Instrument>[0]): ISnare => new ISnare(args),
+  in3: (args: ConstructorParameters<typeof Instrument>[0]): IHat => new IHat(args),
+  in4: (args: ConstructorParameters<typeof Instrument>[0]): ITom => new ITom(args)
 };
 
 export type InstrumentId = keyof typeof INSTRUMENT_FACTORIES;

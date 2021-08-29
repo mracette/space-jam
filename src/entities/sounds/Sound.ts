@@ -20,6 +20,7 @@ interface AudioSourceDefinition {
 }
 
 export interface EffectOptions {
+  baseVolume: number;
   baseReverb: number;
   // LP
   lpFrequency?: number;
@@ -51,6 +52,7 @@ export class Sound {
     this.noteAdj = 0;
     // these act as defaults
     this.effectOptions = {
+      baseVolume: 1,
       baseReverb: 0,
       lpFrequency: 20000,
       hpFrequency: 20,
@@ -62,7 +64,7 @@ export class Sound {
   }
 
   // eslint-disable-next-line
-  play(time: number, note?: number): void {
+  play(time: number, note: number = this.getNoteToPlay()): void {
     void 0;
   }
 
@@ -71,6 +73,7 @@ export class Sound {
     audioSource: AudioSourceDefinition,
     options: Partial<EffectOptions> = {}
   ): void {
+    audioSource.gain.gain.value *= this.effectOptions.baseVolume;
     /**
      * Amplitude
      */

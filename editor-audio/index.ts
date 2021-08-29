@@ -3,7 +3,10 @@ import { Organ } from "../src/entities/sounds/harmonic-synth/Organ";
 import { TinSaw } from "../src/entities/sounds/harmonic-synth/TinSaw";
 import { TinSine } from "../src/entities/sounds/harmonic-synth/TinSine";
 import { TinSquare } from "../src/entities/sounds/harmonic-synth/TinSquare";
-import { Eight0Eight } from "../src/entities/sounds/waveform-synth/808";
+import { HiHat } from "../src/entities/sounds/waveform-synth/HiHat";
+import { Kick } from "../src/entities/sounds/waveform-synth/Kick";
+import { Snare } from "../src/entities/sounds/waveform-synth/Snare";
+import { Tom } from "../src/entities/sounds/waveform-synth/Tom";
 import { AUDIO, MIXOLYDIAN_SCALE } from "../src/globals/audio";
 
 const testInstruments = [
@@ -29,7 +32,19 @@ const testInstruments = [
   },
   {
     name: "808",
-    instrument: new Eight0Eight()
+    instrument: new Kick()
+  },
+  {
+    name: "HiHat",
+    instrument: new HiHat()
+  },
+  {
+    name: "Tom",
+    instrument: new Tom()
+  },
+  {
+    name: "Snare",
+    instrument: new Snare()
   }
 ];
 

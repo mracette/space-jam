@@ -7,7 +7,12 @@ import { CANVAS_CONTEXTS } from "../globals/dom";
 import { ELEMENTS } from "../globals/dom";
 import { STATS } from "../globals/game";
 import { TAU } from "../globals/math";
-import { LINE_WIDTH, TILE_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals/sizes";
+import {
+  FONT_SIZE,
+  LINE_WIDTH,
+  TILE_DIMENSIONS,
+  VIEWPORT_DIMENSIONS
+} from "../globals/sizes";
 import { CAMERA, COORDS } from "../index";
 
 export const drawInstrumentPattern = (canvas: HTMLCanvasElement): void => {
@@ -124,24 +129,19 @@ export const drawNoteIncrease = (
   cy: number,
   amount: number
 ): void => {
-  const fontSize = coords.width(0.02);
-  const tileSize = coords.width(TILE_DIMENSIONS.SIZE);
-  ctx.fillStyle = "black";
-  ctx.globalAlpha = 0.5;
-  ctx.beginPath();
-  // ctx.arc(cx + tileSize / 2, cy + tileSize / 2, tileSize / 2, 0, TAU);
-  // ctx.fill();
+  const tileSize = coords.width(TILE_DIMENSIONS.QUARTER * 1.1);
+  ctx.fillStyle = COLORS.BACKGROUND;
   ctx.globalAlpha = 1;
-  ctx.font = `${fontSize}px sans-serif`;
+  ctx.beginPath();
+  ctx.arc(cx, cy, tileSize, 0, TAU);
+  ctx.fill();
+  ctx.globalAlpha = 1;
+  ctx.font = `${coords.width(FONT_SIZE.HALF)}px sans-serif`;
   ctx.textAlign = "center";
-  // ctx.fillStyle = COLORS.WHITE;
+  ctx.fillStyle = COLORS.WHITE;
   const text = "+" + amount;
   const metrics = ctx.measureText(text);
-  ctx.fillText(
-    text,
-    cx + tileSize / 2,
-    cy + tileSize / 2 + metrics.actualBoundingBoxAscent / 2
-  );
+  ctx.fillText(text, cx, cy + metrics.actualBoundingBoxAscent / 2);
 };
 
 export const drawTile = (
@@ -170,7 +170,7 @@ export const drawTile = (
 
 export const drawGameStats = (): void => {
   clearCanvasAndState(ELEMENTS.canvasStats);
-  CANVAS_CONTEXTS.stats.font = `${COORDS.width(0.035)}px sans-serif`;
+  CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.VALUE)}px sans-serif`;
   CANVAS_CONTEXTS.stats.fillStyle = COLORS.WHITE;
   const text = "Notes: " + STATS.notes;
   CANVAS_CONTEXTS.stats.fillText(text, COORDS.nx(-0.95), COORDS.ny(-0.95));
@@ -202,6 +202,8 @@ export const drawTiles = (): void => {
 
 export const drawInstruments = (): void => {
   clearCanvasAndState(ELEMENTS.canvasInstruments);
+  CANVAS_CONTEXTS.instrument.font = `${COORDS.width(FONT_SIZE.HALF)}px sans-serif`;
+  CANVAS_CONTEXTS.instrument.textAlign = "center";
   CANVAS_CONTEXTS.instrument.fillStyle = COLORS.BACKGROUND;
   CANVAS_CONTEXTS.instrument.strokeStyle = COLORS.WHITE;
   CANVAS_CONTEXTS.instrument.lineWidth = COORDS.width(LINE_WIDTH.VALUE);

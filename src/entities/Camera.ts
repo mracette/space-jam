@@ -9,7 +9,12 @@ import { CANVAS_CONTEXTS } from "../globals/dom";
 import { ENTITY_STATE } from "../globals/game";
 import { ENTITY_ARRAY_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals/sizes";
 import { EntityArrayElement, ENTITY_ARRAY } from "../index";
-import { entityArrayToScreen, mapToEntityArray } from "../utils/conversions";
+import {
+  entityArrayToMap,
+  entityArrayToScreen,
+  mapToEntityArray,
+  mapToScreen
+} from "../utils/conversions";
 import {
   drawGameStats,
   drawInstruments,
@@ -107,8 +112,8 @@ export class Camera extends Entity {
           drawNoteIncrease(
             CANVAS_CONTEXTS.stats,
             this.coords,
-            entityArrayToScreen.x(i),
-            entityArrayToScreen.y(j),
+            mapToScreen.x(entityArrayToMap.x(i) + 0.5),
+            mapToScreen.y(entityArrayToMap.y(j) - 0.5),
             (entity as Instrument).notes
           );
         }
