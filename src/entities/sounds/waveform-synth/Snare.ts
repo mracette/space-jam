@@ -13,7 +13,7 @@ export class Snare extends Sound {
     };
     this.effectOptions.hpFrequency = 90;
     this.effectOptions.baseReverb = 0.05;
-    this.effectOptions.baseVolume = 0.4;
+    this.effectOptions.baseVolume = 0.25;
   }
 
   play(time: number, note: number = this.getNoteToPlay()): void {

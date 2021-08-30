@@ -22,7 +22,6 @@ import { MENU_VISIBLE, updateButtonDisabled } from "./utils/dom";
 export interface EntityArrayElement {
   entity?: AnyInstrument | AnyOscillator;
   state?: ENTITY_STATE;
-  stateEndsTime?: number;
   blocked?: boolean;
 }
 

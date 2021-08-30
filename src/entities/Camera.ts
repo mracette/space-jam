@@ -105,7 +105,7 @@ export class Camera extends Entity {
   render(): void {
     drawGameStats();
     this.applyToEntityArray((mapEntity, i, j) => {
-      const { stateEndsTime, entity, state } = mapEntity;
+      const { entity, state } = mapEntity;
       if (entity?.name === "instrument") {
         // draw the increase
         if (state === ENTITY_STATE.PLAYING) {
@@ -116,14 +116,6 @@ export class Camera extends Entity {
             mapToScreen.y(entityArrayToMap.y(j) - 0.5),
             (entity as Instrument).notes
           );
-        }
-
-        // change state if stateEndsTime has elapsed
-        if (
-          stateEndsTime <= AUDIO.context.currentTime &&
-          state === ENTITY_STATE.PLAYING
-        ) {
-          mapEntity.state = ENTITY_STATE.STOPPED;
         }
       }
     });

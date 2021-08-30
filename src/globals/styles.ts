@@ -6,22 +6,10 @@ export const FONT_STYLE = '"Verdana", sans-serif';
 export const STYLES = {
   menu: {
     visibility: "hidden",
-    background: "rgba(0,0,0,.75)",
+    background: "rgba(0,0,0,.85)",
     justifyContent: "flex-start"
   },
   canvasPre: {
     background: COLORS.BACKGROUND
-  },
-  canvasStats: {
-    cursor: "grab"
-  },
-  co: {
-    width: "unset"
-  },
-  to: {
-    width: "unset"
-  },
-  so: {
-    width: "unset"
   }
 };

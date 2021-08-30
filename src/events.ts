@@ -38,11 +38,9 @@ export const initializeEventListeners = (): void => {
       let xStart = e.clientX;
       let yStart = e.clientY;
       const { x: xCameraStart, y: yCameraStart } = CAMERA.position;
-      console.log(xCameraStart);
       const updateCameraPosition = (e: MouseEvent) => {
         const dx = e.clientX - xStart;
         const dy = e.clientY - yStart;
-        console.log(dx);
         CAMERA.position.set(
           xCameraStart - dx / tileSizePixels,
           yCameraStart + dy / tileSizePixels

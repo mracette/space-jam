@@ -5,7 +5,7 @@ const enum MAP_DIMENSION {
 }
 
 const enum VIEWPORT_DIMENSION {
-  SIZE = 19 // must be odd
+  SIZE = 13 // must be odd
 }
 
 export const enum MAP_DIMENSIONS {
@@ -37,10 +37,14 @@ export const enum ENTITY_ARRAY_DIMENSIONS {
   MAX_Y = MAP_DIMENSION.SIZE - 1
 }
 
+export const enum TILE_DIMENSION {
+  SIZE = 0.07
+}
+
 export const enum TILE_DIMENSIONS {
-  SIZE = 0.05,
-  HALF = 0.025,
-  QUARTER = 0.0125
+  SIZE = TILE_DIMENSION.SIZE,
+  HALF = TILE_DIMENSION.SIZE / 2,
+  QUARTER = TILE_DIMENSION.SIZE / 4
 }
 
 export const MOUSE_POSITION: {

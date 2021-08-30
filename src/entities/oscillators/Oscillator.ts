@@ -154,9 +154,14 @@ export class Oscillator extends MapEntity {
             mapEntity.state !== ENTITY_STATE.PLAYING
           ) {
             mapEntity.state = ENTITY_STATE.PLAYING;
-            mapEntity.stateEndsTime = AUDIO.context.currentTime + DURATIONS.QUARTER * 0.9;
             STATS.notes += (mapEntity.entity as AnyInstrument).notes;
             (mapEntity.entity as AnyInstrument).sound.play(AUDIO.context.currentTime);
+            SCHEDULER.scheduleOnce(
+              AUDIO.context.currentTime + DURATIONS.QUARTER * 0.9,
+              () => {
+                mapEntity.state = ENTITY_STATE.STOPPED;
+              }
+            );
           }
         })
       );
