@@ -23,6 +23,14 @@ export const initializeEventListeners = (): void => {
 
   ELEMENTS.menuButton.onclick = toggleMenu;
 
+  const closeMenu = (e: KeyboardEvent) => {
+    if (e.key === "Escape" && MENU_VISIBLE) {
+      toggleMenu();
+    }
+  };
+
+  document.addEventListener("keydown", closeMenu);
+
   const updateMousePosition = (e: MouseEvent) => {
     MOUSE_POSITION.screenX = e.x;
     MOUSE_POSITION.screenY = e.y;
@@ -30,7 +38,7 @@ export const initializeEventListeners = (): void => {
     MOUSE_POSITION.mapY = screenToMap.y(e.y);
   };
 
-  const onMouseOrTouchDown = (e: MouseEvent) => {
+  const moveCamera = (e: MouseEvent) => {
     AUDIO.context.resume();
     const tileSizePixels = ELEMENTS.canvasTiles.clientWidth * TILE_DIMENSIONS.SIZE;
 
@@ -63,7 +71,7 @@ export const initializeEventListeners = (): void => {
   };
 
   document.addEventListener("mousemove", updateMousePosition);
-  document.addEventListener("mousedown", onMouseOrTouchDown);
+  document.addEventListener("mousedown", moveCamera);
 
   const onResize = () => {
     drawStarPattern();

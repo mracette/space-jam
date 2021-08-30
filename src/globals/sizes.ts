@@ -67,7 +67,17 @@ export const enum LINE_WIDTH {
   DOUBLE = 0.012
 }
 
+const enum FONT_SIZE_BASE {
+  VALUE = 0.035
+}
+
 export const enum FONT_SIZE {
-  VALUE = 0.035,
-  HALF = 0.0175
+  TRIPLE = FONT_SIZE_BASE.VALUE * 3,
+  DOUBLE = FONT_SIZE_BASE.VALUE * 2,
+  VALUE = FONT_SIZE_BASE.VALUE,
+  HALF = FONT_SIZE_BASE.VALUE / 2
+}
+
+export const enum MARGIN_TOP_STATS {
+  VALUE = -0.85
 }

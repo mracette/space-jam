@@ -8,9 +8,7 @@ export const ELEMENTS = {
   menuButton: document.getElementById("menu-button") as HTMLButtonElement,
   menuCol: document.getElementById("menu-col") as HTMLDivElement,
   menu: document.getElementById("menu") as HTMLDivElement,
-  co: document.getElementById("co") as HTMLDivElement,
-  to: document.getElementById("to") as HTMLDivElement,
-  so: document.getElementById("so") as HTMLDivElement,
+  os: document.getElementById("os") as HTMLDivElement,
   in: document.getElementById("in") as HTMLDivElement
 };
 

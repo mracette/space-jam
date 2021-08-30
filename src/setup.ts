@@ -17,7 +17,8 @@ import { ASPECT_RATIO } from "./globals/sizes";
 import { FONT_STYLE, STYLES } from "./globals/styles";
 import { dragEntityToMap } from "./interactions";
 import { clearCanvasAndState } from "./utils/canvas";
-import { abbreviateNumber, toggleMenu } from "./utils/dom";
+import { toggleMenu } from "./utils/dom";
+import { abbreviateNumber } from "./utils/math";
 
 const drawMenuButtonUi = (
   canvas: HTMLCanvasElement,
@@ -74,8 +75,8 @@ export const setupMenuUI = (): void => {
     button.id = id;
 
     // appends button to it's corresponding <div /> in the menu
-    const type = entity.id.substr(0, 2);
-    (ELEMENTS as any)[type].append(button);
+    const divId = name === "instrument" ? "in" : "os";
+    (ELEMENTS as any)[divId].append(button);
 
     button.onclick = (e: MouseEvent | TouchEvent) => {
       e.stopPropagation();

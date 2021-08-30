@@ -15,3 +15,16 @@ export const rotatePoint = (
 };
 
 export const lerp = (x0: number, x1: number, t: number): number => x0 * t + x1 * (1 - t);
+
+export const abbreviateNumber = (n: number): string => {
+  const m = n / 1000000;
+  if (m > 1) {
+    return m + "M";
+  }
+  const k = n / 1000;
+  if (k > 1) {
+    return k + "K";
+  } else {
+    return n + "";
+  }
+};

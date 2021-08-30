@@ -1,6 +1,6 @@
 import { clearCanvasAndState } from "./canvas";
 import { entityArrayToScreen } from "./conversions";
-import { lerp, rotatePoint } from "./math";
+import { abbreviateNumber, lerp, rotatePoint } from "./math";
 import { CanvasCoordinates } from "../core/Coords";
 import { COLORS } from "../globals/colors";
 import { CANVAS_CONTEXTS } from "../globals/dom";
@@ -10,14 +10,16 @@ import { TAU } from "../globals/math";
 import {
   FONT_SIZE,
   LINE_WIDTH,
+  MARGIN_TOP_STATS,
   TILE_DIMENSIONS,
   VIEWPORT_DIMENSIONS
 } from "../globals/sizes";
+import { FONT_STYLE } from "../globals/styles";
 import { CAMERA, COORDS } from "../index";
 
 export const drawInstrumentPattern = (canvas: HTMLCanvasElement): void => {
   const ctx = canvas.getContext("2d");
-  ctx.fillStyle = COLORS.BACKGROUND_LIGHT;
+  ctx.fillStyle = COLORS.HOT_GREEN;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 };
 
@@ -26,32 +28,32 @@ export const drawStarPattern = (
   hueStart = 50,
   hueEnd = 300
 ): void => {
-  // const ctx = canvas.getContext("2d");
-  // const designRadius = Math.sqrt((Math.max(canvas.width, canvas.height) / 2) ** 2 * 2);
-  // const ringDistance = designRadius / 150;
-  // const numRings = designRadius / ringDistance;
-  // const dotSize = ringDistance / 5;
-  // const cx = canvas.width / 2;
-  // const cy = canvas.height / 2;
-  // for (let i = 0; i < numRings; i++) {
-  //   const ringRadius = i * ringDistance;
-  //   const circumference = 2 * Math.PI * ringRadius;
-  //   const numDots = Math.round(circumference / (dotSize * 4));
-  //   for (let j = 0; j < numDots; j++) {
-  //     const rotation = j * (TAU / numDots);
-  //     const rotationProportion = rotation / TAU;
-  //     const rotationProportionAdj = rotationProportion + Math.random() / 2;
-  //     const { x, y } = rotatePoint(cx + ringRadius, cy, cx, cy, rotation);
-  //     ctx.fillStyle = `hsl(${lerp(
-  //       hueStart,
-  //       hueEnd,
-  //       rotationProportionAdj % 1
-  //     )}, 50%, 50%)`;
-  //     ctx.beginPath();
-  //     ctx.arc(x, y, dotSize, 0, TAU);
-  //     ctx.fill();
-  //   }
-  // }
+  const ctx = canvas.getContext("2d");
+  const designRadius = Math.sqrt((Math.max(canvas.width, canvas.height) / 2) ** 2 * 2);
+  const ringDistance = designRadius / 150;
+  const numRings = designRadius / ringDistance;
+  const dotSize = ringDistance / 5;
+  const cx = canvas.width / 2;
+  const cy = canvas.height / 2;
+  for (let i = 0; i < numRings; i++) {
+    const ringRadius = i * ringDistance;
+    const circumference = 2 * Math.PI * ringRadius;
+    const numDots = Math.round(circumference / (dotSize * 4));
+    for (let j = 0; j < numDots; j++) {
+      const rotation = j * (TAU / numDots);
+      const rotationProportion = rotation / TAU;
+      const rotationProportionAdj = rotationProportion + Math.random() / 2;
+      const { x, y } = rotatePoint(cx + ringRadius, cy, cx, cy, rotation);
+      ctx.fillStyle = `hsl(${lerp(
+        hueStart,
+        hueEnd,
+        rotationProportionAdj % 1
+      )}, 50%, 50%)`;
+      ctx.beginPath();
+      ctx.arc(x, y, dotSize, 0, TAU);
+      ctx.fill();
+    }
+  }
 };
 
 export const drawOutline = (
@@ -136,7 +138,7 @@ export const drawNoteIncrease = (
   ctx.arc(cx, cy, tileSize, 0, TAU);
   ctx.fill();
   ctx.globalAlpha = 1;
-  ctx.font = `${coords.width(FONT_SIZE.HALF)}px sans-serif`;
+  ctx.font = `${coords.width(FONT_SIZE.HALF)}px ${FONT_STYLE}`;
   ctx.textAlign = "center";
   ctx.fillStyle = COLORS.WHITE;
   const text = "+" + amount;
@@ -170,10 +172,45 @@ export const drawTile = (
 
 export const drawGameStats = (): void => {
   clearCanvasAndState(ELEMENTS.canvasStats);
-  CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.VALUE)}px sans-serif`;
+
+  /**
+   * TITLE
+   */
+  CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.TRIPLE)}px ${FONT_STYLE}`;
   CANVAS_CONTEXTS.stats.fillStyle = COLORS.WHITE;
-  const text = "Notes: " + STATS.notes;
-  CANVAS_CONTEXTS.stats.fillText(text, COORDS.nx(-0.95), COORDS.ny(-0.95));
+  CANVAS_CONTEXTS.stats.textAlign = "center";
+  const textTitle = "SPACE JAM";
+  const textTitleMetrics = CANVAS_CONTEXTS.stats.measureText(textTitle);
+  CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.TRIPLE)}px ${FONT_STYLE}`;
+  // CANVAS_CONTEXTS.stats.fillText(
+  //   textTitle,
+  //   COORDS.nx(0),
+  //   COORDS.ny(MARGIN_TOP_STATS.VALUE)
+  // );
+
+  /**
+   * NOTES
+   */
+  const textNotes = "Notes: " + abbreviateNumber(STATS.notes);
+  CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.DOUBLE)}px ${FONT_STYLE}`;
+  CANVAS_CONTEXTS.stats.fillText(
+    textNotes,
+    COORDS.nx(0),
+    COORDS.ny(MARGIN_TOP_STATS.VALUE) + textTitleMetrics.actualBoundingBoxAscent * 2
+  );
+
+  /**
+   * CAMERA POSITION
+   */
+  const textPosition = `(x: ${Math.round(CAMERA.position.x)}, y: ${Math.round(
+    CAMERA.position.y
+  )})`;
+  CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.VALUE)}px ${FONT_STYLE}`;
+  CANVAS_CONTEXTS.stats.fillText(
+    textPosition,
+    COORDS.nx(0),
+    COORDS.ny(MARGIN_TOP_STATS.VALUE) + textTitleMetrics.actualBoundingBoxAscent * 3
+  );
 };
 
 export const addClip = (ctx: CanvasRenderingContext2D): void => {
@@ -202,7 +239,7 @@ export const drawTiles = (): void => {
 
 export const drawInstruments = (): void => {
   clearCanvasAndState(ELEMENTS.canvasInstruments);
-  CANVAS_CONTEXTS.instrument.font = `${COORDS.width(FONT_SIZE.HALF)}px sans-serif`;
+  CANVAS_CONTEXTS.instrument.font = `${COORDS.width(FONT_SIZE.HALF)}px ${FONT_STYLE}`;
   CANVAS_CONTEXTS.instrument.textAlign = "center";
   CANVAS_CONTEXTS.instrument.fillStyle = COLORS.BACKGROUND;
   CANVAS_CONTEXTS.instrument.strokeStyle = COLORS.WHITE;

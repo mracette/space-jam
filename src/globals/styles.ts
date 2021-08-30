@@ -1,7 +1,7 @@
 import { COLORS } from "./colors";
 import { DEBUG } from "./game";
 
-export const FONT_STYLE = '"Verdana", sans-serif';
+export const FONT_STYLE = "Tahoma, sans-serif";
 
 export const STYLES = {
   menu: {
