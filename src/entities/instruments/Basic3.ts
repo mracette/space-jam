@@ -5,6 +5,7 @@ export class Basic3 extends Instrument {
     super(args);
     this.cost = 75;
     this.id = "in3";
+    this.display = "B";
     this.notes = 5;
     this.outline = [
       [-1, 0],

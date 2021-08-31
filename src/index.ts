@@ -1,6 +1,7 @@
 import "./styles.css";
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
+import { Basic3 } from "./entities/instruments/Basic3";
 import { AnyInstrument } from "./entities/instruments/factories";
 import { IKick } from "./entities/instruments/IKick";
 import { ISnare } from "./entities/instruments/ISnare";
@@ -45,6 +46,7 @@ const begin = async () => {
 
   new IKick({ x: 1, y: 0 });
   new ISnare({ x: -1, y: 0 });
+  new Basic3({ x: -4, y: -4 });
   new CircleOscillator1({ x: 0, y: 0 });
 
   // const stats = new Stats();

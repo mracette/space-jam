@@ -213,7 +213,7 @@ export const drawGameStats = (): void => {
   );
 };
 
-export const addClip = (ctx: CanvasRenderingContext2D): void => {
+export const addCircularClip = (ctx: CanvasRenderingContext2D): void => {
   ctx.beginPath();
   ctx.arc(
     COORDS.nx(0),
@@ -230,7 +230,7 @@ export const drawTiles = (): void => {
   CANVAS_CONTEXTS.tiles.fillStyle = COLORS.BACKGROUND;
   CANVAS_CONTEXTS.tiles.strokeStyle = COLORS.WHITE;
   CANVAS_CONTEXTS.tiles.lineWidth = COORDS.width(LINE_WIDTH.VALUE);
-  addClip(CANVAS_CONTEXTS.tiles);
+  addCircularClip(CANVAS_CONTEXTS.tiles);
   CANVAS_CONTEXTS.tiles.fillRect(0, 0, COORDS.width(), COORDS.height());
   CAMERA.applyToEntityArray((_, i, j) => {
     drawTile(entityArrayToScreen.x(i), entityArrayToScreen.y(j));
@@ -245,7 +245,7 @@ export const drawInstruments = (): void => {
   CANVAS_CONTEXTS.instrument.strokeStyle = COLORS.WHITE;
   CANVAS_CONTEXTS.instrument.lineWidth = COORDS.width(LINE_WIDTH.VALUE);
   CANVAS_CONTEXTS.instrument.lineJoin = "round";
-  addClip(CANVAS_CONTEXTS.instrument);
+  addCircularClip(CANVAS_CONTEXTS.instrument);
   CAMERA.applyToEntityArray(({ entity }) => {
     if (entity?.name === "instrument") {
       entity.render();
@@ -258,7 +258,7 @@ export const drawOscillators = (): void => {
   CANVAS_CONTEXTS.oscillator.lineCap = "round";
   CANVAS_CONTEXTS.oscillator.lineJoin = "round";
   CANVAS_CONTEXTS.oscillator.lineWidth = COORDS.width(LINE_WIDTH.VALUE);
-  addClip(CANVAS_CONTEXTS.oscillator);
+  addCircularClip(CANVAS_CONTEXTS.oscillator);
   CAMERA.applyToEntityArray(({ entity }) => {
     if (entity?.name === "oscillator") {
       entity.render();

@@ -18,13 +18,11 @@ export class Oscillator extends MapEntity {
   sequence: number[][];
   duration: number;
   color: string;
-  colorDisabled: string;
 
   constructor(args: ConstructorParameters<typeof MapEntity>[0] = {}) {
     super(args);
     this.name = "oscillator";
     this.repeatingEvents = [];
-    this.colorDisabled = COLORS.DISABLED;
   }
 
   init(): void {

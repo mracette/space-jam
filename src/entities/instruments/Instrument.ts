@@ -1,8 +1,8 @@
 import { CacheItem, INSTRUMENT_CACHE } from "./cache";
 import { COLORS } from "../../globals/colors";
-import { CANVAS_CONTEXTS } from "../../globals/dom";
+import { CANVAS_CONTEXTS, ELEMENTS } from "../../globals/dom";
 import { TAU } from "../../globals/math";
-import { TILE_DIMENSIONS } from "../../globals/sizes";
+import { LINE_WIDTH, TILE_DIMENSIONS } from "../../globals/sizes";
 import { CAMERA, COORDS, ENTITY_ARRAY } from "../../index";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import { drawInstrumentPattern } from "../../utils/drawing";
@@ -28,6 +28,7 @@ export class Instrument extends MapEntity {
   constructor(args: ConstructorParameters<typeof MapEntity>[0]) {
     super(args);
     this.name = "instrument";
+    this.color = `hsl(${Math.random() * 360}, 50%, 50%)`; // COLORS.HOT_GREEN;
   }
 
   init(): void {
@@ -75,8 +76,26 @@ export class Instrument extends MapEntity {
     });
   }
 
+  renderBaseShape(
+    sx: number = mapToScreen.x(this.position.x - (this.boundingBoxWidth - 1) / 2),
+    sy: number = mapToScreen.y(this.position.y + (this.boundingBoxHeight - 1) / 2),
+    ctx: CanvasRenderingContext2D = CANVAS_CONTEXTS.instrument,
+    baseWidth: number = COORDS.width(TILE_DIMENSIONS.SIZE),
+    lineWidth: number = COORDS.width(LINE_WIDTH.VALUE),
+    color: string = this.disabled ? this.colorDisabled : this.color
+  ): void {
+    ctx.fillStyle = color;
+    ctx.fillRect(
+      sx,
+      sy,
+      baseWidth * this.boundingBoxWidth,
+      baseWidth * this.boundingBoxHeight
+    );
+  }
+
   render(ctx: CanvasRenderingContext2D = CANVAS_CONTEXTS.instrument): void {
-    ctx.fillStyle = this.disabled ? COLORS.DISABLED : COLORS.BACKGROUND;
+    ctx.save();
+    ctx.fillStyle = this.disabled ? COLORS.DISABLED : this.color;
     ctx.beginPath();
     for (let i = 0; i < this.outline.length; i++) {
       const [x, y] = this.outline[i];
@@ -89,25 +108,10 @@ export class Instrument extends MapEntity {
       }
     }
     ctx.closePath();
-    ctx.fill();
+    ctx.stroke();
+    ctx.clip();
 
-    ctx.globalCompositeOperation = "source-atop";
-
-    if (this.cache.offscreen.needsUpdate) {
-      this.cache.offscreen.canvas.width =
-        this.boundingBoxWidth * COORDS.width(TILE_DIMENSIONS.SIZE);
-      this.cache.offscreen.canvas.height =
-        this.boundingBoxHeight * COORDS.width(TILE_DIMENSIONS.SIZE);
-      drawInstrumentPattern(this.cache.offscreen.canvas);
-      this.cache.offscreen.needsUpdate = false;
-    }
-    if (!this.disabled) {
-      ctx.drawImage(
-        this.cache.offscreen.canvas,
-        mapToScreen.x(this.position.x - (this.boundingBoxWidth - 1) / 2),
-        mapToScreen.y(this.position.y + (this.boundingBoxHeight - 1) / 2)
-      );
-    }
+    this.renderBaseShape();
 
     ctx.globalCompositeOperation = "source-over";
     ctx.stroke();
@@ -122,5 +126,6 @@ export class Instrument extends MapEntity {
     const label = this.display.substr(0, 1);
     const metrics = ctx.measureText(label);
     ctx.fillText(this.display.substr(0, 1), cx, cy + metrics.actualBoundingBoxAscent / 2);
+    ctx.restore();
   }
 }
