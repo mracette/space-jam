@@ -32,6 +32,7 @@ export class Camera extends Entity {
   velocity: Vector2;
   coords: CanvasCoordinates;
   previewEntity: AnyOscillator | AnyInstrument;
+  inspectEntity: AnyOscillator | AnyInstrument;
   /**
    * contains the upper/lower bounds of the entity array elements
    * that are currently in the camera's viewport

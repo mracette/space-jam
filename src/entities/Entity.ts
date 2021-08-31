@@ -1,15 +1,13 @@
 export interface EntityArgs {
   name?: string;
+  hover?: boolean;
 }
-
-let uuid = 0;
 
 export class Entity {
   public name?: string;
-  public uuid: number;
-  constructor({ name = "" }: EntityArgs = {}) {
+  public hover?: boolean;
+  constructor({ name = "", hover = false }: EntityArgs = {}) {
     this.name = name;
-    this.uuid = uuid;
-    uuid += 1;
+    this.hover = hover;
   }
 }

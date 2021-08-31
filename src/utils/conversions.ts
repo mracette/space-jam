@@ -54,3 +54,7 @@ export const entityArrayToScreen = {
   x: (x: number): number => mapToScreen.x(entityArrayToMap.x(x)),
   y: (y: number): number => mapToScreen.y(entityArrayToMap.y(y))
 };
+
+export const isUndefined = (value: unknown): boolean => {
+  return typeof value === "undefined";
+};

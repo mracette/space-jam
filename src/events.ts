@@ -4,7 +4,7 @@ import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
 import { MOUSE_POSITION, TILE_DIMENSIONS } from "./globals/sizes";
 import { screenToMap } from "./utils/conversions";
-import { MENU_VISIBLE, toggleMenu } from "./utils/dom";
+import { INSPECT_VISIBLE, MENU_VISIBLE, toggleInspect, toggleMenu } from "./utils/dom";
 import { drawFog, drawStarPattern } from "./utils/drawing";
 import { resizeWithAspectRatio } from "./utils/events";
 
@@ -16,10 +16,15 @@ export const initializeEventListeners = (): void => {
     ELEMENTS.canvasStats,
     ELEMENTS.canvasOscillators,
     ELEMENTS.canvasInstruments,
-    ELEMENTS.menu
+    ELEMENTS.menu,
+    ELEMENTS.inspect
   ].forEach((element) => {
     resizeWithAspectRatio(element);
   });
+
+  /**
+   * Toggle the main menu
+   */
 
   ELEMENTS.menuButton.onclick = toggleMenu;
 
@@ -31,6 +36,16 @@ export const initializeEventListeners = (): void => {
 
   document.addEventListener("keydown", closeMenu);
 
+  /**
+   * Toggle the inspect menu
+   */
+
+  ELEMENTS.inspect.onclick = toggleInspect;
+
+  /**
+   * Update the mouse position
+   */
+
   const updateMousePosition = (e: MouseEvent) => {
     MOUSE_POSITION.screenX = e.x;
     MOUSE_POSITION.screenY = e.y;
@@ -38,11 +53,18 @@ export const initializeEventListeners = (): void => {
     MOUSE_POSITION.mapY = screenToMap.y(e.y);
   };
 
+  document.addEventListener("mousemove", updateMousePosition);
+
+  /**
+   * Handle camera movement
+   */
+
   const moveCamera = (e: MouseEvent) => {
     AUDIO.context.resume();
     const tileSizePixels = ELEMENTS.canvasTiles.clientWidth * TILE_DIMENSIONS.SIZE;
 
-    if (!MENU_VISIBLE) {
+    console.log(INSPECT_VISIBLE);
+    if (!MENU_VISIBLE && !INSPECT_VISIBLE) {
       let xStart = e.clientX;
       let yStart = e.clientY;
       const { x: xCameraStart, y: yCameraStart } = CAMERA.position;
@@ -70,8 +92,11 @@ export const initializeEventListeners = (): void => {
     }
   };
 
-  document.addEventListener("mousemove", updateMousePosition);
-  document.addEventListener("mousedown", moveCamera);
+  document.addEventListener("mousedown", moveCamera, { capture: false });
+
+  /**
+   * Handle resize events
+   */
 
   const onResize = () => {
     drawStarPattern();
