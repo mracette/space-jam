@@ -1,21 +1,24 @@
 import "./styles.css";
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
-import { Basic3 } from "./entities/instruments/Basic3";
 import { AnyInstrument } from "./entities/instruments/factories";
 import { IKick } from "./entities/instruments/IKick";
 import { ISnare } from "./entities/instruments/ISnare";
 import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { AnyOscillator } from "./entities/oscillators/factories";
-import { Snare } from "./entities/sounds/waveform-synth/Snare";
-import { initializeEventListeners } from "./events";
+import { setupEventListeners } from "./events";
 import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
-import { DEBUG, ENTITY_STATE, STATS } from "./globals/game";
+import { ENTITY_STATE, STATS } from "./globals/game";
 import { ENTITY_ARRAY_DIMENSIONS } from "./globals/sizes";
 import { setupBaseStyles, setupMenuUI } from "./setup";
 
-import { MENU_VISIBLE, updateButtonDisabled } from "./utils/dom";
+import {
+  INSPECT_VISIBLE,
+  MENU_VISIBLE,
+  updateButtonDisabled,
+  updateInspectMenu
+} from "./utils/dom";
 // @ts-ignore
 // import * as Stats from "stats.js";
 
@@ -34,7 +37,7 @@ export const CAMERA = new Camera({ coords: COORDS });
 
 const begin = async () => {
   await AUDIO.init();
-  initializeEventListeners();
+  setupEventListeners();
   setupMenuUI();
   setupBaseStyles();
   updateButtonDisabled();
@@ -50,18 +53,19 @@ const begin = async () => {
   // stats.dom.style.width = "unset";
   // stats.dom.style.height = "unset";
 
-  let prevNotes = STATS.notes;
+  let prevNotes = 0;
   // let prevTime = 0;
 
   const render = (time: number) => {
     // const delta = (time - prevTime) / 1000;
     // prevTime = time;
-    prevNotes = STATS.notes;
     // stats.begin();
     CAMERA.render();
-    if (MENU_VISIBLE && STATS.notes !== prevNotes) {
+    if ((MENU_VISIBLE || INSPECT_VISIBLE) && STATS.currentNotes !== prevNotes) {
       updateButtonDisabled();
+      updateInspectMenu();
     }
+    prevNotes = STATS.currentNotes;
     // stats.end();
     window.requestAnimationFrame(render);
   };
@@ -69,5 +73,4 @@ const begin = async () => {
   window.requestAnimationFrame(render);
 };
 
-// window.addEventListener("DOMContentLoaded", begin);
 begin();

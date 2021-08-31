@@ -1,16 +1,100 @@
 import { CAMERA, EntityArrayElement, ENTITY_ARRAY } from "./index";
+import { INSTRUMENT_CACHE } from "./entities/instruments/cache";
 import { AnyInstrument } from "./entities/instruments/factories";
 import { AnyOscillator } from "./entities/oscillators/factories";
+import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
-import { MOUSE_POSITION } from "./globals/sizes";
-import { isUndefined, mapToEntityArray } from "./utils/conversions";
-import { INSPECT_VISIBLE, MENU_VISIBLE, toggleInspect } from "./utils/dom";
+import { STATS } from "./globals/game";
+import { MOUSE_POSITION, TILE_DIMENSIONS } from "./globals/sizes";
+import { isUndefined, mapToEntityArray, screenToMap } from "./utils/conversions";
+import { INSPECT_VISIBLE, MENU_VISIBLE, toggleInspect, toggleMenu } from "./utils/dom";
+import { drawFog, drawStarPattern } from "./utils/drawing";
 
-export const clickMouseOverEntity = (e: MouseEvent) => {
-  console.log(e.target);
+export const sellEntity = (): void => {
+  console.log("sell");
+  if (CAMERA.inspectEntity) {
+    const arrX = mapToEntityArray.x(CAMERA.inspectEntity.position.x);
+    const arrY = mapToEntityArray.y(CAMERA.inspectEntity.position.y);
+    STATS.currentNotes += CAMERA.inspectEntity.sell;
+    STATS.totalNotes += CAMERA.inspectEntity.sell;
+    ENTITY_ARRAY[arrX][arrY] = Object();
+    toggleInspect();
+  }
+};
+
+export const handleResize = (): void => {
+  drawStarPattern();
+  drawFog();
+  // set up updates for offscreen canvas elements
+  INSTRUMENT_CACHE.forEach((cache) => {
+    cache.offscreen.needsUpdate = true;
+  });
+  // runs animations pegged to camera movement
+  CAMERA.updateViewport();
+};
+
+export const handleOutsideClick = (e: MouseEvent): void => {
+  if (MENU_VISIBLE && !ELEMENTS.menu.contains(e.target as Element)) {
+    toggleMenu();
+  }
+  if (INSPECT_VISIBLE && !ELEMENTS.inspectInner.contains(e.target as Element)) {
+    toggleInspect();
+  }
+};
+
+export const closeMenu = (e: KeyboardEvent): void => {
+  if (e.key === "Escape" && MENU_VISIBLE) {
+    toggleMenu();
+  }
+};
+
+export const closeInspect = (e: KeyboardEvent): void => {
+  if (e.key === "Escape" && INSPECT_VISIBLE) {
+    toggleInspect();
+  }
+};
+
+export const updateMousePosition = (e: MouseEvent): void => {
+  MOUSE_POSITION.screenX = e.x;
+  MOUSE_POSITION.screenY = e.y;
+  MOUSE_POSITION.mapX = screenToMap.x(e.x);
+  MOUSE_POSITION.mapY = screenToMap.y(e.y);
+};
+
+export const moveCamera = (e: MouseEvent): void => {
+  AUDIO.context.resume();
+
+  if (!MENU_VISIBLE && !INSPECT_VISIBLE) {
+    const tileSizePixels = ELEMENTS.canvasTiles.clientWidth * TILE_DIMENSIONS.SIZE;
+    let xStart = e.clientX;
+    let yStart = e.clientY;
+    const { x: xCameraStart, y: yCameraStart } = CAMERA.position;
+    const updateCameraPosition = (e: MouseEvent) => {
+      const dx = e.clientX - xStart;
+      const dy = e.clientY - yStart;
+      CAMERA.position.set(
+        xCameraStart - dx / tileSizePixels,
+        yCameraStart + dy / tileSizePixels
+      );
+      CAMERA.updateViewport();
+    };
+
+    const cleanUp = () => {
+      document.removeEventListener("mousemove", updateCameraPosition);
+      document.addEventListener("mousemove", updateMousePosition);
+    };
+
+    // bind mouse and touch listeners and clean up at the end of the interaction
+    document.addEventListener("mousemove", updateCameraPosition);
+    document.addEventListener("mouseup", cleanUp, { once: true });
+
+    // remove mouse listener while mouse/touch down
+    document.removeEventListener("mousemove", updateMousePosition);
+  }
+};
+
+export const clickMouseOverEntity = (e: MouseEvent): void => {
   if (CAMERA.inspectEntity && !INSPECT_VISIBLE) {
-    console.log(CAMERA?.inspectEntity);
-    console.log("teskljdsflks");
     toggleInspect();
   }
 };

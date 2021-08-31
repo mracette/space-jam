@@ -13,12 +13,12 @@
         <div class="full centered flex flex-centered" id="menu" style="visibility: hidden;">
             <div class="full flex flex-col" id="menu-col">
                 <h1 id="osh" class="mb-2 mt-2" style="height: unset;">Oscillators</h1>
-                <h2 class="mb-2" style="height: unset;">Use oscillators to play instruments</h2>
+                <p class="mb-2" style="height: unset;">Use oscillators to play instruments</p>
                 <div class="mb-5" style="height: unset;" class="flex flex-centered">
                     <div id="os"></div>
                 </div>
                 <h1 id="inh" class="mb-2" style="height: unset;">Instruments</h1>
-                <h2 class="mb-2" style="height: unset;">Use instruments to create sounds and collect notes</h2>
+                <p class="mb-2" style="height: unset;">Use instruments to create sounds and collect notes</p>
                 <div class="full" style="height: unset;" class="flex flex-centered">
                     <div id="in" class="flex flex-row flex-centered">
                         <p class="mb-2" style="height: unset;">Drums</p>
@@ -27,12 +27,25 @@
             </div>
         </div>
         <div class="flex centered flex-centered" id="inspect" style="visibility: hidden;">
-            <div id="inner-inspect" class="full">
-                <button id="close-inspect">x</button>
+            <div id="inner-inspect" class="full flex flex-centered flex-col">
+                <button id="close-inspect">✖</button>
+                <h1 class="mb-2" id="inspect-name">Snare</h1>
+                <div class="flex flex-centered">
+                    <p>Cost:&nbsp;</p>
+                    <p class="pink" id="inspect-cost">50</p>
+                </div>
+                <div class="flex flex-centered mb-2">
+                    <p>Notes produced:&nbsp;</p>
+                    <p class="green" id="inspect-notes">50</p>
+                </div>
+                <button class="flex flex-centered mb-2" id="sell-button">
+                    <p>Sell for&nbsp;</p>
+                    <p class="green" id="inspect-sell">50</p>
+                </button>
             </div>
         </div>
         <button class="mb-5" id="menu-button">
-            +
+            ✖
         </button>
     </div>
 </body>

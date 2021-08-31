@@ -1,38 +1,59 @@
+import { abbreviateNumber } from "./math";
 import { INSTRUMENT_LIST } from "../entities/instruments/factories";
 import { OSCILLATOR_LIST } from "../entities/oscillators/factories";
 import { ELEMENTS } from "../globals/dom";
 import { DEBUG, STATS } from "../globals/game";
 import { CAMERA } from "../index";
+import { handleOutsideClick, sellEntity } from "../interactions";
 
 export let MENU_VISIBLE = false;
 export let INSPECT_VISIBLE = false;
 
 export const toggleMenu = (): void => {
-  console.log("toggling menu");
   if (ELEMENTS.menu.style.visibility === "hidden") {
     ELEMENTS.menu.style.visibility = "visible";
-    ELEMENTS.menuButton.style.transform = "rotate(45deg)";
+    ELEMENTS.menuButton.style.transform = "rotate(0deg)";
     MENU_VISIBLE = true;
     updateButtonDisabled();
     if (INSPECT_VISIBLE) {
       toggleInspect();
     }
+    // using "mousedown" ensures that handleOutsideClick does not fire
+    // when the menu is toggled open (on a click event)
+    document.addEventListener("mousedown", handleOutsideClick);
   } else {
     ELEMENTS.menu.style.visibility = "hidden";
-    ELEMENTS.menuButton.style.transform = "rotate(0deg)";
+    ELEMENTS.menuButton.style.transform = "rotate(45deg)";
     MENU_VISIBLE = false;
+    document.removeEventListener("mousedown", handleOutsideClick);
   }
 };
 
 export const toggleInspect = (): void => {
-  console.log("toggling inspect");
   if (ELEMENTS.inspect.style.visibility === "hidden") {
     ELEMENTS.inspect.style.visibility = "visible";
     INSPECT_VISIBLE = true;
+    updateInspectMenu();
+    // using "mousedown" ensures that handleOutsideClick does not fire
+    // when the menu is toggled open (on a click event)
+    document.addEventListener("mousedown", handleOutsideClick);
   } else {
     ELEMENTS.inspect.style.visibility = "hidden";
     INSPECT_VISIBLE = false;
     CAMERA.inspectEntity = null;
+    document.removeEventListener("mousedown", handleOutsideClick);
+  }
+};
+
+export const updateInspectMenu = (): void => {
+  if (CAMERA.inspectEntity) {
+    const sellAmount = Math.round(CAMERA.inspectEntity.cost / 3);
+    ELEMENTS.inspectCost.innerHTML = abbreviateNumber(CAMERA.inspectEntity.cost);
+    ELEMENTS.inspectName.innerHTML = CAMERA.inspectEntity.display;
+    ELEMENTS.inspectNotes.innerHTML = abbreviateNumber(
+      CAMERA.inspectEntity.notesProduced
+    );
+    ELEMENTS.inspectSell.innerHTML = abbreviateNumber(sellAmount);
   }
 };
 
@@ -40,7 +61,7 @@ export const updateButtonDisabled = (): void => {
   if (DEBUG) return;
   [...INSTRUMENT_LIST, ...OSCILLATOR_LIST].forEach((entity) => {
     const button = document.getElementById(entity.id) as HTMLButtonElement;
-    if (entity.cost <= STATS.notes) {
+    if (entity.cost <= STATS.currentNotes) {
       if (button.disabled) {
         button.disabled = false;
       }

@@ -15,8 +15,6 @@ import { MapEntity } from "../MapEntity";
 import { Sound } from "../sounds/Sound";
 
 export class Instrument extends MapEntity {
-  display: string;
-  cost: number;
   notes: number;
   shape: number[][];
   outline: number[][];
@@ -45,6 +43,7 @@ export class Instrument extends MapEntity {
     if (!this.preview) {
       this.placeOnMap();
     }
+    this.sell = Math.round(this.cost / 3);
   }
 
   fitsInMap(): boolean {

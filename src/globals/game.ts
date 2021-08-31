@@ -6,5 +6,6 @@ export const enum ENTITY_STATE {
 }
 
 export const STATS = {
-  notes: 0
+  currentNotes: 0,
+  totalNotes: 0
 };

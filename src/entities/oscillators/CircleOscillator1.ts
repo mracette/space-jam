@@ -1,11 +1,11 @@
 import { CircleOscillator } from "./CircleOscillator";
 import { DURATIONS } from "../../globals/audio";
 import { COLORS } from "../../globals/colors";
-import { Organ } from "../sounds/harmonic-synth/Organ";
 
 export class CircleOscillator1 extends CircleOscillator {
   constructor(args: ConstructorParameters<typeof CircleOscillator>[0] = {}) {
     super(args);
+    this.display = "Circle Oscillator";
     this.id = "co1";
     this.cost = 25;
     this.radius = 1;

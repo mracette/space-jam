@@ -191,7 +191,7 @@ export const drawGameStats = (): void => {
   /**
    * NOTES
    */
-  const textNotes = "Notes: " + abbreviateNumber(STATS.notes);
+  const textNotes = "Current: " + abbreviateNumber(STATS.currentNotes);
   CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.DOUBLE)}px ${FONT_STYLE}`;
   CANVAS_CONTEXTS.stats.fillText(
     textNotes,

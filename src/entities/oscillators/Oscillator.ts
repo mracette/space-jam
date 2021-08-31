@@ -1,4 +1,4 @@
-import { AUDIO, DURATIONS, MIXOLYDIAN_SCALE, SCHEDULER } from "../../globals/audio";
+import { AUDIO, DURATIONS, SCHEDULER } from "../../globals/audio";
 import { COLORS } from "../../globals/colors";
 import { CANVAS_CONTEXTS } from "../../globals/dom";
 import { ENTITY_STATE, STATS } from "../../globals/game";
@@ -19,7 +19,6 @@ export class Oscillator extends MapEntity {
   duration: number;
   color: string;
   colorDisabled: string;
-  cost: number;
 
   constructor(args: ConstructorParameters<typeof MapEntity>[0] = {}) {
     super(args);
@@ -32,6 +31,7 @@ export class Oscillator extends MapEntity {
     if (!this.preview) {
       this.placeOnMap();
     }
+    this.sell = Math.round(this.cost / 3);
   }
 
   getCyclePosition(): number {
@@ -136,7 +136,6 @@ export class Oscillator extends MapEntity {
   createRepeatingEvents(): void {
     const entityArrayX = mapToEntityArray.x(this.position.x);
     const entityArrayY = mapToEntityArray.y(this.position.y);
-    console.log(this.getCyclePosition(), this.sequence.length);
     const cyclePositionIndex = Math.ceil(
       Math.max(this.getCyclePosition() || 0.1) * this.sequence.length
     );
@@ -154,7 +153,12 @@ export class Oscillator extends MapEntity {
             mapEntity.state !== ENTITY_STATE.PLAYING
           ) {
             mapEntity.state = ENTITY_STATE.PLAYING;
-            STATS.notes += (mapEntity.entity as AnyInstrument).notes;
+            const instrument = mapEntity.entity as AnyInstrument;
+            const additionalNotes = instrument.notes;
+            this.notesProduced += additionalNotes;
+            STATS.currentNotes += additionalNotes;
+            STATS.totalNotes += additionalNotes;
+            instrument.notesProduced += additionalNotes;
             (mapEntity.entity as AnyInstrument).sound.play(AUDIO.context.currentTime);
             SCHEDULER.scheduleOnce(
               AUDIO.context.currentTime + DURATIONS.QUARTER * 0.9,
