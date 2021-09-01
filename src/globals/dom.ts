@@ -1,4 +1,6 @@
 export const ELEMENTS = {
+  // root
+  root: document.getElementById("root") as HTMLDivElement,
   // canvas elements
   canvasTiles: document.getElementById("canvas-tiles") as HTMLCanvasElement,
   canvasPre: document.getElementById("canvas-pre") as HTMLCanvasElement,

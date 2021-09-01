@@ -34,5 +34,5 @@ export const setupEventListeners = (): void => {
   document.addEventListener("mousedown", moveCamera);
 
   const observer = new ResizeObserver(handleResize);
-  observer.observe(ELEMENTS.canvasTiles);
+  observer.observe(ELEMENTS.root);
 };

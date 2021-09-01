@@ -85,6 +85,7 @@ export class Camera extends Entity {
   }
 
   updateViewport(): void {
+    console.log("viewports");
     this.updateEntityArrayBounds();
     drawTiles();
   }

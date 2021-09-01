@@ -1,4 +1,5 @@
 import { ASPECT_RATIO } from "../globals/sizes";
+import { CAMERA } from "../index";
 
 export const getEventType = (e: MouseEvent | TouchEvent): "touch" | "mouse" | "click" => {
   if (e.type.startsWith("touch")) {
@@ -12,7 +13,7 @@ export const getEventType = (e: MouseEvent | TouchEvent): "touch" | "mouse" | "c
 
 export const resizeWithAspectRatio = (element: HTMLElement | HTMLCanvasElement): void => {
   const parent = element.parentElement;
-  const resize = () => {
+  const resizeToAspectRatio = () => {
     const { width, height } = parent.getBoundingClientRect();
     const resizeRatio = Math.min(width / ASPECT_RATIO.x, height / ASPECT_RATIO.y);
     const newWidth = resizeRatio * ASPECT_RATIO.x;
@@ -22,8 +23,9 @@ export const resizeWithAspectRatio = (element: HTMLElement | HTMLCanvasElement):
     (element as HTMLCanvasElement).height = newHeight * dpr;
     element.style.width = newWidth + "px";
     element.style.height = newHeight + "px";
+    CAMERA.updateViewport();
   };
 
-  const observer = new ResizeObserver(resize);
+  const observer = new ResizeObserver(resizeToAspectRatio);
   observer.observe(parent);
 };

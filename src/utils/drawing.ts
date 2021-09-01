@@ -35,6 +35,7 @@ export const drawStarPattern = (
   const dotSize = ringDistance / 5;
   const cx = canvas.width / 2;
   const cy = canvas.height / 2;
+  console.log(canvas);
   for (let i = 0; i < numRings; i++) {
     const ringRadius = i * ringDistance;
     const circumference = 2 * Math.PI * ringRadius;
@@ -74,7 +75,6 @@ export const limitDrawingToArc = (
   ctx: CanvasRenderingContext2D,
   operation: () => unknown
 ): void => {
-  // ctx.save();
   ctx.fillStyle = COLORS.BACKGROUND;
   ctx.fillRect(0, 0, COORDS.width(), COORDS.height());
   ctx.globalCompositeOperation = "destination-out";
@@ -91,7 +91,6 @@ export const limitDrawingToArc = (
   ctx.globalCompositeOperation = "source-atop";
   operation();
   ctx.globalCompositeOperation = "source-over";
-  // ctx.restore();
 };
 
 export const drawFog = (): void => {
