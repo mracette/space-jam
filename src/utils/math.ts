@@ -19,11 +19,11 @@ export const lerp = (x0: number, x1: number, t: number): number => x0 * t + x1 *
 export const abbreviateNumber = (n: number): string => {
   const m = n / 1000000;
   if (m > 1) {
-    return m + "M";
+    return m.toFixed(1) + "M";
   }
   const k = n / 1000;
   if (k > 1) {
-    return k + "K";
+    return k.toFixed(1) + "K";
   } else {
     return n + "";
   }

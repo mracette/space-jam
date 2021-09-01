@@ -80,6 +80,10 @@ button {
   color: #00e19e;
 }
 
+.entity-button {
+  margin-left: 1vh;
+}
+
 .mb-5 {
   margin-bottom: 5vh;
 }

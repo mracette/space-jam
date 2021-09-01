@@ -305,3 +305,12 @@
 | Compressed Build (Adv Zip) | 9.42 kb | 9642 | -3% |
 
 
+**trying to restore build hooks** - *Wed, 01 Sep 2021 21:47:28 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 51.44 kb | 52673 | NA |
+| Build | 27.88 kb | 28548 | -46% |
+| Compressed Build | 9.65 kb | 9878 | -65% |
+| Compressed Build (Adv Zip) | 9.34 kb | 9562 | -3% |
+
+

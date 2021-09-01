@@ -22,6 +22,7 @@ export class Instrument extends MapEntity {
   boundingBoxWidth: number;
   boundingBoxHeight: number;
   sound: Sound;
+  type: string;
   constructor(args: ConstructorParameters<typeof MapEntity>[0]) {
     super(args);
     this.name = "instrument";
@@ -101,9 +102,12 @@ export class Instrument extends MapEntity {
     }
     ctx.closePath();
     ctx.clip();
+    // will need more work
+    console.log(this.boundingBoxWidth, this.boundingBoxHeight, this.boundingBox);
+    const { minX, maxY } = this.boundingBox;
     ctx.fillRect(
-      mapToScreen.x(this.position.x - (this.boundingBoxWidth - 1) / 2),
-      mapToScreen.y(this.position.y + (this.boundingBoxHeight - 1) / 2),
+      mapToScreen.x(this.position.x + minX),
+      mapToScreen.y(this.position.y + maxY),
       COORDS.width(TILE_DIMENSIONS.SIZE) * this.boundingBoxWidth,
       COORDS.width(TILE_DIMENSIONS.SIZE) * this.boundingBoxHeight
     );

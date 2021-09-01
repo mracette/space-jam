@@ -72,11 +72,13 @@ export const setupMenuUI = (): void => {
     const button = document.createElement("button");
     const canvas = document.createElement("canvas");
     canvas.classList.add("full");
+    button.classList.add("entity-button");
     button.append(canvas);
     button.id = id;
 
     // appends button to it's corresponding <div /> in the menu
-    const divId = name === "instrument" ? "in" : "os";
+    const divId = name === "instrument" ? (entity as AnyInstrument).type : "os";
+    console.log(divId);
     (ELEMENTS as any)[divId].append(button);
 
     button.onclick = (e: MouseEvent | TouchEvent) => {

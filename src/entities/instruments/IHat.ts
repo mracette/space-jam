@@ -4,8 +4,9 @@ import { HiHat } from "../sounds/waveform-synth/HiHat";
 export class IHat extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
-    this.display = "HiHat";
     this.id = "in3";
+    this.type = "dr";
+    this.display = "HiHat";
     this.cost = 5;
     this.notes = 1;
     this.outline = [

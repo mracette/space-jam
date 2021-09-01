@@ -1,10 +1,13 @@
 import "./styles.css";
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
-import { Basic3 } from "./entities/instruments/Basic3";
 import { AnyInstrument } from "./entities/instruments/factories";
 import { IKick } from "./entities/instruments/IKick";
+import { IOrganSynth } from "./entities/instruments/IOrganSynth";
+import { ISawSynth } from "./entities/instruments/ISawSynth";
+import { ISineSynth } from "./entities/instruments/ISineSynth";
 import { ISnare } from "./entities/instruments/ISnare";
+import { ISquareSynth } from "./entities/instruments/ISquareSynth";
 import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { AnyOscillator } from "./entities/oscillators/factories";
 import { setupEventListeners } from "./events";
@@ -46,7 +49,7 @@ const begin = async () => {
 
   new IKick({ x: 1, y: 0 });
   new ISnare({ x: -1, y: 0 });
-  new Basic3({ x: -4, y: -4 });
+  new ISquareSynth({ x: -2, y: -2 });
   new CircleOscillator1({ x: 0, y: 0 });
 
   // const stats = new Stats();

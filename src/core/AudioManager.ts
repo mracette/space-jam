@@ -32,7 +32,7 @@ export class AudioManager {
       SAMPLE_RATE.VALUE
     );
     this.premaster = this.context.createGain();
-    // this.premaster.connect(this.context.destination);
+    this.premaster.connect(this.context.destination);
     this.reverb = this.context.createConvolver();
     this.reverb.connect(this.premaster);
   }
