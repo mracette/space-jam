@@ -1,4 +1,3 @@
-import { CacheItem, INSTRUMENT_CACHE } from "./cache";
 import { COLORS } from "../../globals/colors";
 import { CANVAS_CONTEXTS } from "../../globals/dom";
 import { TAU } from "../../globals/math";
@@ -22,7 +21,6 @@ export class Instrument extends MapEntity {
   boundingBox: BoundingBox;
   boundingBoxWidth: number;
   boundingBoxHeight: number;
-  cache: CacheItem;
   sound: Sound;
   constructor(args: ConstructorParameters<typeof MapEntity>[0]) {
     super(args);
@@ -39,7 +37,6 @@ export class Instrument extends MapEntity {
     );
     this.boundingBoxWidth = this.boundingBox.maxX - this.boundingBox.minX;
     this.boundingBoxHeight = this.boundingBox.maxY - this.boundingBox.minY;
-    this.cache = INSTRUMENT_CACHE.find(({ id }) => id === this.id);
     if (!this.preview) {
       this.placeOnMap();
     }

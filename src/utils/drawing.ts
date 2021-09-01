@@ -17,12 +17,6 @@ import {
 import { FONT_STYLE } from "../globals/styles";
 import { CAMERA, COORDS } from "../index";
 
-export const drawInstrumentPattern = (canvas: HTMLCanvasElement): void => {
-  const ctx = canvas.getContext("2d");
-  ctx.fillStyle = COLORS.HOT_GREEN;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-};
-
 export const drawStarPattern = (
   canvas: HTMLCanvasElement = ELEMENTS.canvasPre,
   hueStart = 50,

@@ -1,7 +1,5 @@
 import { CAMERA, EntityArrayElement, ENTITY_ARRAY } from "./index";
-import { INSTRUMENT_CACHE } from "./entities/instruments/cache";
 import { AnyInstrument } from "./entities/instruments/factories";
-import { Instrument } from "./entities/instruments/Instrument";
 import { AnyOscillator } from "./entities/oscillators/factories";
 import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
@@ -23,11 +21,6 @@ export const sellEntity = (): void => {
 export const handleResize = (): void => {
   drawStarPattern();
   drawFog();
-  // set up updates for offscreen canvas elements
-  INSTRUMENT_CACHE.forEach((cache) => {
-    cache.offscreen.needsUpdate = true;
-  });
-  // runs animations pegged to camera movement
   CAMERA.updateViewport();
 };
 
