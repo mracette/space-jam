@@ -1,6 +1,6 @@
 import { CacheItem, INSTRUMENT_CACHE } from "./cache";
 import { COLORS } from "../../globals/colors";
-import { CANVAS_CONTEXTS, ELEMENTS } from "../../globals/dom";
+import { CANVAS_CONTEXTS } from "../../globals/dom";
 import { TAU } from "../../globals/math";
 import { LINE_WIDTH, TILE_DIMENSIONS } from "../../globals/sizes";
 import { CAMERA, COORDS, ENTITY_ARRAY } from "../../index";
@@ -28,7 +28,7 @@ export class Instrument extends MapEntity {
   constructor(args: ConstructorParameters<typeof MapEntity>[0]) {
     super(args);
     this.name = "instrument";
-    this.color = `hsl(${Math.random() * 360}, 50%, 50%)`; // COLORS.HOT_GREEN;
+    this.color = COLORS.HOT_GREEN;
   }
 
   init(): void {
@@ -52,10 +52,10 @@ export class Instrument extends MapEntity {
     const { x, y } = this.position;
     const arrX = mapToEntityArray.x(x);
     const arrY = mapToEntityArray.y(y);
-    const arr = ENTITY_ARRAY[arrX][arrY];
+    const arrayEntity = ENTITY_ARRAY[arrX][arrY];
     const isInView = arrX > xLower && arrX < xUpper && arrY > yLower && arrY < yUpper;
-    const spaceIsTaken = Boolean(arr.entity);
-    const isBlocked = arr.blocked || false;
+    const spaceIsTaken = Boolean(arrayEntity.entity);
+    const isBlocked = arrayEntity.blocked || false;
     const adjacentSpacesAreBlocked = this.shape.some(
       ([sx, sy]) =>
         ENTITY_ARRAY[arrX + sx][arrY + sy].blocked ||
@@ -76,24 +76,20 @@ export class Instrument extends MapEntity {
     });
   }
 
-  renderBaseShape(
-    sx: number = mapToScreen.x(this.position.x - (this.boundingBoxWidth - 1) / 2),
-    sy: number = mapToScreen.y(this.position.y + (this.boundingBoxHeight - 1) / 2),
-    ctx: CanvasRenderingContext2D = CANVAS_CONTEXTS.instrument,
-    baseWidth: number = COORDS.width(TILE_DIMENSIONS.SIZE),
-    lineWidth: number = COORDS.width(LINE_WIDTH.VALUE),
-    color: string = this.disabled ? this.colorDisabled : this.color
-  ): void {
-    ctx.fillStyle = color;
-    ctx.fillRect(
-      sx,
-      sy,
-      baseWidth * this.boundingBoxWidth,
-      baseWidth * this.boundingBoxHeight
-    );
+  removeFromMap(): void {
+    const ex = mapToEntityArray.x(this.position.x);
+    const ey = mapToEntityArray.y(this.position.y);
+    // @ts-ignore
+    ENTITY_ARRAY[ex][ey] = new Object();
+    this.shape.forEach(([dx, dy]) => {
+      ENTITY_ARRAY[ex + dx][ey + dy].blocked = false;
+    });
   }
 
-  render(ctx: CanvasRenderingContext2D = CANVAS_CONTEXTS.instrument): void {
+  render(
+    ctx: CanvasRenderingContext2D = CANVAS_CONTEXTS.instrument,
+    showLabel = true
+  ): void {
     ctx.save();
     ctx.fillStyle = this.disabled ? COLORS.DISABLED : this.color;
     ctx.beginPath();
@@ -108,24 +104,33 @@ export class Instrument extends MapEntity {
       }
     }
     ctx.closePath();
-    ctx.stroke();
     ctx.clip();
-
-    this.renderBaseShape();
-
-    ctx.globalCompositeOperation = "source-over";
+    ctx.fillRect(
+      mapToScreen.x(this.position.x - (this.boundingBoxWidth - 1) / 2),
+      mapToScreen.y(this.position.y + (this.boundingBoxHeight - 1) / 2),
+      COORDS.width(TILE_DIMENSIONS.SIZE) * this.boundingBoxWidth,
+      COORDS.width(TILE_DIMENSIONS.SIZE) * this.boundingBoxHeight
+    );
     ctx.stroke();
-    const cx = mapToScreen.x(this.position.x + 0.5);
-    const cy = mapToScreen.y(this.position.y - 0.5);
-    ctx.fillStyle = COLORS.WHITE;
-    ctx.beginPath();
-    ctx.arc(cx, cy, COORDS.width(TILE_DIMENSIONS.QUARTER), 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = COLORS.BACKGROUND;
 
-    const label = this.display.substr(0, 1);
-    const metrics = ctx.measureText(label);
-    ctx.fillText(this.display.substr(0, 1), cx, cy + metrics.actualBoundingBoxAscent / 2);
+    if (showLabel) {
+      const cx = mapToScreen.x(this.position.x + 0.5);
+      const cy = mapToScreen.y(this.position.y - 0.5);
+      ctx.fillStyle = COLORS.WHITE;
+      ctx.beginPath();
+      ctx.arc(cx, cy, COORDS.width(TILE_DIMENSIONS.QUARTER), 0, TAU);
+      ctx.fill();
+      ctx.fillStyle = COLORS.BACKGROUND;
+
+      const label = this.display.substr(0, 1);
+      const metrics = ctx.measureText(label);
+      ctx.fillText(
+        this.display.substr(0, 1),
+        cx,
+        cy + metrics.actualBoundingBoxAscent / 2
+      );
+    }
+
     ctx.restore();
   }
 }

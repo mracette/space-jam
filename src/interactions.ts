@@ -1,6 +1,7 @@
 import { CAMERA, EntityArrayElement, ENTITY_ARRAY } from "./index";
 import { INSTRUMENT_CACHE } from "./entities/instruments/cache";
 import { AnyInstrument } from "./entities/instruments/factories";
+import { Instrument } from "./entities/instruments/Instrument";
 import { AnyOscillator } from "./entities/oscillators/factories";
 import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
@@ -11,13 +12,10 @@ import { INSPECT_VISIBLE, MENU_VISIBLE, toggleInspect, toggleMenu } from "./util
 import { drawFog, drawStarPattern } from "./utils/drawing";
 
 export const sellEntity = (): void => {
-  console.log("sell");
   if (CAMERA.inspectEntity) {
-    const arrX = mapToEntityArray.x(CAMERA.inspectEntity.position.x);
-    const arrY = mapToEntityArray.y(CAMERA.inspectEntity.position.y);
+    CAMERA.inspectEntity.removeFromMap();
     STATS.currentNotes += CAMERA.inspectEntity.sell;
     STATS.totalNotes += CAMERA.inspectEntity.sell;
-    ENTITY_ARRAY[arrX][arrY] = Object();
     toggleInspect();
   }
 };
@@ -34,7 +32,11 @@ export const handleResize = (): void => {
 };
 
 export const handleOutsideClick = (e: MouseEvent): void => {
-  if (MENU_VISIBLE && !ELEMENTS.menu.contains(e.target as Element)) {
+  if (
+    MENU_VISIBLE &&
+    !ELEMENTS.menu.contains(e.target as Element) &&
+    !ELEMENTS.menuButton.contains(e.target as Element)
+  ) {
     toggleMenu();
   }
   if (INSPECT_VISIBLE && !ELEMENTS.inspectInner.contains(e.target as Element)) {

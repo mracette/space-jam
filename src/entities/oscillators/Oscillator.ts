@@ -60,6 +60,15 @@ export class Oscillator extends MapEntity {
     this.createRepeatingEvents();
   }
 
+  removeFromMap(): void {
+    const ex = mapToEntityArray.x(this.position.x);
+    const ey = mapToEntityArray.y(this.position.y);
+    ENTITY_ARRAY[ex][ey] = new Object();
+    this.repeatingEvents.forEach((event) => {
+      SCHEDULER.cancel(event);
+    });
+  }
+
   render(): void {
     const cx = mapToScreen.x(this.position.x + 0.5);
     const cy = mapToScreen.y(this.position.y - 0.5);
