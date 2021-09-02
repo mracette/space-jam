@@ -6,7 +6,7 @@ export class ISawSynth extends Instrument {
     super(args);
     this.id = "in6";
     this.type = "bs";
-    this.display = "Saw Synth";
+    this.display = "Saw";
     this.cost = 15;
     this.notes = 2;
     this.outline = [

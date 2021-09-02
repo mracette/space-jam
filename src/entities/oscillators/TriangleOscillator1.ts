@@ -5,7 +5,7 @@ import { COLORS } from "../../globals/colors";
 export class TriangleOscillator1 extends TriangleOscillator {
   constructor(args: ConstructorParameters<typeof TriangleOscillator>[0] = {}) {
     super(args);
-    this.display = "Triangle Oscillator";
+    this.display = "Triangle";
     this.interval = DURATIONS.QUARTER_TRIPLETS;
     this.id = "to1";
     this.cost = 50;

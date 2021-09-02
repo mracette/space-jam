@@ -5,7 +5,7 @@ import { COLORS } from "../../globals/colors";
 export class CircleOscillator1 extends CircleOscillator {
   constructor(args: ConstructorParameters<typeof CircleOscillator>[0] = {}) {
     super(args);
-    this.display = "Circle Oscillator";
+    this.display = "Circle";
     this.id = "co1";
     this.cost = 25;
     this.radius = 1;

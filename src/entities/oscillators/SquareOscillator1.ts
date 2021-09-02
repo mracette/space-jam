@@ -5,7 +5,7 @@ import { COLORS } from "../../globals/colors";
 export class SquareOscillator1 extends SquareOscillator {
   constructor(args: ConstructorParameters<typeof SquareOscillator>[0] = {}) {
     super(args);
-    this.display = "Square Oscillator";
+    this.display = "Square";
     this.interval = DURATIONS.SIXTEENTH;
     this.id = "so1";
     this.cost = 1000;

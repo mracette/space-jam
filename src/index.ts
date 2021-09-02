@@ -78,4 +78,6 @@ const begin = async () => {
   window.requestAnimationFrame(render);
 };
 
-begin();
+window.addEventListener("DOMContentLoaded", () => {
+  begin();
+});

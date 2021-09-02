@@ -314,3 +314,12 @@
 | Compressed Build (Adv Zip) | 9.34 kb | 9562 | -3% |
 
 
+**add 4 more synths** - *Wed, 01 Sep 2021 23:06:06 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 52.07 kb | 53319 | NA |
+| Build | 30.40 kb | 31131 | -42% |
+| Compressed Build | 10.01 kb | 10255 | -67% |
+| Compressed Build (Adv Zip) | 9.71 kb | 9946 | -3% |
+
+

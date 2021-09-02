@@ -80,8 +80,17 @@ button {
   color: #00e19e;
 }
 
-.entity-button {
-  margin-left: 1vh;
+.row-label {
+  width: 8vh;
+  /* flex-basis: 3vh; */
+}
+
+.hidden {
+  display: none;
+}
+
+.m-1 {
+  margin: 1vh;
 }
 
 .mb-5 {
@@ -94,6 +103,10 @@ button {
 
 .mb-2 {
   margin-bottom: 2vh;
+}
+
+.item-stats {
+  line-height: 2.5vh;
 }
 
 #osh {

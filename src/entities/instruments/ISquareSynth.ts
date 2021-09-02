@@ -6,7 +6,7 @@ export class ISquareSynth extends Instrument {
     super(args);
     this.id = "in8";
     this.type = "bs";
-    this.display = "Square Synth";
+    this.display = "Square";
     this.cost = 15;
     this.notes = 2;
     this.outline = [

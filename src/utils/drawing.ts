@@ -29,7 +29,6 @@ export const drawStarPattern = (
   const dotSize = ringDistance / 5;
   const cx = canvas.width / 2;
   const cy = canvas.height / 2;
-  console.log(canvas);
   for (let i = 0; i < numRings; i++) {
     const ringRadius = i * ringDistance;
     const circumference = 2 * Math.PI * ringRadius;

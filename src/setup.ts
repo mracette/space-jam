@@ -30,7 +30,7 @@ const drawMenuButtonUi = (
   if (entity.name === "oscillator") {
     (entity as AnyOscillator).renderBaseShape(
       canvas.width / 2,
-      canvas.height / 1.75,
+      canvas.height / 2,
       ctx,
       canvas.width * (type === "co" ? 0.15 : 0.3),
       canvas.width / 15
@@ -56,12 +56,6 @@ const drawMenuButtonUi = (
     ctx.restore();
     ctx.scale(1, ay / ax);
   }
-  ctx.font = `${canvas.width / 5}px ${FONT_STYLE}`;
-  ctx.fillStyle = COLORS.WHITE;
-  ctx.textAlign = "center";
-  const text = abbreviateNumber(entity.cost);
-  const metrics = ctx.measureText(text);
-  ctx.fillText(text, canvas.width / 2, metrics.actualBoundingBoxAscent * 1.75);
 };
 
 export const setupMenuUI = (): void => {
@@ -69,17 +63,28 @@ export const setupMenuUI = (): void => {
   allEntities.forEach((entity, i) => {
     const id = entity.id as OscillatorIds | InstrumentId;
     const name = entity.name;
-    const button = document.createElement("button");
-    const canvas = document.createElement("canvas");
-    canvas.classList.add("full");
-    button.classList.add("entity-button");
-    button.append(canvas);
-    button.id = id;
 
-    // appends button to it's corresponding <div /> in the menu
-    const divId = name === "instrument" ? (entity as AnyInstrument).type : "os";
-    console.log(divId);
-    (ELEMENTS as any)[divId].append(button);
+    // clone the html template for this node
+    const node = document
+      .getElementById("templates")
+      .firstElementChild.cloneNode(true) as HTMLDivElement;
+
+    const button = node.querySelector("button") as HTMLButtonElement;
+    const canvas = node.querySelector("canvas") as HTMLCanvasElement;
+
+    node.querySelector("p").innerHTML = entity.display;
+
+    const spans = node.querySelectorAll("span");
+    spans[0].innerHTML = "-" + entity.cost;
+
+    if (name === "instrument") {
+      spans[1].innerHTML = "&nbsp;/&nbsp;";
+      spans[2].innerHTML = "+" + (entity as AnyInstrument).notes;
+    }
+
+    // appends button to its categorical row in the menu
+    const parentId = name === "instrument" ? (entity as AnyInstrument).type : "os";
+    (ELEMENTS as any)[parentId].append(node);
 
     button.onclick = (e: MouseEvent | TouchEvent) => {
       e.stopPropagation();

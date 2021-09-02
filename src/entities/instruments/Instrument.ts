@@ -10,6 +10,7 @@ import {
   findBoundingBoxFromOutline
 } from "../../utils/geometry";
 import { MapEntity } from "../MapEntity";
+import { AnyOscillator } from "../oscillators/factories";
 import { Sound } from "../sounds/Sound";
 
 export class Instrument extends MapEntity {
@@ -64,23 +65,34 @@ export class Instrument extends MapEntity {
 
   placeOnMap(): void {
     this.preview = false;
-    const ex = mapToEntityArray.x(this.position.x);
-    const ey = mapToEntityArray.y(this.position.y);
+    const arrX = mapToEntityArray.x(this.position.x);
+    const arrY = mapToEntityArray.y(this.position.y);
     // @ts-ignore
-    ENTITY_ARRAY[ex][ey].entity = this;
+    ENTITY_ARRAY[arrX][arrY].entity = this;
     this.shape.forEach(([dx, dy]) => {
-      ENTITY_ARRAY[ex + dx][ey + dy].blocked = true;
+      ENTITY_ARRAY[arrX + dx][arrY + dy].blocked = true;
     });
   }
 
   removeFromMap(): void {
-    const ex = mapToEntityArray.x(this.position.x);
-    const ey = mapToEntityArray.y(this.position.y);
+    const arrX = mapToEntityArray.x(this.position.x);
+    const arrY = mapToEntityArray.y(this.position.y);
     // @ts-ignore
-    ENTITY_ARRAY[ex][ey] = new Object();
+    ENTITY_ARRAY[arrX][arrY] = new Object();
     this.shape.forEach(([dx, dy]) => {
-      ENTITY_ARRAY[ex + dx][ey + dy].blocked = false;
+      ENTITY_ARRAY[arrX + dx][arrY + dy].blocked = false;
     });
+    // this should be changed if any oscillator radius ever goes above 1
+    const affectedRadius = 1;
+    for (let i = arrX - affectedRadius; i <= arrX + affectedRadius; i++) {
+      for (let j = arrY - affectedRadius; j <= arrY + affectedRadius; j++) {
+        const affectedEntity = ENTITY_ARRAY[i][j];
+        if (affectedEntity?.entity?.name === "oscillator") {
+          const affectedOscillator = affectedEntity.entity as AnyOscillator;
+          affectedOscillator.createAudioEvents();
+        }
+      }
+    }
   }
 
   render(
@@ -103,7 +115,6 @@ export class Instrument extends MapEntity {
     ctx.closePath();
     ctx.clip();
     // will need more work
-    console.log(this.boundingBoxWidth, this.boundingBoxHeight, this.boundingBox);
     const { minX, maxY } = this.boundingBox;
     ctx.fillRect(
       mapToScreen.x(this.position.x + minX),

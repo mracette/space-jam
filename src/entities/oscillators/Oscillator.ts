@@ -57,16 +57,14 @@ export class Oscillator extends MapEntity {
     this.repeatingEvents.forEach((event) => {
       SCHEDULER.cancel(event);
     });
-    this.createRepeatingEvents();
+    this.createAudioEvents();
   }
 
   removeFromMap(): void {
     const ex = mapToEntityArray.x(this.position.x);
     const ey = mapToEntityArray.y(this.position.y);
     ENTITY_ARRAY[ex][ey] = new Object();
-    this.repeatingEvents.forEach((event) => {
-      SCHEDULER.cancel(event);
-    });
+    this.clearAudioEvents();
   }
 
   render(): void {
@@ -140,9 +138,16 @@ export class Oscillator extends MapEntity {
     // overridden in child classes
   }
 
-  createRepeatingEvents(): void {
-    const entityArrayX = mapToEntityArray.x(this.position.x);
-    const entityArrayY = mapToEntityArray.y(this.position.y);
+  clearAudioEvents(): void {
+    this.repeatingEvents.forEach((event) => {
+      SCHEDULER.cancel(event);
+    });
+  }
+
+  createAudioEvents(): void {
+    this.clearAudioEvents();
+    const arrX = mapToEntityArray.x(this.position.x);
+    const arrY = mapToEntityArray.y(this.position.y);
     const cyclePositionIndex = Math.ceil(
       Math.max(this.getCyclePosition() || 0.1) * this.sequence.length
     );
@@ -151,8 +156,7 @@ export class Oscillator extends MapEntity {
       const nextIntervalSequence = nextInterval + i * this.interval;
       const sequenceIndex = (i + cyclePositionIndex) % this.sequence.length;
       const sequenceEntry = this.sequence[sequenceIndex];
-      const mapEntity =
-        ENTITY_ARRAY[entityArrayX + sequenceEntry[0]][entityArrayY + sequenceEntry[1]];
+      const mapEntity = ENTITY_ARRAY[arrX + sequenceEntry[0]][arrY + sequenceEntry[1]];
       this.repeatingEvents.push(
         SCHEDULER.scheduleRepeating(nextIntervalSequence, this.duration, () => {
           if (
