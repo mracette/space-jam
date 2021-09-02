@@ -93,7 +93,22 @@ module.exports = () => {
               toplevel: true,
               properties: {
                 debug: !isProduction,
-                reserved: ["co", "to", "so", "in"]
+                reserved: [
+                  "baseVolume",
+                  "baseReverb",
+                  "lpFrequency",
+                  "lpQ",
+                  "lpEnvQ",
+                  "hpFrequency",
+                  "hpQ",
+                  "hpEnvQ",
+                  "osh",
+                  "os",
+                  "inh",
+                  "dr",
+                  "bs",
+                  "cs"
+                ]
               }
             }
           }

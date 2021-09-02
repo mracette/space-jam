@@ -120,18 +120,6 @@ export class Scheduler {
     return newEvent.id;
   }
 
-  updateCallback(id: number, callback: () => unknown): void {
-    const event = this.getEvent(id) as RepeatingAudioEvent;
-    if (event) {
-      event.callback = callback;
-      event.source.onended = () => {
-        callback();
-        // add the next occurence
-        this.incrementRepeating(event);
-      };
-    }
-  }
-
   getEvent(id: number): SingleAudioEvent | RepeatingAudioEvent {
     return this.queue.find((e) => e.id === id);
   }

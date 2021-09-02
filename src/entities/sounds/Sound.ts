@@ -1,5 +1,6 @@
 import { AUDIO, MIXOLYDIAN_SCALE } from "../../globals/audio";
 import { applyEnvelop, intervalToHz } from "../../utils/audio";
+import { isUndefined } from "../../utils/conversions";
 
 export interface EnvelopeValue {
   time: number;
@@ -197,17 +198,17 @@ export class Sound {
     name: T,
     value?: EffectOptions[T]
   ): EffectOptions[T] {
-    if (typeof value !== "undefined") {
+    if (!isUndefined(value)) {
       return value;
     }
     return this.effectOptions[name];
   }
 
   getNoteToPlay(note?: number): number {
-    if (typeof note !== "undefined") {
+    if (!isUndefined(note)) {
       return this.noteAdj + note;
     }
-    if (typeof this.note !== "undefined") {
+    if (!isUndefined(this.note)) {
       {
         return this.noteAdj + this.note;
       }
