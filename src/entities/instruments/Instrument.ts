@@ -13,6 +13,11 @@ import { MapEntity } from "../MapEntity";
 import { AnyOscillator } from "../oscillators/factories";
 import { Sound } from "../sounds/Sound";
 
+type InstrumentType =
+  | "dr" // drums
+  | "bs" // basic synths
+  | "cs"; // complex synths
+
 export class Instrument extends MapEntity {
   notes: number;
   shape: number[][];
@@ -23,10 +28,10 @@ export class Instrument extends MapEntity {
   boundingBoxWidth: number;
   boundingBoxHeight: number;
   sound: Sound;
-  type: string;
+  instrumentType: InstrumentType;
   constructor(args: ConstructorParameters<typeof MapEntity>[0]) {
     super(args);
-    this.name = "instrument";
+    this.type = "instrument";
     this.color = COLORS.HOT_GREEN;
   }
 
@@ -87,7 +92,7 @@ export class Instrument extends MapEntity {
     for (let i = arrX - affectedRadius; i <= arrX + affectedRadius; i++) {
       for (let j = arrY - affectedRadius; j <= arrY + affectedRadius; j++) {
         const affectedEntity = ENTITY_ARRAY[i][j];
-        if (affectedEntity?.entity?.name === "oscillator") {
+        if (affectedEntity?.entity?.type === "oscillator") {
           const affectedOscillator = affectedEntity.entity as AnyOscillator;
           affectedOscillator.createAudioEvents();
         }

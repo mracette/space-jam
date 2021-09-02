@@ -4,8 +4,7 @@ import { Snare } from "../sounds/waveform-synth/Snare";
 export class ISnare extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
-    this.id = "in2";
-    this.type = "dr";
+    this.instrumentType = "dr";
     this.display = "Snare";
     this.cost = 25;
     this.notes = 2;

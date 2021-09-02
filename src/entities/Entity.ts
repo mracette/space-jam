@@ -1,13 +1,15 @@
+type EntityType = "instrument" | "oscillator" | "camera";
+
 export interface EntityArgs {
-  name?: string;
+  type?: EntityType;
   hover?: boolean;
 }
 
 export class Entity {
-  public name?: string;
+  public type?: EntityType;
   public hover?: boolean;
-  constructor({ name = "", hover = false }: EntityArgs = {}) {
-    this.name = name;
+  constructor({ type, hover = false }: EntityArgs = {}) {
+    this.type = type;
     this.hover = hover;
   }
 }

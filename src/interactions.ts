@@ -1,6 +1,8 @@
 import { CAMERA, EntityArrayElement, ENTITY_ARRAY } from "./index";
-import { AnyInstrument } from "./entities/instruments/factories";
-import { AnyOscillator } from "./entities/oscillators/factories";
+import { InstrumentFactory } from "./entities/instruments/factories";
+import { Instrument } from "./entities/instruments/Instrument";
+import { OscillatorFactory } from "./entities/oscillators/factories";
+import { Oscillator } from "./entities/oscillators/Oscillator";
 import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
 import { STATS } from "./globals/game";
@@ -120,8 +122,8 @@ document.addEventListener("mousedown", clickMouseOverEntity, { capture: false })
 document.addEventListener("mousemove", checkMouseoverEntity, { capture: false });
 
 export const dragEntityToMap = (
-  entity: AnyInstrument | AnyOscillator,
-  factory: (args: any) => AnyInstrument | AnyOscillator
+  entity: Instrument | Oscillator,
+  factory: InstrumentFactory | OscillatorFactory
 ): void => {
   entity.position.set(MOUSE_POSITION.mapX, MOUSE_POSITION.mapY);
   CAMERA.previewEntity = entity;

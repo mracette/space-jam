@@ -4,8 +4,7 @@ import { Organ } from "../sounds/harmonic-synth/Organ";
 export class IOrganSynth extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
-    this.id = "in5";
-    this.type = "bs";
+    this.instrumentType = "bs";
     this.display = "Organ";
     this.cost = 25;
     this.notes = 2;

@@ -4,8 +4,7 @@ import { Tom } from "../sounds/waveform-synth/Tom";
 export class ITom extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
-    this.id = "in4";
-    this.type = "dr";
+    this.instrumentType = "dr";
     this.display = "Tom";
     this.cost = 15;
     this.notes = 3;

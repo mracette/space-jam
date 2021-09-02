@@ -239,7 +239,7 @@ export const drawInstruments = (): void => {
   CANVAS_CONTEXTS.instrument.lineJoin = "round";
   addCircularClip(CANVAS_CONTEXTS.instrument);
   CAMERA.applyToEntityArray(({ entity }) => {
-    if (entity?.name === "instrument") {
+    if (entity?.type === "instrument") {
       entity.render();
     }
   });
@@ -252,7 +252,7 @@ export const drawOscillators = (): void => {
   CANVAS_CONTEXTS.oscillator.lineWidth = COORDS.width(LINE_WIDTH.VALUE);
   addCircularClip(CANVAS_CONTEXTS.oscillator);
   CAMERA.applyToEntityArray(({ entity }) => {
-    if (entity?.name === "oscillator") {
+    if (entity?.type === "oscillator") {
       entity.render();
     }
   });

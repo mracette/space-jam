@@ -101,13 +101,7 @@ module.exports = () => {
                   "lpEnvQ",
                   "hpFrequency",
                   "hpQ",
-                  "hpEnvQ",
-                  "osh",
-                  "os",
-                  "inh",
-                  "dr",
-                  "bs",
-                  "cs"
+                  "hpEnvQ"
                 ]
               }
             }

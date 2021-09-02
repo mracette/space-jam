@@ -7,7 +7,6 @@ export class TriangleOscillator1 extends TriangleOscillator {
     super(args);
     this.display = "Triangle";
     this.interval = DURATIONS.QUARTER_TRIPLETS;
-    this.id = "to1";
     this.cost = 50;
     this.color = COLORS.HOT_PINK;
     this.sequence = [

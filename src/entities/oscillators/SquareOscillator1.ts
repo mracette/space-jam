@@ -7,7 +7,6 @@ export class SquareOscillator1 extends SquareOscillator {
     super(args);
     this.display = "Square";
     this.interval = DURATIONS.SIXTEENTH;
-    this.id = "so1";
     this.cost = 500;
     this.color = COLORS.HOT_PINK;
     this.sequence = [
