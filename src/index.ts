@@ -49,7 +49,6 @@ const begin = async () => {
 
   new IKick({ x: 1, y: 0 });
   new ISnare({ x: -1, y: 0 });
-  new ISquareSynth({ x: -2, y: -2 });
   new CircleOscillator1({ x: 0, y: 0 });
 
   // const stats = new Stats();

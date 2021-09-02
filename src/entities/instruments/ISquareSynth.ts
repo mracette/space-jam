@@ -7,8 +7,8 @@ export class ISquareSynth extends Instrument {
     this.id = "in8";
     this.type = "bs";
     this.display = "Square";
-    this.cost = 15;
-    this.notes = 2;
+    this.cost = 100;
+    this.notes = 5;
     this.outline = [
       [0, 0],
       [1, 0],

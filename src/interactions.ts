@@ -140,6 +140,7 @@ export const dragEntityToMap = (
     if (!entity.disabled) {
       const { x, y } = entity.position;
       factory({ x, y });
+      STATS.currentNotes -= CAMERA.previewEntity.cost;
       CAMERA.previewEntity = null;
       document.removeEventListener("mousemove", onMouseMove);
       ELEMENTS.canvasStats.style.cursor = "grab";

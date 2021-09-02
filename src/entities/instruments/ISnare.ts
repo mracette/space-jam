@@ -8,7 +8,7 @@ export class ISnare extends Instrument {
     this.type = "dr";
     this.display = "Snare";
     this.cost = 25;
-    this.notes = 3;
+    this.notes = 2;
     this.outline = [
       [0, 0],
       [1, 0],

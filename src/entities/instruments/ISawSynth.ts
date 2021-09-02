@@ -7,8 +7,8 @@ export class ISawSynth extends Instrument {
     this.id = "in6";
     this.type = "bs";
     this.display = "Saw";
-    this.cost = 15;
-    this.notes = 2;
+    this.cost = 50;
+    this.notes = 3;
     this.outline = [
       [0, 0],
       [1, 0],

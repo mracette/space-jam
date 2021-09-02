@@ -7,7 +7,7 @@ export class IOrganSynth extends Instrument {
     this.id = "in5";
     this.type = "bs";
     this.display = "Organ";
-    this.cost = 15;
+    this.cost = 25;
     this.notes = 2;
     this.outline = [
       [0, 1],

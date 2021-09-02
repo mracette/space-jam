@@ -8,7 +8,7 @@ export class IKick extends Instrument {
     this.type = "dr";
     this.display = "Kick";
     this.cost = 50;
-    this.notes = 5;
+    this.notes = 3;
     this.outline = [
       [0, 0],
       [1, 0],

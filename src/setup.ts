@@ -10,15 +10,12 @@ import {
   OSCILLATOR_FACTORIES,
   OSCILLATOR_LIST
 } from "./entities/oscillators/factories";
-import { COLORS } from "./globals/colors";
 import { ELEMENTS } from "./globals/dom";
-import { DEBUG } from "./globals/game";
 import { ASPECT_RATIO } from "./globals/sizes";
-import { FONT_STYLE, STYLES } from "./globals/styles";
+import { STYLES } from "./globals/styles";
 import { dragEntityToMap } from "./interactions";
 import { clearCanvasAndState } from "./utils/canvas";
 import { toggleMenu } from "./utils/dom";
-import { abbreviateNumber } from "./utils/math";
 
 const drawMenuButtonUi = (
   canvas: HTMLCanvasElement,
@@ -70,6 +67,8 @@ export const setupMenuUI = (): void => {
       .firstElementChild.cloneNode(true) as HTMLDivElement;
 
     const button = node.querySelector("button") as HTMLButtonElement;
+    button.id = entity.id;
+
     const canvas = node.querySelector("canvas") as HTMLCanvasElement;
 
     node.querySelector("p").innerHTML = entity.display;

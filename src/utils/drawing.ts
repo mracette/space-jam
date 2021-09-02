@@ -24,7 +24,7 @@ export const drawStarPattern = (
 ): void => {
   const ctx = canvas.getContext("2d");
   const designRadius = Math.sqrt((Math.max(canvas.width, canvas.height) / 2) ** 2 * 2);
-  const ringDistance = designRadius / 150;
+  const ringDistance = designRadius / 50;
   const numRings = designRadius / ringDistance;
   const dotSize = ringDistance / 5;
   const cx = canvas.width / 2;
@@ -42,7 +42,7 @@ export const drawStarPattern = (
         hueStart,
         hueEnd,
         rotationProportionAdj % 1
-      )}, 50%, 50%)`;
+      )}, 30%, 30%)`;
       ctx.beginPath();
       ctx.arc(x, y, dotSize, 0, TAU);
       ctx.fill();

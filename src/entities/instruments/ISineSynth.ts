@@ -7,8 +7,8 @@ export class ISineSynth extends Instrument {
     this.id = "in7";
     this.type = "bs";
     this.display = "Sine";
-    this.cost = 15;
-    this.notes = 2;
+    this.cost = 75;
+    this.notes = 4;
     this.outline = [
       [0, 0],
       [0, 1],
