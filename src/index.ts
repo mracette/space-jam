@@ -1,15 +1,12 @@
 import "./styles.css";
 import { CanvasCoordinates } from "./core/Coords";
 import { Camera } from "./entities/Camera";
-import { AnyInstrument } from "./entities/instruments/factories";
 import { IKick } from "./entities/instruments/IKick";
-import { IOrganSynth } from "./entities/instruments/IOrganSynth";
-import { ISawSynth } from "./entities/instruments/ISawSynth";
-import { ISineSynth } from "./entities/instruments/ISineSynth";
+import { Instrument } from "./entities/instruments/Instrument";
 import { ISnare } from "./entities/instruments/ISnare";
-import { ISquareSynth } from "./entities/instruments/ISquareSynth";
 import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { AnyOscillator } from "./entities/oscillators/factories";
+import { Oscillator } from "./entities/oscillators/Oscillator";
 import { setupEventListeners } from "./events";
 import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
@@ -27,7 +24,7 @@ import {
 // import * as Stats from "stats.js";
 
 export interface EntityArrayElement {
-  entity?: AnyInstrument | AnyOscillator;
+  entity?: Instrument | Oscillator;
   state?: ENTITY_STATE;
   blocked?: boolean;
 }

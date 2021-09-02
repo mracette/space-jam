@@ -5,7 +5,7 @@ export class IHat extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
     this.id = "in3";
-    this.type = "dr";
+    this.instrumentType = "dr";
     this.display = "HiHat";
     this.cost = 5;
     this.notes = 1;

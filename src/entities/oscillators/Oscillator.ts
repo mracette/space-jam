@@ -1,5 +1,4 @@
 import { AUDIO, DURATIONS, SCHEDULER } from "../../globals/audio";
-import { COLORS } from "../../globals/colors";
 import { CANVAS_CONTEXTS } from "../../globals/dom";
 import { ENTITY_STATE, STATS } from "../../globals/game";
 import { TAU } from "../../globals/math";
@@ -9,7 +8,7 @@ import { nextSubdivision } from "../../utils/audio";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import { drawTile } from "../../utils/drawing";
 import { lerp } from "../../utils/math";
-import { AnyInstrument } from "../instruments/factories";
+import { Instrument } from "../instruments/Instrument";
 import { MapEntity } from "../MapEntity";
 
 export class Oscillator extends MapEntity {
@@ -21,7 +20,7 @@ export class Oscillator extends MapEntity {
 
   constructor(args: ConstructorParameters<typeof MapEntity>[0] = {}) {
     super(args);
-    this.name = "oscillator";
+    this.type = "oscillator";
     this.repeatingEvents = [];
   }
 
@@ -160,17 +159,17 @@ export class Oscillator extends MapEntity {
       this.repeatingEvents.push(
         SCHEDULER.scheduleRepeating(nextIntervalSequence, this.duration, () => {
           if (
-            mapEntity?.entity?.name === "instrument" &&
+            mapEntity?.entity?.type === "instrument" &&
             mapEntity.state !== ENTITY_STATE.PLAYING
           ) {
             mapEntity.state = ENTITY_STATE.PLAYING;
-            const instrument = mapEntity.entity as AnyInstrument;
+            const instrument = mapEntity.entity as Instrument;
             const additionalNotes = instrument.notes;
             this.notesProduced += additionalNotes;
             STATS.currentNotes += additionalNotes;
             STATS.totalNotes += additionalNotes;
             instrument.notesProduced += additionalNotes;
-            (mapEntity.entity as AnyInstrument).sound.play(AUDIO.context.currentTime);
+            instrument.sound.play(AUDIO.context.currentTime);
             SCHEDULER.scheduleOnce(
               AUDIO.context.currentTime + DURATIONS.QUARTER * 0.9,
               () => {

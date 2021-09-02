@@ -5,7 +5,7 @@ export class ISineSynth extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
     this.id = "in7";
-    this.type = "bs";
+    this.instrumentType = "bs";
     this.display = "Sine";
     this.cost = 75;
     this.notes = 4;

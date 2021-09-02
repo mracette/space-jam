@@ -5,7 +5,7 @@ export class IKick extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
     this.id = "in1";
-    this.type = "dr";
+    this.instrumentType = "dr";
     this.display = "Kick";
     this.cost = 50;
     this.notes = 3;

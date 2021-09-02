@@ -5,7 +5,7 @@ export class ISquareSynth extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
     this.id = "in8";
-    this.type = "bs";
+    this.instrumentType = "bs";
     this.display = "Square";
     this.cost = 100;
     this.notes = 5;

@@ -12,11 +12,6 @@ export const ELEMENTS = {
   menu: document.getElementById("menu") as HTMLDivElement,
   menuButton: document.getElementById("menu-button") as HTMLButtonElement,
   menuCol: document.getElementById("menu-col") as HTMLDivElement,
-  // entity button rows
-  os: document.getElementById("os") as HTMLDivElement,
-  dr: document.getElementById("dr") as HTMLDivElement,
-  bs: document.getElementById("bs") as HTMLDivElement,
-  cs: document.getElementById("cs") as HTMLDivElement,
   // inspect menu
   inspect: document.getElementById("inspect") as HTMLDivElement,
   inspectInner: document.getElementById("inner-inspect") as HTMLDivElement,

@@ -1,6 +1,4 @@
 import { abbreviateNumber } from "./math";
-import { INSTRUMENT_LIST } from "../entities/instruments/factories";
-import { OSCILLATOR_LIST } from "../entities/oscillators/factories";
 import { ELEMENTS } from "../globals/dom";
 import { DEBUG, STATS } from "../globals/game";
 import { CAMERA } from "../index";
@@ -59,9 +57,8 @@ export const updateInspectMenu = (): void => {
 
 export const updateButtonDisabled = (): void => {
   if (DEBUG) return;
-  [...INSTRUMENT_LIST, ...OSCILLATOR_LIST].forEach((entity) => {
-    const button = document.getElementById(entity.id) as HTMLButtonElement;
-    if (entity.cost <= STATS.currentNotes) {
+  document.querySelectorAll<HTMLButtonElement>(".entity-button").forEach((button) => {
+    if (parseInt(button.getAttribute("cost")) <= STATS.currentNotes) {
       if (button.disabled) {
         button.disabled = false;
       }

@@ -1,20 +1,13 @@
 import { Entity, EntityArgs } from "./Entity";
-import { AnyInstrument } from "./instruments/factories";
 import { Instrument } from "./instruments/Instrument";
-import { AnyOscillator } from "./oscillators/factories";
+import { Oscillator } from "./oscillators/Oscillator";
 import { CanvasCoordinates } from "../core/Coords";
 import { Vector2, Vector2Args } from "../core/Vector2";
-import { AUDIO } from "../globals/audio";
 import { CANVAS_CONTEXTS } from "../globals/dom";
 import { ENTITY_STATE } from "../globals/game";
 import { ENTITY_ARRAY_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals/sizes";
 import { EntityArrayElement, ENTITY_ARRAY } from "../index";
-import {
-  entityArrayToMap,
-  entityArrayToScreen,
-  mapToEntityArray,
-  mapToScreen
-} from "../utils/conversions";
+import { entityArrayToMap, mapToEntityArray, mapToScreen } from "../utils/conversions";
 import {
   drawGameStats,
   drawInstruments,
@@ -31,8 +24,8 @@ export class Camera extends Entity {
   position: Vector2;
   velocity: Vector2;
   coords: CanvasCoordinates;
-  previewEntity: AnyOscillator | AnyInstrument;
-  inspectEntity: AnyOscillator | AnyInstrument;
+  previewEntity: Instrument | Oscillator;
+  inspectEntity: Instrument | Oscillator;
   /**
    * contains the upper/lower bounds of the entity array elements
    * that are currently in the camera's viewport
@@ -44,8 +37,8 @@ export class Camera extends Entity {
     yUpper: number;
   };
 
-  constructor({ name = "camera", coords }: EntityArgs & CameraArgs & Vector2Args) {
-    super({ name });
+  constructor({ type = "camera", coords }: EntityArgs & CameraArgs & Vector2Args) {
+    super({ type });
     this.coords = coords;
     this.position = new Vector2();
     this.velocity = new Vector2();
@@ -107,7 +100,7 @@ export class Camera extends Entity {
     drawGameStats();
     this.applyToEntityArray((mapEntity, i, j) => {
       const { entity, state } = mapEntity;
-      if (entity?.name === "instrument") {
+      if (entity?.type === "instrument") {
         // draw the increase
         if (state === ENTITY_STATE.PLAYING) {
           drawNoteIncrease(

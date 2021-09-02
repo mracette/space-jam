@@ -5,7 +5,7 @@ export class ISawSynth extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
     this.id = "in6";
-    this.type = "bs";
+    this.instrumentType = "bs";
     this.display = "Saw";
     this.cost = 50;
     this.notes = 3;
