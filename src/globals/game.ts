@@ -1,4 +1,4 @@
-export const DEBUG = false;
+export const DEBUG = true;
 
 export const enum ENTITY_STATE {
   PLAYING = "playing",

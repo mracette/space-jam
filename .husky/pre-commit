@@ -1,0 +1,7 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+yarn build:prod
+yarn commitlog
+git add build
+git add commit-log.md

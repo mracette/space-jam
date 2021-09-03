@@ -2,6 +2,4 @@
 .vscode/*
 node_modules/
 screenshots/
-build/**/*
-build-min/**/*
-commit-log.md
+**/*.log
