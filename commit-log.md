@@ -367,3 +367,12 @@
 | Compressed Build (Adv Zip) | 9.81 kb | 10043 | -3% |
 
 
+*Fri, 03 Sep 2021 03:31:20 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 18940 kb | 18.50 | NA |
+| Build | 30.89 kb | 31635 | +170900% |
+| Compressed Build | 10.16 kb | 10404 | -67% |
+| Compressed Build (Adv Zip) | 9.86 kb | 10094 | -3% |
+
+
