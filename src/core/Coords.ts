@@ -12,11 +12,11 @@ export class CanvasCoordinates {
     return this.canvas.height * ((n + 1) / 2);
   }
 
-  width(n = 1): number {
-    return this.canvas.width * n;
+  width(n = 1, screen = false): number {
+    return (this.canvas.width * n) / (screen ? window.devicePixelRatio : 1);
   }
 
-  height(n = 1): number {
-    return this.canvas.height * n;
+  height(n = 1, screen = false): number {
+    return (this.canvas.height * n) / (screen ? window.devicePixelRatio : 1);
   }
 }

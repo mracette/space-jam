@@ -31,7 +31,7 @@ export const screenToMap = {
       return undefined;
     } else {
       const tilesInCanvasX = COORDS.width() / COORDS.width(TILE_DIMENSIONS.SIZE);
-      const xNormal = (2 * (x - left)) / COORDS.width(); // [0, 1] across canvas
+      const xNormal = (x - left) / COORDS.width(1, true); // [0, 1] across canvas
       const xMap = -tilesInCanvasX / 2 + xNormal * tilesInCanvasX + CAMERA.position.x;
       return Math.round(xMap);
     }
@@ -43,7 +43,7 @@ export const screenToMap = {
       return undefined;
     } else {
       const tilesInCanvasY = COORDS.height() / COORDS.width(TILE_DIMENSIONS.SIZE);
-      const yNormal = (2 * (bottom - y - top)) / COORDS.height(); // [0, 1] across canvas
+      const yNormal = (bottom - y - top) / COORDS.height(1, true); // [0, 1] across canvas
       const yMap = -tilesInCanvasY / 2 + yNormal * tilesInCanvasY + CAMERA.position.y;
       return Math.round(yMap);
     }
