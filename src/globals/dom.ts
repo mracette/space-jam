@@ -24,10 +24,10 @@ export const ELEMENTS = {
 };
 
 export const CANVAS_CONTEXTS = {
-  tiles: ELEMENTS.canvasTiles.getContext("2d"),
-  pre: ELEMENTS.canvasPost.getContext("2d"),
-  post: ELEMENTS.canvasPost.getContext("2d"),
-  stats: ELEMENTS.canvasStats.getContext("2d"),
-  oscillator: ELEMENTS.canvasOscillators.getContext("2d"),
-  instrument: ELEMENTS.canvasInstruments.getContext("2d")
+  tiles: ELEMENTS.canvasTiles?.getContext("2d"),
+  pre: ELEMENTS.canvasPost?.getContext("2d"),
+  post: ELEMENTS.canvasPost?.getContext("2d"),
+  stats: ELEMENTS.canvasStats?.getContext("2d"),
+  oscillator: ELEMENTS.canvasOscillators?.getContext("2d"),
+  instrument: ELEMENTS.canvasInstruments?.getContext("2d")
 };

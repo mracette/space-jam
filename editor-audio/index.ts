@@ -1,50 +1,50 @@
-import { LongSaw } from "../src/entities/sounds/harmonic-synth/LongSaw";
-import { Organ } from "../src/entities/sounds/harmonic-synth/Organ";
-import { TinSaw } from "../src/entities/sounds/harmonic-synth/TinSaw";
-import { TinSine } from "../src/entities/sounds/harmonic-synth/TinSine";
-import { TinSquare } from "../src/entities/sounds/harmonic-synth/TinSquare";
-import { HiHat } from "../src/entities/sounds/waveform-synth/HiHat";
-import { Kick } from "../src/entities/sounds/waveform-synth/Kick";
-import { Snare } from "../src/entities/sounds/waveform-synth/Snare";
-import { Tom } from "../src/entities/sounds/waveform-synth/Tom";
 import { AUDIO, MIXOLYDIAN_SCALE } from "../src/globals/audio";
+import { ComplexSawSound } from "../src/sounds/harmonic-synth/ComplexSawSound";
+import { OrganSound } from "../src/sounds/harmonic-synth/OrganSound";
+import { SawSound } from "../src/sounds/harmonic-synth/SawSound";
+import { SineSound } from "../src/sounds/harmonic-synth/SineSound";
+import { SquareSound } from "../src/sounds/harmonic-synth/SquareSound";
+import { HiHatSound } from "../src/sounds/waveform-synth/HiHatSound";
+import { KickSound } from "../src/sounds/waveform-synth/KickSound";
+import { SnareSound } from "../src/sounds/waveform-synth/SnareSound";
+import { TomSound } from "../src/sounds/waveform-synth/TomSound";
 
 const testInstruments = [
   {
     name: "organ",
-    instrument: new Organ()
+    instrument: new OrganSound()
   },
   {
     name: "tin-can",
-    instrument: new TinSine()
+    instrument: new SineSound()
   },
   {
     name: "tin-square",
-    instrument: new TinSquare()
+    instrument: new SquareSound()
   },
   {
     name: "tin-saw",
-    instrument: new TinSaw()
+    instrument: new SawSound()
   },
   {
     name: "long-saw",
-    instrument: new LongSaw()
+    instrument: new ComplexSawSound()
   },
   {
     name: "808",
-    instrument: new Kick()
+    instrument: new KickSound()
   },
   {
-    name: "HiHat",
-    instrument: new HiHat()
+    name: "HiHatSound",
+    instrument: new HiHatSound()
   },
   {
-    name: "Tom",
-    instrument: new Tom()
+    name: "TomSound",
+    instrument: new TomSound()
   },
   {
-    name: "Snare",
-    instrument: new Snare()
+    name: "SnareSound",
+    instrument: new SnareSound()
   }
 ];
 

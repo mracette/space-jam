@@ -1,11 +1,10 @@
-import { CAMERA, EntityArrayElement, ENTITY_ARRAY } from "./index";
 import { InstrumentFactory } from "./entities/instruments/factories";
 import { Instrument } from "./entities/instruments/Instrument";
 import { OscillatorFactory } from "./entities/oscillators/factories";
 import { Oscillator } from "./entities/oscillators/Oscillator";
 import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
-import { STATS } from "./globals/game";
+import { CAMERA, EntityArrayElement, ENTITY_ARRAY, STATS } from "./globals/game";
 import { MOUSE_POSITION, TILE_DIMENSIONS } from "./globals/sizes";
 import { setPannerPosition } from "./utils/audio";
 import { isUndefined, mapToEntityArray, screenToMap } from "./utils/conversions";

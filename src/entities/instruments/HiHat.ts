@@ -1,7 +1,7 @@
 import { Instrument } from "./Instrument";
-import { HiHat } from "../sounds/waveform-synth/HiHat";
+import { HiHatSound } from "../../sounds/waveform-synth/HiHatSound";
 
-export class IHat extends Instrument {
+export class HiHat extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
     this.instrumentType = "dr";
@@ -14,7 +14,7 @@ export class IHat extends Instrument {
       [1, -1],
       [0, -1]
     ];
-    this.sound = new HiHat({ note: 0 });
+    this.sound = new HiHatSound({ note: 0 });
     this.init();
   }
 }

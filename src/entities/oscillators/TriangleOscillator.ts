@@ -1,7 +1,7 @@
 import { Oscillator } from "./Oscillator";
 import { CANVAS_CONTEXTS } from "../../globals/dom";
 import { LINE_WIDTH, TILE_DIMENSIONS } from "../../globals/sizes";
-import { COORDS } from "../../index";
+import { COORDS } from "../../utils/conversions";
 import { equilateralTriangle } from "../../utils/geometry";
 
 export class TriangleOscillator extends Oscillator {

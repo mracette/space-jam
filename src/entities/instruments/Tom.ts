@@ -1,20 +1,20 @@
 import { Instrument } from "./Instrument";
-import { Snare } from "../sounds/waveform-synth/Snare";
+import { TomSound } from "../../sounds/waveform-synth/TomSound";
 
-export class ISnare extends Instrument {
+export class Tom extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
     this.instrumentType = "dr";
-    this.display = "Snare";
-    this.cost = 25;
-    this.notes = 2;
+    this.display = "Tom";
+    this.cost = 15;
+    this.notes = 3;
     this.outline = [
       [0, 0],
       [1, 0],
       [1, -1],
       [0, -1]
     ];
-    this.sound = new Snare({ note: 7 });
+    this.sound = new TomSound({ note: 0 });
     this.init();
   }
 }

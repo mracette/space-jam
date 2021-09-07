@@ -1,17 +1,10 @@
 import "./styles.css";
-import { CanvasCoordinates } from "./core/Coords";
-import { Camera } from "./entities/Camera";
-import { IKick } from "./entities/instruments/IKick";
-import { Instrument } from "./entities/instruments/Instrument";
-import { ISnare } from "./entities/instruments/ISnare";
+import { Kick } from "./entities/instruments/Kick";
+import { Snare } from "./entities/instruments/Snare";
 import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
-import { AnyOscillator } from "./entities/oscillators/factories";
-import { Oscillator } from "./entities/oscillators/Oscillator";
 import { setupEventListeners } from "./events";
 import { AUDIO } from "./globals/audio";
-import { ELEMENTS } from "./globals/dom";
-import { ENTITY_STATE, STATS } from "./globals/game";
-import { ENTITY_ARRAY_DIMENSIONS } from "./globals/sizes";
+import { CAMERA, STATS } from "./globals/game";
 import { setupBaseStyles, setupMenuUI } from "./setup";
 
 import {
@@ -23,19 +16,6 @@ import {
 // @ts-ignore
 // import * as Stats from "stats.js";
 
-export interface EntityArrayElement {
-  entity?: Instrument | Oscillator;
-  state?: ENTITY_STATE;
-  blocked?: boolean;
-}
-
-export const ENTITY_ARRAY: EntityArrayElement[][] = Array.from({
-  length: ENTITY_ARRAY_DIMENSIONS.W
-}).map(() => Array.from({ length: ENTITY_ARRAY_DIMENSIONS.H }, Object));
-
-export const COORDS = new CanvasCoordinates(ELEMENTS.canvasTiles);
-export const CAMERA = new Camera({ coords: COORDS });
-
 const begin = async () => {
   await AUDIO.init();
   setupEventListeners();
@@ -44,8 +24,8 @@ const begin = async () => {
   updateButtonDisabled();
   CAMERA.updateViewport();
 
-  new IKick({ x: 1, y: 0 });
-  new ISnare({ x: -1, y: 0 });
+  new Kick({ x: 1, y: 0 });
+  new Snare({ x: -1, y: 0 });
   new CircleOscillator1({ x: 0, y: 0 });
 
   // const stats = new Stats();

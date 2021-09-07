@@ -1,11 +1,10 @@
 import { AUDIO, DURATIONS, SCHEDULER } from "../../globals/audio";
 import { CANVAS_CONTEXTS } from "../../globals/dom";
-import { ENTITY_STATE, STATS } from "../../globals/game";
+import { CAMERA, ENTITY_ARRAY, ENTITY_STATE, STATS } from "../../globals/game";
 import { TAU } from "../../globals/math";
 import { TILE_DIMENSIONS } from "../../globals/sizes";
-import { CAMERA, COORDS, ENTITY_ARRAY } from "../../index";
 import { nextSubdivision } from "../../utils/audio";
-import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
+import { COORDS, mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import { drawTile } from "../../utils/drawing";
 import { lerp } from "../../utils/math";
 import { Instrument } from "../instruments/Instrument";

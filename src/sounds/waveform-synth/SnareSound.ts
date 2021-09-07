@@ -1,7 +1,7 @@
-import { AUDIO } from "../../../globals/audio";
+import { AUDIO } from "../../globals/audio";
 import { Sound } from "../Sound";
 
-export class Snare extends Sound {
+export class SnareSound extends Sound {
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
     this.noteAdj = 0;
@@ -11,7 +11,7 @@ export class Snare extends Sound {
         { time: 0.45, value: 0.0001, exp: true }
       ]
     };
-    this.effectOptions.hpFrequency = 90;
+    this.filters = [{ type: "highpass", frequency: 90, q: 1.7 }];
     this.effectOptions.baseReverb = 0.05;
     this.effectOptions.baseVolume = 0.25;
   }

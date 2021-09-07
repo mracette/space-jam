@@ -1,11 +1,11 @@
 import { clearCanvasAndState } from "./canvas";
-import { entityArrayToScreen } from "./conversions";
+import { COORDS, entityArrayToScreen } from "./conversions";
 import { abbreviateNumber, lerp, rotatePoint } from "./math";
 import { CanvasCoordinates } from "../core/Coords";
 import { COLORS } from "../globals/colors";
 import { CANVAS_CONTEXTS } from "../globals/dom";
 import { ELEMENTS } from "../globals/dom";
-import { STATS } from "../globals/game";
+import { CAMERA, STATS } from "../globals/game";
 import { TAU } from "../globals/math";
 import {
   FONT_SIZE,
@@ -15,7 +15,6 @@ import {
   VIEWPORT_DIMENSIONS
 } from "../globals/sizes";
 import { FONT_STYLE } from "../globals/styles";
-import { CAMERA, COORDS } from "../index";
 
 export const drawStarPattern = (
   canvas: HTMLCanvasElement = ELEMENTS.canvasPre,

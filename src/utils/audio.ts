@@ -1,9 +1,8 @@
 import { F32, RAND } from "./factories";
-import { Vector2 } from "../core/Vector2";
 import { Instrument } from "../entities/instruments/Instrument";
-import { EnvelopeValue } from "../entities/sounds/Sound";
 import { AUDIO, BASE_NOTE, DURATIONS, SAMPLE_RATE } from "../globals/audio";
-import { CAMERA } from "../index";
+import { CAMERA } from "../globals/game";
+import { EnvelopeValue } from "../sounds/Sound";
 
 export const nextSubdivision = (duration: DURATIONS): number => {
   const durationsElapsed = AUDIO.context.currentTime / duration;
@@ -65,4 +64,28 @@ export const generateNoise = (time: number): AudioBuffer => {
 export const setPannerPosition = (instrument: Instrument): void => {
   instrument.sound.pan.positionX.value = instrument.position.x - CAMERA.position.x;
   instrument.sound.pan.positionY.value = instrument.position.y - CAMERA.position.y;
+};
+
+export interface FilterParams {
+  q?: number;
+  type: BiquadFilterNode["type"];
+  frequency?: number;
+  gain?: number;
+}
+
+export const createFilterChain = (filterParams: FilterParams[]): BiquadFilterNode[] => {
+  const filters = filterParams.map(({ q, type, frequency, gain }) => {
+    const filter = AUDIO.context.createBiquadFilter();
+    filter.type = type;
+    q && (filter.Q.value = q);
+    frequency && (filter.frequency.value = frequency);
+    gain && (filter.gain.value = gain);
+    return filter;
+  });
+  filters.forEach((filter, i, arr) => {
+    if (i !== arr.length - 1) {
+      filter.connect(arr[i + 1]);
+    }
+  });
+  return filters;
 };

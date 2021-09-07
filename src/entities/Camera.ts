@@ -4,9 +4,8 @@ import { Oscillator } from "./oscillators/Oscillator";
 import { CanvasCoordinates } from "../core/Coords";
 import { Vector2, Vector2Args } from "../core/Vector2";
 import { CANVAS_CONTEXTS } from "../globals/dom";
-import { ENTITY_STATE } from "../globals/game";
+import { EntityArrayElement, ENTITY_ARRAY, ENTITY_STATE } from "../globals/game";
 import { ENTITY_ARRAY_DIMENSIONS, VIEWPORT_DIMENSIONS } from "../globals/sizes";
-import { EntityArrayElement, ENTITY_ARRAY } from "../index";
 import { entityArrayToMap, mapToEntityArray, mapToScreen } from "../utils/conversions";
 import {
   drawGameStats,

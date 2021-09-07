@@ -1,7 +1,11 @@
-import { AUDIO, MIXOLYDIAN_SCALE } from "../../globals/audio";
-import { VIEWPORT_DIMENSIONS } from "../../globals/sizes";
-import { applyEnvelop, intervalToHz } from "../../utils/audio";
-import { isUndefined } from "../../utils/conversions";
+import { AUDIO, MIXOLYDIAN_SCALE } from "../globals/audio";
+import {
+  applyEnvelop,
+  createFilterChain,
+  FilterParams,
+  intervalToHz
+} from "../utils/audio";
+import { isUndefined } from "../utils/conversions";
 
 export interface EnvelopeValue {
   time: number;
@@ -24,14 +28,8 @@ interface AudioSourceDefinition {
 export interface EffectOptions {
   baseVolume: number;
   baseReverb: number;
-  // LP
-  lpFrequency?: number;
-  lpQ?: number;
   // LP Env
   lpEnvQ?: number;
-  // HP
-  hpFrequency?: number;
-  hpQ?: number;
   // HP General
   hpEnvQ?: number;
   // pan
@@ -51,28 +49,26 @@ export class Sound {
   envelopes: Envelopes;
   noteAdj: number;
   pan: PannerNode;
+  filters: FilterParams[];
 
   constructor(args: { note?: number; audioSourceOptions?: AudioSourceOptions } = {}) {
     this.note = args.note;
     this.noteAdj = 0;
-    this.pan = AUDIO.context.createPanner();
-    this.pan.panningModel = "equalpower";
-    this.pan.distanceModel = "linear";
-    this.pan.rolloffFactor = 1;
+    this.filters = [];
+    // this.pan = AUDIO.context.createPanner();
+    // this.pan.panningModel = "equalpower";
+    // this.pan.distanceModel = "linear";
+    // this.pan.rolloffFactor = 1;
     // this.pan.positionZ.value = VIEWPORT_DIMENSIONS.W;
     // this.pan.coneInnerAngle = 0;
     // this.pan.coneOuterAngle = 360;
-    this.pan.maxDistance = VIEWPORT_DIMENSIONS.W_HALF;
+    // this.pan.maxDistance = VIEWPORT_DIMENSIONS.W_HALF;
     // these act as defaults
     this.effectOptions = {
       baseVolume: 1,
       baseReverb: 0,
-      lpFrequency: 20000,
-      hpFrequency: 20,
-      lpQ: 1.7,
       lpEnvQ: 1.7,
-      hpEnvQ: 1.7,
-      hpQ: 1.7
+      hpEnvQ: 1.7
     };
   }
 
@@ -111,28 +107,12 @@ export class Sound {
     lpEnv.Q.value = this.getParamValue("lpEnvQ", options.lpEnvQ);
 
     /**
-     * LP
-     */
-    const lp = AUDIO.context.createBiquadFilter();
-    lp.type = "lowpass";
-    lp.frequency.value = this.getParamValue("lpFrequency", options.lpFrequency);
-    lp.Q.value = this.getParamValue("lpQ", options.lpQ);
-
-    /**
      * HP Env
      */
     const hpEnv = AUDIO.context.createBiquadFilter();
     hpEnv.type = "highpass";
     hpEnv.frequency.value = 20;
     hpEnv.Q.value = this.getParamValue("hpEnvQ", options.hpEnvQ);
-
-    /**
-     * HP
-     */
-    const hp = AUDIO.context.createBiquadFilter();
-    hp.type = "highpass";
-    hp.frequency.value = this.getParamValue("hpFrequency", options.hpFrequency);
-    hp.Q.value = this.getParamValue("hpQ", options.hpQ);
 
     /**
      * Apply envelopes
@@ -150,11 +130,16 @@ export class Sound {
     gain.connect(amplitude);
     amplitude.connect(lpEnv);
     lpEnv.connect(hpEnv);
-    hpEnv.connect(lp);
-    lp.connect(hp);
-    hp.connect(this.pan);
-    this.pan.connect(reverbWet);
-    this.pan.connect(reverbDry);
+    const numFilters = this.filters?.length || 0;
+    if (numFilters > 0) {
+      const filters = createFilterChain(this.filters);
+      hpEnv.connect(filters[0]);
+      filters[numFilters - 1].connect(reverbDry);
+      filters[numFilters - 1].connect(reverbWet);
+    } else {
+      lpEnv.connect(reverbDry);
+      lpEnv.connect(reverbWet);
+    }
     reverbDry.connect(AUDIO.premaster);
     reverbWet.connect(AUDIO.reverb);
     source.start(time);

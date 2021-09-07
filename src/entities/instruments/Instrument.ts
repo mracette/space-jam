@@ -1,10 +1,11 @@
 import { COLORS } from "../../globals/colors";
 import { CANVAS_CONTEXTS } from "../../globals/dom";
+import { CAMERA, ENTITY_ARRAY } from "../../globals/game";
 import { TAU } from "../../globals/math";
 import { TILE_DIMENSIONS } from "../../globals/sizes";
-import { CAMERA, COORDS, ENTITY_ARRAY } from "../../index";
+import { Sound } from "../../sounds/Sound";
 import { setPannerPosition } from "../../utils/audio";
-import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
+import { COORDS, mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import {
   BoundingBox,
   createShapeFromOutline,
@@ -12,7 +13,6 @@ import {
 } from "../../utils/geometry";
 import { MapEntity } from "../MapEntity";
 import { AnyOscillator } from "../oscillators/factories";
-import { Sound } from "../sounds/Sound";
 
 type InstrumentType =
   | "dr" // drums

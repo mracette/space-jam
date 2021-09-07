@@ -1,6 +1,9 @@
+import { CanvasCoordinates } from "../core/Coords";
 import { ELEMENTS } from "../globals/dom";
+import { CAMERA } from "../globals/game";
 import { MAP_DIMENSIONS, TILE_DIMENSIONS } from "../globals/sizes";
-import { CAMERA, COORDS } from "../index";
+
+export const COORDS = new CanvasCoordinates(ELEMENTS.canvasTiles);
 
 export const entityArrayToMap = {
   x: (x: number): number => x - MAP_DIMENSIONS.W_HALF,

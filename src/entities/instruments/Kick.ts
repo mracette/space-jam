@@ -1,7 +1,7 @@
 import { Instrument } from "./Instrument";
-import { Kick } from "../sounds/waveform-synth/Kick";
+import { KickSound } from "../../sounds/waveform-synth/KickSound";
 
-export class IKick extends Instrument {
+export class Kick extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
     this.instrumentType = "dr";
@@ -14,7 +14,7 @@ export class IKick extends Instrument {
       [1, -1],
       [0, -1]
     ];
-    this.sound = new Kick({ note: 0 });
+    this.sound = new KickSound({ note: 0 });
     this.init();
   }
 }

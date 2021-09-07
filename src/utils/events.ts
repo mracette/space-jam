@@ -1,5 +1,5 @@
+import { CAMERA } from "../globals/game";
 import { ASPECT_RATIO } from "../globals/sizes";
-import { CAMERA } from "../index";
 
 export const getEventType = (e: MouseEvent | TouchEvent): "touch" | "mouse" | "click" => {
   if (e.type.startsWith("touch")) {

@@ -39,8 +39,9 @@ export class AudioManager {
     this.compressor.attack.value = 0;
     this.compressor.release.value = 0.25;
     this.premaster = this.context.createGain();
-    this.premaster.connect(this.compressor);
-    this.compressor.connect(this.context.destination);
+    this.premaster.connect(this.context.destination);
+    // this.premaster.connect(this.compressor);
+    // this.compressor.connect(this.context.destination);
     this.reverb = this.context.createConvolver();
     this.reverb.connect(this.premaster);
   }

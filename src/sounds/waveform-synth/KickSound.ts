@@ -1,6 +1,6 @@
 import { Sound } from "../Sound";
 
-export class Kick extends Sound {
+export class KickSound extends Sound {
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
     this.noteAdj = -24;

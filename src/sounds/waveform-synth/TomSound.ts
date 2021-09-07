@@ -1,7 +1,7 @@
-import { AUDIO } from "../../../globals/audio";
+import { AUDIO } from "../../globals/audio";
 import { Sound } from "../Sound";
 
-export class Tom extends Sound {
+export class TomSound extends Sound {
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
     this.noteAdj = 0;

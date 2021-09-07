@@ -1,17 +1,28 @@
-import { AUDIO } from "../../../globals/audio";
+import { AUDIO } from "../../globals/audio";
+import { createFilterChain } from "../../utils/audio";
 import { Sound } from "../Sound";
 
-export class HiHat extends Sound {
+export class HiHatSound extends Sound {
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
     this.noteAdj = 0;
     this.envelopes = {
       amplitude: [
-        { time: 0, value: 1 },
+        { time: 0, value: 0 },
+        { time: 0.01, value: 1 },
         { time: 0.25, value: 0.0001, exp: true }
       ]
     };
-    this.effectOptions.baseReverb = 0.05;
+    this.filters = [
+      { type: "highpass", frequency: 350, q: 1.7 },
+      {
+        type: "peaking",
+        gain: -12,
+        frequency: 8780,
+        q: 0.85
+      },
+      { type: "lowpass", frequency: 18000, q: 0.59 }
+    ];
   }
 
   play(time: number, note?: number): void {

@@ -1,7 +1,7 @@
 import { Instrument } from "./Instrument";
-import { TinSquare } from "../sounds/harmonic-synth/TinSquare";
+import { SquareSound } from "../../sounds/harmonic-synth/SquareSound";
 
-export class ISquareSynth extends Instrument {
+export class SquareSynth extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
     this.instrumentType = "bs";
@@ -18,7 +18,7 @@ export class ISquareSynth extends Instrument {
       [0, -2],
       [0, -1]
     ];
-    this.sound = new TinSquare();
+    this.sound = new SquareSound();
     this.init();
   }
 }

@@ -1,7 +1,6 @@
 import { abbreviateNumber } from "./math";
 import { ELEMENTS } from "../globals/dom";
-import { DEBUG, STATS } from "../globals/game";
-import { CAMERA } from "../index";
+import { CAMERA, DEBUG, STATS } from "../globals/game";
 import { handleOutsideClick, sellEntity } from "../interactions";
 
 export let MENU_VISIBLE = false;

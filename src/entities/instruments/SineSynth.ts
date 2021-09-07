@@ -1,24 +1,24 @@
 import { Instrument } from "./Instrument";
-import { TinSaw } from "../sounds/harmonic-synth/TinSaw";
+import { SineSound } from "../../sounds/harmonic-synth/SineSound";
 
-export class ISawSynth extends Instrument {
+export class SineSynth extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {
     super(args);
     this.instrumentType = "bs";
-    this.display = "Saw";
-    this.cost = 50;
-    this.notes = 3;
+    this.display = "Sine";
+    this.cost = 75;
+    this.notes = 4;
     this.outline = [
       [0, 0],
+      [0, 1],
+      [1, 1],
       [1, 0],
       [1, -1],
-      [1, -2],
-      [0, -2],
       [0, -1],
       [-1, -1],
       [-1, 0]
     ];
-    this.sound = new TinSaw();
+    this.sound = new SineSound();
     this.init();
   }
 }

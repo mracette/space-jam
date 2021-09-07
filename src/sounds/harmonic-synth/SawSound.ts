@@ -1,11 +1,11 @@
 import { SynthSound } from "./SynthSound";
 import { Sound } from "../Sound";
 
-export class TinSine extends SynthSound {
+export class SawSound extends SynthSound {
   harmonics: number[];
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
-    this.harmonics = [1, 8, 9, 12, 15];
+    this.harmonicsSaw = [1, 3, 5];
     this.envelopes = {
       amplitude: [
         { time: 0, value: 0 },
