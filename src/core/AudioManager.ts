@@ -14,11 +14,12 @@ export interface Envelope {
 }
 
 export class AudioManager {
-  instruments: any[];
-  context: AudioContext;
-  offline: OfflineAudioContext;
-  premaster: GainNode;
-  reverb: ConvolverNode;
+  public instruments: any[];
+  public context: AudioContext;
+  public offline: OfflineAudioContext;
+  public premaster: GainNode;
+  public reverb: ConvolverNode;
+  public compressor: DynamicsCompressorNode;
   static baseNote = 196;
   static reverbTime = 2;
   static sr = 44100;
@@ -31,8 +32,15 @@ export class AudioManager {
       SAMPLE_RATE.VALUE * REVERB_TIME.VALUE,
       SAMPLE_RATE.VALUE
     );
+    this.compressor = this.context.createDynamicsCompressor();
+    this.compressor.threshold.value = -24;
+    this.compressor.knee.value = 24;
+    this.compressor.ratio.value = 12;
+    this.compressor.attack.value = 0;
+    this.compressor.release.value = 0.25;
     this.premaster = this.context.createGain();
-    this.premaster.connect(this.context.destination);
+    this.premaster.connect(this.compressor);
+    this.compressor.connect(this.context.destination);
     this.reverb = this.context.createConvolver();
     this.reverb.connect(this.premaster);
   }

@@ -27,7 +27,7 @@ export const enum ENTITY_ARRAY_DIMENSIONS {
 }
 
 const enum VIEWPORT_DIMENSION_BASE {
-  VALUE = 13 // must be odd
+  VALUE = 17 // must be odd
 }
 
 export const enum VIEWPORT_DIMENSIONS {
@@ -38,7 +38,7 @@ export const enum VIEWPORT_DIMENSIONS {
 }
 
 const enum TILE_DIMENSION_BASE {
-  VALUE = 0.07 // proportion of canvas width
+  VALUE = 0.06 // proportion of canvas width
 }
 
 export const enum TILE_DIMENSIONS {

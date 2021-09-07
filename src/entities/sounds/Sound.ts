@@ -1,4 +1,5 @@
 import { AUDIO, MIXOLYDIAN_SCALE } from "../../globals/audio";
+import { VIEWPORT_DIMENSIONS } from "../../globals/sizes";
 import { applyEnvelop, intervalToHz } from "../../utils/audio";
 import { isUndefined } from "../../utils/conversions";
 
@@ -33,6 +34,8 @@ export interface EffectOptions {
   hpQ?: number;
   // HP General
   hpEnvQ?: number;
+  // pan
+  pan?: number;
 }
 
 export interface AudioSourceOptions {
@@ -47,10 +50,19 @@ export class Sound {
   effectOptions: EffectOptions;
   envelopes: Envelopes;
   noteAdj: number;
+  pan: PannerNode;
 
   constructor(args: { note?: number; audioSourceOptions?: AudioSourceOptions } = {}) {
     this.note = args.note;
     this.noteAdj = 0;
+    this.pan = AUDIO.context.createPanner();
+    this.pan.panningModel = "equalpower";
+    this.pan.distanceModel = "linear";
+    this.pan.rolloffFactor = 1;
+    // this.pan.positionZ.value = VIEWPORT_DIMENSIONS.W;
+    // this.pan.coneInnerAngle = 0;
+    // this.pan.coneOuterAngle = 360;
+    this.pan.maxDistance = VIEWPORT_DIMENSIONS.W_HALF;
     // these act as defaults
     this.effectOptions = {
       baseVolume: 1,
@@ -79,6 +91,7 @@ export class Sound {
      * Amplitude
      */
     const amplitude = AUDIO.context.createGain();
+    amplitude.gain.value = 0.5;
     applyEnvelop(amplitude.gain, time, this.envelopes.amplitude);
 
     /**
@@ -139,8 +152,9 @@ export class Sound {
     lpEnv.connect(hpEnv);
     hpEnv.connect(lp);
     lp.connect(hp);
-    hp.connect(reverbWet);
-    hp.connect(reverbDry);
+    hp.connect(this.pan);
+    this.pan.connect(reverbWet);
+    this.pan.connect(reverbDry);
     reverbDry.connect(AUDIO.premaster);
     reverbWet.connect(AUDIO.reverb);
     source.start(time);

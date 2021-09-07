@@ -16,6 +16,7 @@ export const toggleMenu = (): void => {
     if (INSPECT_VISIBLE) {
       toggleInspect();
     }
+    CAMERA.previewEntity = null;
     // using "mousedown" ensures that handleOutsideClick does not fire
     // when the menu is toggled open (on a click event)
     document.addEventListener("mousedown", handleOutsideClick);

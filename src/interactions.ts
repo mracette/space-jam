@@ -7,6 +7,7 @@ import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
 import { STATS } from "./globals/game";
 import { MOUSE_POSITION, TILE_DIMENSIONS } from "./globals/sizes";
+import { setPannerPosition } from "./utils/audio";
 import { isUndefined, mapToEntityArray, screenToMap } from "./utils/conversions";
 import { INSPECT_VISIBLE, MENU_VISIBLE, toggleInspect, toggleMenu } from "./utils/dom";
 import { drawFog, drawStarPattern } from "./utils/drawing";
@@ -74,6 +75,22 @@ export const moveCamera = (e: MouseEvent): void => {
         yCameraStart + dy / tileSizePixels
       );
       CAMERA.updateViewport();
+      for (
+        let i = CAMERA.entityArrayBounds.xLower;
+        i <= CAMERA.entityArrayBounds.xUpper;
+        i++
+      ) {
+        for (
+          let j = CAMERA.entityArrayBounds.yLower;
+          j <= CAMERA.entityArrayBounds.yUpper;
+          j++
+        ) {
+          const entity = ENTITY_ARRAY[i][j]?.entity;
+          if (entity?.type === "instrument") {
+            setPannerPosition(entity as Instrument);
+          }
+        }
+      }
     };
 
     const cleanUp = () => {

@@ -14,7 +14,7 @@ export class ISnare extends Instrument {
       [1, -1],
       [0, -1]
     ];
-    this.init();
     this.sound = new Snare({ note: 7 });
+    this.init();
   }
 }

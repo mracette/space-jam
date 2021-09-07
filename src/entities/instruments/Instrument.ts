@@ -3,6 +3,7 @@ import { CANVAS_CONTEXTS } from "../../globals/dom";
 import { TAU } from "../../globals/math";
 import { TILE_DIMENSIONS } from "../../globals/sizes";
 import { CAMERA, COORDS, ENTITY_ARRAY } from "../../index";
+import { setPannerPosition } from "../../utils/audio";
 import { mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import {
   BoundingBox,
@@ -48,6 +49,7 @@ export class Instrument extends MapEntity {
       this.placeOnMap();
     }
     this.sell = Math.round(this.cost / 3);
+    setPannerPosition(this);
   }
 
   fitsInMap(): boolean {

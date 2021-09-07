@@ -1,6 +1,9 @@
 import { F32, RAND } from "./factories";
+import { Vector2 } from "../core/Vector2";
+import { Instrument } from "../entities/instruments/Instrument";
 import { EnvelopeValue } from "../entities/sounds/Sound";
 import { AUDIO, BASE_NOTE, DURATIONS, SAMPLE_RATE } from "../globals/audio";
+import { CAMERA } from "../index";
 
 export const nextSubdivision = (duration: DURATIONS): number => {
   const durationsElapsed = AUDIO.context.currentTime / duration;
@@ -57,4 +60,9 @@ export const generateNoise = (time: number): AudioBuffer => {
   buffer.getChannelData(0).set(lBuffer);
   buffer.getChannelData(1).set(rBuffer);
   return buffer;
+};
+
+export const setPannerPosition = (instrument: Instrument): void => {
+  instrument.sound.pan.positionX.value = instrument.position.x - CAMERA.position.x;
+  instrument.sound.pan.positionY.value = instrument.position.y - CAMERA.position.y;
 };
