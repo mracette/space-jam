@@ -10,21 +10,21 @@ export class SynthSound extends Sound {
 
   play(time: number, note?: number): void {
     this.harmonics?.forEach((harmonic) => {
-      const source = this.initAudioSource("harmonics", time, note, {
+      const source = this.initAudioSource("harmonics", note, {
         oscillatorType: "sine",
         harmonic
       });
       this.initEffectsChain(time, source);
     });
     this.harmonicsSquare?.forEach((harmonic) => {
-      const source = this.initAudioSource("harmonics", time, note, {
+      const source = this.initAudioSource("harmonics", note, {
         oscillatorType: "square",
         harmonic
       });
       this.initEffectsChain(time, source);
     });
     this.harmonicsSaw?.forEach((harmonic) => {
-      const source = this.initAudioSource("harmonics", time, note, {
+      const source = this.initAudioSource("harmonics", note, {
         oscillatorType: "sawtooth",
         harmonic
       });

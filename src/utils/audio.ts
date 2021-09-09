@@ -2,6 +2,7 @@ import { F32, RAND } from "./factories";
 import { Instrument } from "../entities/instruments/Instrument";
 import { AUDIO, BASE_NOTE, DURATIONS, SAMPLE_RATE } from "../globals/audio";
 import { CAMERA } from "../globals/game";
+import { VIEWPORT_DIMENSIONS } from "../globals/sizes";
 import { EnvelopeValue } from "../sounds/Sound";
 
 export const nextSubdivision = (duration: DURATIONS): number => {
@@ -12,12 +13,10 @@ export const nextSubdivision = (duration: DURATIONS): number => {
 
 export const applyEnvelop = (
   param: AudioParam,
-  startTime: number,
-  envelop: EnvelopeValue[]
+  envelop: EnvelopeValue[],
+  startTime: number = AUDIO.context.currentTime
 ): void => {
   if (envelop) {
-    const current = param.value;
-    param.linearRampToValueAtTime(current, startTime);
     envelop.forEach(({ value, time, exp = false }) => {
       if (exp) {
         param.exponentialRampToValueAtTime(value, startTime + time);
@@ -62,30 +61,19 @@ export const generateNoise = (time: number): AudioBuffer => {
 };
 
 export const setPannerPosition = (instrument: Instrument): void => {
-  instrument.sound.pan.positionX.value = instrument.position.x - CAMERA.position.x;
-  instrument.sound.pan.positionY.value = instrument.position.y - CAMERA.position.y;
+  instrument.sound.pan.pan.value =
+    (instrument.position.x - CAMERA.position.x) / VIEWPORT_DIMENSIONS.W_HALF;
+  instrument.sound.pan.pan.value =
+    (instrument.position.y - CAMERA.position.y) / VIEWPORT_DIMENSIONS.H_HALF;
 };
 
-export interface FilterParams {
-  q?: number;
-  type: BiquadFilterNode["type"];
-  frequency?: number;
-  gain?: number;
-}
-
-export const createFilterChain = (filterParams: FilterParams[]): BiquadFilterNode[] => {
-  const filters = filterParams.map(({ q, type, frequency, gain }) => {
-    const filter = AUDIO.context.createBiquadFilter();
-    filter.type = type;
-    q && (filter.Q.value = q);
-    frequency && (filter.frequency.value = frequency);
-    gain && (filter.gain.value = gain);
-    return filter;
-  });
-  filters.forEach((filter, i, arr) => {
-    if (i !== arr.length - 1) {
-      filter.connect(arr[i + 1]);
-    }
-  });
-  return filters;
+export const createWaveshaperCurve = (amount: number, n = 22050): Float32Array => {
+  const k = amount * 100;
+  const curve = new Float32Array(n);
+  const deg = Math.PI / 180;
+  for (let i = 0; i < n; i++) {
+    let x = (i * 2) / n - 1;
+    curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
+  }
+  return curve;
 };

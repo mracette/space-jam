@@ -16,6 +16,20 @@ export class SquareSound extends SynthSound {
       lpFilter: [{ time: 0.35, value: 0.001, exp: true }]
     };
     this.effectOptions.baseReverb = 0.2;
+    this.effects = {
+      filters: [
+        {
+          type: "lowpass",
+          frequency: 1500,
+          q: 0.71
+        }
+        // {
+        //   type: "highpass",
+        //   frequency: 1000,
+        //   q: 0.71
+        // }
+      ]
+    };
     // this.effectOptions.lpFrequency = 1500;
     // this.effectOptions.hpFrequency = 1000;
   }

@@ -1,4 +1,3 @@
-import { AUDIO } from "../../globals/audio";
 import { Sound } from "../Sound";
 
 export class TomSound extends Sound {
@@ -15,7 +14,8 @@ export class TomSound extends Sound {
   }
 
   play(time: number, note?: number): void {
-    const sine = this.initAudioSource("waveform", time, note, { oscillatorType: "sine" });
+    const sine = this.initAudioSource("waveform", note, { oscillatorType: "sine" });
+    sine.gain.gain.value = 0.5;
     this.initEffectsChain(time, sine);
   }
 }

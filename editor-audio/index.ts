@@ -15,7 +15,7 @@ const testInstruments = [
     instrument: new OrganSound()
   },
   {
-    name: "tin-can",
+    name: "sine-synth",
     instrument: new SineSound()
   },
   {

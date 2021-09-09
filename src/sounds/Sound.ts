@@ -1,11 +1,25 @@
 import { AUDIO, MIXOLYDIAN_SCALE } from "../globals/audio";
-import {
-  applyEnvelop,
-  createFilterChain,
-  FilterParams,
-  intervalToHz
-} from "../utils/audio";
+import { applyEnvelop, intervalToHz } from "../utils/audio";
 import { isUndefined } from "../utils/conversions";
+
+export interface FilterParams {
+  q?: BiquadFilterNode["Q"]["value"];
+  type: BiquadFilterNode["type"];
+  frequency?: BiquadFilterNode["frequency"]["value"];
+  gain?: BiquadFilterNode["gain"]["value"];
+}
+
+export interface CompressorParams {
+  threshold?: DynamicsCompressorNode["threshold"]["value"];
+  knee?: DynamicsCompressorNode["knee"]["value"];
+  ratio?: DynamicsCompressorNode["ratio"]["value"];
+  attack?: DynamicsCompressorNode["attack"]["value"];
+  release?: DynamicsCompressorNode["release"]["value"];
+}
+
+export interface WaveshaperParams {
+  curve: Float32Array;
+}
 
 export interface EnvelopeValue {
   time: number;
@@ -28,11 +42,8 @@ interface AudioSourceDefinition {
 export interface EffectOptions {
   baseVolume: number;
   baseReverb: number;
-  // LP Env
   lpEnvQ?: number;
-  // HP General
   hpEnvQ?: number;
-  // pan
   pan?: number;
 }
 
@@ -48,24 +59,20 @@ export class Sound {
   effectOptions: EffectOptions;
   envelopes: Envelopes;
   noteAdj: number;
-  pan: PannerNode;
-  filters: FilterParams[];
+  pan: StereoPannerNode;
+  effects: {
+    filters?: FilterParams[];
+    compressors?: CompressorParams[];
+    waveshapers?: WaveshaperParams[];
+  };
 
   constructor(args: { note?: number; audioSourceOptions?: AudioSourceOptions } = {}) {
     this.note = args.note;
     this.noteAdj = 0;
-    this.filters = [];
-    // this.pan = AUDIO.context.createPanner();
-    // this.pan.panningModel = "equalpower";
-    // this.pan.distanceModel = "linear";
-    // this.pan.rolloffFactor = 1;
-    // this.pan.positionZ.value = VIEWPORT_DIMENSIONS.W;
-    // this.pan.coneInnerAngle = 0;
-    // this.pan.coneOuterAngle = 360;
-    // this.pan.maxDistance = VIEWPORT_DIMENSIONS.W_HALF;
+    this.pan = AUDIO.context.createStereoPanner();
     // these act as defaults
     this.effectOptions = {
-      baseVolume: 1,
+      baseVolume: 0.5,
       baseReverb: 0,
       lpEnvQ: 1.7,
       hpEnvQ: 1.7
@@ -77,18 +84,61 @@ export class Sound {
     void 0;
   }
 
+  hasOptionalEffects(): boolean {
+    if (!this.effects) return false;
+    let hasEffects = false;
+    for (let effectParams in Object.values(this.effects)) {
+      if (effectParams.length > 0) hasEffects = true;
+      break;
+    }
+    return hasEffects;
+  }
+
+  initOptionalEffects(): (BiquadFilterNode | DynamicsCompressorNode | WaveShaperNode)[] {
+    const filters = (this.effects?.filters || []).map(({ q, type, frequency, gain }) => {
+      const filter = AUDIO.context.createBiquadFilter();
+      filter.type = type;
+      q && (filter.Q.value = q);
+      frequency && (filter.frequency.value = frequency);
+      gain && (filter.gain.value = gain);
+      return filter;
+    });
+    const compressors = (this.effects?.compressors || []).map(
+      ({ threshold, attack, knee, ratio, release }) => {
+        const compressor = AUDIO.context.createDynamicsCompressor();
+        compressor.threshold.value = threshold;
+        compressor.attack.value = attack;
+        compressor.knee.value = knee;
+        compressor.ratio.value = ratio;
+        compressor.release.value = release;
+        return compressor;
+      }
+    );
+    const waveshapers = (this.effects?.waveshapers || []).map(({ curve }) => {
+      const waveshaper = AUDIO.context.createWaveShaper();
+      waveshaper.curve = curve;
+      return waveshaper;
+    });
+    const allEffects = [...filters, ...compressors, ...waveshapers];
+    console.log(allEffects);
+    allEffects.forEach((effect, i, arr) => {
+      if (i !== arr.length - 1) {
+        effect.connect(arr[i + 1]);
+      }
+    });
+    return allEffects;
+  }
+
   initEffectsChain(
     time: number,
     audioSource: AudioSourceDefinition,
     options: Partial<EffectOptions> = {}
   ): void {
-    audioSource.gain.gain.value *= this.effectOptions.baseVolume;
     /**
      * Amplitude
      */
     const amplitude = AUDIO.context.createGain();
-    amplitude.gain.value = 0.5;
-    applyEnvelop(amplitude.gain, time, this.envelopes.amplitude);
+    applyEnvelop(amplitude.gain, this.envelopes.amplitude);
 
     /**
      * Reverb wet / dry
@@ -115,12 +165,16 @@ export class Sound {
     hpEnv.Q.value = this.getParamValue("hpEnvQ", options.hpEnvQ);
 
     /**
+     * Final gain node
+     */
+    const finalGain = AUDIO.context.createGain();
+    finalGain.gain.value = this.effectOptions.baseVolume;
+
+    /**
      * Apply envelopes
      */
-    this.envelopes?.lpFilter &&
-      applyEnvelop(lpEnv.frequency, time, this.envelopes.lpFilter);
-    this.envelopes?.hpFilter &&
-      applyEnvelop(hpEnv.frequency, time, this.envelopes.hpFilter);
+    this.envelopes?.lpFilter && applyEnvelop(lpEnv.frequency, this.envelopes.lpFilter);
+    this.envelopes?.hpFilter && applyEnvelop(hpEnv.frequency, this.envelopes.hpFilter);
 
     /**
      * Create chain
@@ -130,30 +184,37 @@ export class Sound {
     gain.connect(amplitude);
     amplitude.connect(lpEnv);
     lpEnv.connect(hpEnv);
-    const numFilters = this.filters?.length || 0;
-    if (numFilters > 0) {
-      const filters = createFilterChain(this.filters);
-      hpEnv.connect(filters[0]);
-      filters[numFilters - 1].connect(reverbDry);
-      filters[numFilters - 1].connect(reverbWet);
+
+    /**
+     * Connect optional effects mid-chain
+     */
+    if (this.hasOptionalEffects()) {
+      const effects = this.initOptionalEffects();
+      const first = effects[0];
+      const last = effects.pop();
+      // first.disconnect();
+      hpEnv.connect(first);
+      // last.disconnect();
+      last.connect(finalGain);
     } else {
-      lpEnv.connect(reverbDry);
-      lpEnv.connect(reverbWet);
+      lpEnv.connect(finalGain);
     }
+
+    finalGain.connect(reverbDry);
+    finalGain.connect(reverbWet);
     reverbDry.connect(AUDIO.premaster);
     reverbWet.connect(AUDIO.reverb);
+
     source.start(time);
     source.stop(time + this.duration);
     source.onended = () => {
-      // triggers GC
+      // triggers GC ?
       source.disconnect();
-      amplitude.disconnect();
     };
   }
 
   initAudioSource(
     sourceType: "harmonics" | "waveform" | "sample",
-    time: number,
     note: number,
     options: AudioSourceOptions = {}
   ): AudioSourceDefinition {

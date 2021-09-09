@@ -15,5 +15,14 @@ export class OrganSound extends SynthSound {
       lpFilter: [{ time: 0.35, value: 0.001, exp: true }]
     };
     this.effectOptions.baseReverb = 0.2;
+    this.effects = {
+      filters: [
+        {
+          type: "lowpass",
+          frequency: 2500,
+          q: 0.71
+        }
+      ]
+    };
   }
 }

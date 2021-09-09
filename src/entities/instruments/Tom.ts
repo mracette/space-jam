@@ -14,7 +14,7 @@ export class Tom extends Instrument {
       [1, -1],
       [0, -1]
     ];
-    this.sound = new TomSound({ note: 0 });
+    this.sound = new TomSound();
     this.init();
   }
 }
