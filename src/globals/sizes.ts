@@ -27,7 +27,7 @@ export const enum ENTITY_ARRAY_DIMENSIONS {
 }
 
 const enum VIEWPORT_DIMENSION_BASE {
-  VALUE = 17 // must be odd
+  VALUE = 15 // must be odd
 }
 
 export const enum VIEWPORT_DIMENSIONS {

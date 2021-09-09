@@ -5,7 +5,7 @@ import { CanvasCoordinates } from "../core/Coords";
 import { COLORS } from "../globals/colors";
 import { CANVAS_CONTEXTS } from "../globals/dom";
 import { ELEMENTS } from "../globals/dom";
-import { CAMERA, STATS } from "../globals/game";
+import { CAMERA, RANDOM_STARS, RANDOM_STREAKS, STATS } from "../globals/game";
 import { TAU } from "../globals/math";
 import {
   FONT_SIZE,
@@ -15,39 +15,6 @@ import {
   VIEWPORT_DIMENSIONS
 } from "../globals/sizes";
 import { FONT_STYLE } from "../globals/styles";
-
-export const drawStarPattern = (
-  canvas: HTMLCanvasElement = ELEMENTS.canvasPre,
-  hueStart = 50,
-  hueEnd = 300
-): void => {
-  const ctx = canvas.getContext("2d");
-  const designRadius = Math.sqrt((Math.max(canvas.width, canvas.height) / 2) ** 2 * 2);
-  const ringDistance = designRadius / 40;
-  const numRings = designRadius / ringDistance;
-  const dotSize = ringDistance / 10;
-  const cx = canvas.width / 2;
-  const cy = canvas.height / 2;
-  for (let i = 0; i < numRings; i++) {
-    const ringRadius = i * ringDistance;
-    const circumference = 2 * Math.PI * ringRadius;
-    const numDots = Math.round(circumference / (dotSize * 4));
-    for (let j = 0; j < numDots; j++) {
-      const rotation = j * (TAU / numDots);
-      const rotationProportion = rotation / TAU;
-      const rotationProportionAdj = rotationProportion + Math.random() / 2;
-      const { x, y } = rotatePoint(cx + ringRadius, cy, cx, cy, rotation);
-      ctx.fillStyle = `hsl(${lerp(
-        hueStart,
-        hueEnd,
-        rotationProportionAdj % 1
-      )}, 30%, 30%)`;
-      ctx.beginPath();
-      ctx.arc(x, y, dotSize, 0, TAU);
-      ctx.fill();
-    }
-  }
-};
 
 export const drawOutline = (
   ctx: CanvasRenderingContext2D | Path2D,
@@ -255,4 +222,66 @@ export const drawOscillators = (): void => {
       entity.render();
     }
   });
+};
+
+export const drawStarPattern = (number = 100): void => {
+  clearCanvasAndState(ELEMENTS.canvasPre);
+  CANVAS_CONTEXTS.pre.fillStyle = "purple";
+  CANVAS_CONTEXTS.pre.strokeStyle = "white";
+  RANDOM_STARS.forEach(([cx, cy, size, rot]) => {
+    CANVAS_CONTEXTS.pre.lineWidth = COORDS.width(size);
+    drawStar(
+      CANVAS_CONTEXTS.pre,
+      COORDS.nx(cx),
+      COORDS.ny(cy),
+      COORDS.width(size * 6),
+      rot
+    );
+    CANVAS_CONTEXTS.pre.fill();
+    CANVAS_CONTEXTS.pre.stroke();
+  });
+  drawStreak(CANVAS_CONTEXTS.pre, COLORS.MAIN_PURPLE_TRANSPARENT, RANDOM_STREAKS[0]);
+  drawStreak(CANVAS_CONTEXTS.pre, COLORS.HOT_GREEN_TRANSPARENT, RANDOM_STREAKS[1]);
+};
+
+export const drawStreak = (
+  ctx: CanvasRenderingContext2D,
+  color: string,
+  points: number[][]
+): void => {
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = COORDS.width(0.2);
+  ctx.beginPath();
+  points.forEach(([x, y], i) => {
+    const px = COORDS.nx(x);
+    const py = COORDS.ny(y);
+    if (i === 0) {
+      ctx.moveTo(px, py);
+    } else {
+      ctx.lineTo(px, py);
+    }
+  });
+  ctx.stroke();
+  ctx.restore();
+};
+
+export const drawStar = (
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  size: number,
+  rotation: number
+): void => {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(rotation);
+  ctx.translate(-cx, -cy);
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - size / 2);
+  ctx.quadraticCurveTo(cx, cy, cx + size / 2, cy);
+  ctx.quadraticCurveTo(cx, cy, cx, cy + size / 2);
+  ctx.quadraticCurveTo(cx, cy, cx - size / 2, cy);
+  ctx.quadraticCurveTo(cx, cy, cx, cy - size / 2);
+  ctx.restore();
 };

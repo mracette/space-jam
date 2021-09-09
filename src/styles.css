@@ -9,6 +9,10 @@
   overscroll-behavior: none;
 }
 
+body {
+  background-color: black;
+}
+
 h1 {
   font-size: 3vh;
   font-weight: normal;
@@ -107,6 +111,15 @@ button {
 
 .item-stats {
   line-height: 2.5vh;
+}
+
+#canvas-tiles {
+  filter: drop-shadow(0 0 3vh rgba(255,255,255,.5));
+  overflow: hidden;
+}
+
+#canvas-pre {
+  background-color: #272838;
 }
 
 #osh {

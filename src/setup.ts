@@ -11,7 +11,6 @@ import {
 import { Oscillator } from "./entities/oscillators/Oscillator";
 import { ELEMENTS } from "./globals/dom";
 import { ASPECT_RATIO } from "./globals/sizes";
-import { STYLES } from "./globals/styles";
 import { dragEntityToMap } from "./interactions";
 import { clearCanvasAndState } from "./utils/canvas";
 import { toggleMenu } from "./utils/dom";
@@ -104,13 +103,4 @@ export const setupMenuUI = (): void => {
     const modelEntity = factory({ preview: true });
     setupMenuItemUi(modelEntity, factory);
   });
-};
-
-export const setupBaseStyles = (): void => {
-  Object.entries(ELEMENTS).forEach(([k, v]) => {
-    Object.assign(v.style, STYLES[k as keyof typeof STYLES]);
-  });
-
-  document.body.style.background = "black";
-  // document.body.style.background = COLORS.BACKGROUND;
 };

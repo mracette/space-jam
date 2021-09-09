@@ -5,7 +5,7 @@ import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { setupEventListeners } from "./events";
 import { AUDIO } from "./globals/audio";
 import { CAMERA, STATS } from "./globals/game";
-import { setupBaseStyles, setupMenuUI } from "./setup";
+import { setupMenuUI } from "./setup";
 
 import {
   INSPECT_VISIBLE,
@@ -20,7 +20,6 @@ const begin = async () => {
   await AUDIO.init();
   setupEventListeners();
   setupMenuUI();
-  setupBaseStyles();
   updateButtonDisabled();
   CAMERA.updateViewport();
 
