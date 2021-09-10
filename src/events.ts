@@ -5,6 +5,7 @@ import {
   handleResize,
   moveCamera,
   sellEntity,
+  startGame,
   updateMousePosition
 } from "./interactions";
 import { toggleInspect, toggleMenu } from "./utils/dom";
@@ -24,6 +25,7 @@ export const setupEventListeners = (): void => {
     resizeWithAspectRatio(element);
   });
 
+  ELEMENTS.start.addEventListener("click", startGame);
   ELEMENTS.menuButton.addEventListener("click", toggleMenu);
   ELEMENTS.inspectButton.addEventListener("click", toggleInspect);
   ELEMENTS.inspectSellButton.addEventListener("click", sellEntity);

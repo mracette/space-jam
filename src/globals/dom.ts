@@ -20,7 +20,10 @@ export const ELEMENTS = {
   inspectCost: document.getElementById("inspect-cost") as HTMLParagraphElement,
   inspectNotes: document.getElementById("inspect-notes") as HTMLParagraphElement,
   inspectSell: document.getElementById("inspect-sell") as HTMLParagraphElement,
-  inspectSellButton: document.getElementById("sell-button") as HTMLButtonElement
+  inspectSellButton: document.getElementById("sell-button") as HTMLButtonElement,
+  // intro
+  intro: document.getElementById("intro") as HTMLDivElement,
+  start: document.getElementById("start") as HTMLButtonElement
 };
 
 export const CANVAS_CONTEXTS = {

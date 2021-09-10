@@ -1,15 +1,16 @@
 <html>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1.01'>
 <title>JS13k 2021</title>
+<link rel="stylesheet" href="./styles.css">
 
 <body class="full">
     <div id="root" class="full flex flex-centered fill-absolute">
         <canvas class="centered" id="canvas-pre"></canvas>
-        <canvas class="centered" id="canvas-tiles"></canvas>
-        <canvas class="centered" id="canvas-instruments"></canvas>
-        <canvas class="centered" id="canvas-oscillators"></canvas>
-        <canvas class="centered" id="canvas-post"></canvas>
-        <canvas class="centered" id="canvas-stats"></canvas>
+        <canvas class="centered hide-intro" id="canvas-tiles"></canvas>
+        <canvas class="centered hide-intro" id="canvas-instruments"></canvas>
+        <canvas class="centered hide-intro" id="canvas-oscillators"></canvas>
+        <canvas class="centered hide-intro" id="canvas-post"></canvas>
+        <canvas class="centered hide-intro" id="canvas-stats"></canvas>
         <div class="full centered flex flex-centered" id="menu" style="visibility: hidden;">
             <div class="full flex flex-col flex-centered" id="menu-col">
                 <h1 id="osh" class="mb-2 mt-2">Oscillators</h1>
@@ -50,9 +51,21 @@
                 </button>
             </div>
         </div>
-        <button class="mb-5" id="menu-button">
+        <button class="mb-5 hide-intro" id="menu-button">
             ✖
         </button>
+        <div id="intro" class="full flex flex-col flex-centered fill-absolute">
+            <h1 id="title">SPACE JAM</h1>
+            <br>
+            <h2>You are the first to reach the planet Mixolydia,</h2>
+            <h2>where the only resource is sound.</h2>
+            <br>
+            <h2>What will you make of this new frontier?</h2>
+            <br>
+            <div class="flex">
+                <button disabled id="start">Start</button>
+            </div>
+        </div>
     </div>
     <div id="templates" class="hidden">
         <div class="flex flex-col flex-centered m-1">

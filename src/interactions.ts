@@ -1,3 +1,4 @@
+import { begin } from "./index";
 import { InstrumentFactory } from "./entities/instruments/factories";
 import { Instrument } from "./entities/instruments/Instrument";
 import { OscillatorFactory } from "./entities/oscillators/factories";
@@ -10,6 +11,15 @@ import { setPannerPosition } from "./utils/audio";
 import { isUndefined, mapToEntityArray, screenToMap } from "./utils/conversions";
 import { INSPECT_VISIBLE, MENU_VISIBLE, toggleInspect, toggleMenu } from "./utils/dom";
 import { drawFog, drawStarPattern } from "./utils/drawing";
+
+export const startGame = (): void => {
+  document.querySelectorAll<HTMLElement>(".hide-intro").forEach((el) => {
+    console.log(el);
+    el.style.opacity = "1";
+  });
+  ELEMENTS.intro.style.transform = "translate(0, -100%)";
+  window.setTimeout(begin, 1000);
+};
 
 export const sellEntity = (): void => {
   if (CAMERA.inspectEntity) {

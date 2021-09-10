@@ -113,6 +113,23 @@ button {
   line-height: 2.5vh;
 }
 
+.hide-intro {
+  transition-duration: 1500ms;
+  opacity: 0;
+}
+
+#intro {
+  transition-duration: 1500ms;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#title {
+  font-size: 10vh;
+  font-family: Impact;
+  letter-spacing: 1vh;
+  filter: drop-shadow(0 0 1vh rgba(255,255,255,.5));
+}
+
 #canvas-tiles {
   filter: drop-shadow(0 0 3vh rgba(255,255,255,.5));
   overflow: hidden;

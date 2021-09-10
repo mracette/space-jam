@@ -71,7 +71,7 @@ const setupMenuItemUi = (
 
   node.querySelector("p").innerHTML = entity.display;
 
-  const spans = node.querySelectorAll("span");
+  const spans = node.querySelectorAll<HTMLSpanElement>("span");
   spans[0].innerHTML = "-" + entity.cost;
 
   if (type === "instrument") {

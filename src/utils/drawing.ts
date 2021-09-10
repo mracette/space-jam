@@ -224,9 +224,9 @@ export const drawOscillators = (): void => {
   });
 };
 
-export const drawStarPattern = (number = 100): void => {
+export const drawStarPattern = (): void => {
   clearCanvasAndState(ELEMENTS.canvasPre);
-  CANVAS_CONTEXTS.pre.fillStyle = "purple";
+  CANVAS_CONTEXTS.pre.fillStyle = "white";
   CANVAS_CONTEXTS.pre.strokeStyle = "white";
   RANDOM_STARS.forEach(([cx, cy, size, rot]) => {
     CANVAS_CONTEXTS.pre.lineWidth = COORDS.width(size);
