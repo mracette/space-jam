@@ -1,13 +1,16 @@
 import { AUDIO, MIXOLYDIAN_SCALE } from "../src/globals/audio";
-import { ComplexSawSound } from "../src/sounds/harmonic-synth/ComplexSawSound";
-import { OrganSound } from "../src/sounds/harmonic-synth/OrganSound";
-import { SawSound } from "../src/sounds/harmonic-synth/SawSound";
-import { SineSound } from "../src/sounds/harmonic-synth/SineSound";
-import { SquareSound } from "../src/sounds/harmonic-synth/SquareSound";
-import { HiHatSound } from "../src/sounds/waveform-synth/HiHatSound";
-import { KickSound } from "../src/sounds/waveform-synth/KickSound";
-import { SnareSound } from "../src/sounds/waveform-synth/SnareSound";
-import { TomSound } from "../src/sounds/waveform-synth/TomSound";
+import { BassSound } from "../src/sounds/BassSound";
+import { ComplexSawSound } from "../src/sounds/ComplexSawSound";
+import { ExperimentSound } from "../src/sounds/ExperimentSound";
+import { ExperimentSound2 } from "../src/sounds/ExperimentSound2";
+import { HiHatSound } from "../src/sounds/HiHatSound";
+import { KickSound } from "../src/sounds/KickSound";
+import { OrganSound } from "../src/sounds/OrganSound";
+import { SawSound } from "../src/sounds/SawSound";
+import { SineSound } from "../src/sounds/SineSound";
+import { SnareSound } from "../src/sounds/SnareSound";
+import { SquareSound } from "../src/sounds/SquareSound";
+import { TomSound } from "../src/sounds/TomSound";
 
 const testInstruments = [
   {
@@ -45,6 +48,18 @@ const testInstruments = [
   {
     name: "SnareSound",
     instrument: new SnareSound()
+  },
+  {
+    name: "BassSound",
+    instrument: new BassSound()
+  },
+  {
+    name: "ExperimentSound",
+    instrument: new ExperimentSound()
+  },
+  {
+    name: "ExperimentSound2",
+    instrument: new ExperimentSound2()
   }
 ];
 

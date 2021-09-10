@@ -1,17 +1,16 @@
+import { Sound } from "./Sound";
 import { SynthSound } from "./SynthSound";
-import { Sound } from "../Sound";
 
-export class SquareSound extends SynthSound {
+export class OrganSound extends SynthSound {
   harmonics: number[];
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
-    this.harmonics = [2, 4, 6];
-    this.harmonicsSquare = [1];
+    this.harmonics = [1, 2, 4, 8];
     this.envelopes = {
       amplitude: [
         { time: 0, value: 0 },
-        { time: 0.01, value: 1 },
-        { time: 0.15, value: 0 }
+        { time: 0.05, value: 1 },
+        { time: 0.35, value: 0 }
       ],
       lpFilter: [{ time: 0.35, value: 0.001, exp: true }]
     };
@@ -20,17 +19,15 @@ export class SquareSound extends SynthSound {
       filters: [
         {
           type: "lowpass",
-          frequency: 1500,
+          frequency: 2500,
+          q: 0.71
+        },
+        {
+          type: "highpass",
+          frequency: 120,
           q: 0.71
         }
-        // {
-        //   type: "highpass",
-        //   frequency: 1000,
-        //   q: 0.71
-        // }
       ]
     };
-    // this.effectOptions.lpFrequency = 1500;
-    // this.effectOptions.hpFrequency = 1000;
   }
 }

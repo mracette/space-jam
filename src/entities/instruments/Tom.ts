@@ -1,5 +1,5 @@
 import { Instrument } from "./Instrument";
-import { TomSound } from "../../sounds/waveform-synth/TomSound";
+import { TomSound } from "../../sounds/TomSound";
 
 export class Tom extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {

@@ -1,5 +1,5 @@
+import { Sound } from "./Sound";
 import { SynthSound } from "./SynthSound";
-import { Sound } from "../Sound";
 
 export class ComplexSawSound extends SynthSound {
   harmonics: number[];
@@ -16,5 +16,6 @@ export class ComplexSawSound extends SynthSound {
       // lpFilter: [{ time: 0.35, value: 0.001, exp: true }]
     };
     this.effectOptions.baseReverb = 0.2;
+    this.effectOptions.baseVolume = 0.4;
   }
 }

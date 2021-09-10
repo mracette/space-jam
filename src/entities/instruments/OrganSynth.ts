@@ -1,5 +1,5 @@
 import { Instrument } from "./Instrument";
-import { OrganSound } from "../../sounds/harmonic-synth/OrganSound";
+import { OrganSound } from "../../sounds/OrganSound";
 
 export class OrganSynth extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {

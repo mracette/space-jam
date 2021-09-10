@@ -1,5 +1,5 @@
-import { AUDIO } from "../../globals/audio";
-import { Sound } from "../Sound";
+import { Sound } from "./Sound";
+import { AUDIO } from "../globals/audio";
 
 export class SnareSound extends Sound {
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {

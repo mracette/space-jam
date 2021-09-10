@@ -1,5 +1,5 @@
 import { Instrument } from "./Instrument";
-import { SquareSound } from "../../sounds/harmonic-synth/SquareSound";
+import { SquareSound } from "../../sounds/SquareSound";
 
 export class SquareSynth extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {

@@ -1,4 +1,4 @@
-import { Sound } from "../Sound";
+import { Sound } from "./Sound";
 
 export class TomSound extends Sound {
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {

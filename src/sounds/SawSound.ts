@@ -1,5 +1,5 @@
+import { Sound } from "./Sound";
 import { SynthSound } from "./SynthSound";
-import { Sound } from "../Sound";
 
 export class SawSound extends SynthSound {
   harmonics: number[];
@@ -25,6 +25,11 @@ export class SawSound extends SynthSound {
           type: "lowpass",
           frequency: 1500,
           q: 1
+        },
+        {
+          type: "highpass",
+          frequency: 120,
+          q: 0.71
         }
       ]
     };

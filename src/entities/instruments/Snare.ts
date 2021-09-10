@@ -1,5 +1,5 @@
 import { Instrument } from "./Instrument";
-import { SnareSound } from "../../sounds/waveform-synth/SnareSound";
+import { SnareSound } from "../../sounds/SnareSound";
 
 export class Snare extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {

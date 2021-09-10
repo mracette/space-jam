@@ -1,5 +1,5 @@
 import { Instrument } from "./Instrument";
-import { KickSound } from "../../sounds/waveform-synth/KickSound";
+import { KickSound } from "../../sounds/KickSound";
 
 export class Kick extends Instrument {
   constructor(args: ConstructorParameters<typeof Instrument>[0] = {}) {

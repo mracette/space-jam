@@ -1,4 +1,4 @@
-import { Sound } from "../Sound";
+import { Sound } from "./Sound";
 
 export class SynthSound extends Sound {
   harmonics?: number[];

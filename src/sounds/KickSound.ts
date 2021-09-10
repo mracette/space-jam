@@ -1,5 +1,5 @@
-import { createWaveshaperCurve } from "../../utils/audio";
-import { Sound } from "../Sound";
+import { Sound } from "./Sound";
+import { createWaveshaperCurve } from "../utils/audio";
 
 export class KickSound extends Sound {
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
@@ -12,15 +12,6 @@ export class KickSound extends Sound {
       ]
     };
     this.effects = {
-      // compressors: [
-      //   {
-      //     threshold: -99,
-      //     attack: 0,
-      //     knee: 0,
-      //     ratio: 20,
-      //     release: 0.02
-      //   }
-      // ]
       waveshapers: [{ curve: createWaveshaperCurve(0.2) }]
     };
     this.effectOptions.baseVolume = 0.5;

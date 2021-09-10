@@ -119,7 +119,7 @@ export class Sound {
       waveshaper.curve = curve;
       return waveshaper;
     });
-    const allEffects = [...filters, ...compressors, ...waveshapers];
+    const allEffects = [...waveshapers, ...filters, ...compressors];
     allEffects.forEach((effect, i, arr) => {
       if (i !== arr.length - 1) {
         effect.connect(arr[i + 1]);
