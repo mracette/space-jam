@@ -50,7 +50,6 @@ const testInstruments = [
 
 const init = async () => {
   await AUDIO.init();
-  console.log(AUDIO);
   testInstruments.forEach(({ name, instrument }) => {
     const button = document.createElement("button");
     button.innerHTML = name;

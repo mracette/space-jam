@@ -14,7 +14,6 @@ import { drawFog, drawStarPattern } from "./utils/drawing";
 
 export const startGame = (): void => {
   document.querySelectorAll<HTMLElement>(".hide-intro").forEach((el) => {
-    console.log(el);
     el.style.opacity = "1";
   });
   ELEMENTS.intro.style.transform = "translate(0, -100%)";
@@ -116,8 +115,8 @@ export const moveCamera = (e: MouseEvent): void => {
   }
 };
 
-export const clickMouseOverEntity = (e: MouseEvent): void => {
-  if (CAMERA.inspectEntity && !INSPECT_VISIBLE) {
+export const clickMouseOverEntity = (): void => {
+  if (CAMERA.inspectEntity && !INSPECT_VISIBLE && !CAMERA.previewEntity) {
     toggleInspect();
   }
 };
@@ -138,14 +137,11 @@ export const checkMouseoverEntity = (): EntityArrayElement => {
   CAMERA.inspectEntity = entity.entity;
   if (entity.entity) {
     ELEMENTS.canvasStats.style.cursor = "pointer";
-  } else {
+  } else if (!CAMERA.previewEntity) {
     ELEMENTS.canvasStats.style.cursor = "grab";
   }
   return entity;
 };
-
-document.addEventListener("mousedown", clickMouseOverEntity, { capture: false });
-document.addEventListener("mousemove", checkMouseoverEntity, { capture: false });
 
 export const dragEntityToMap = (
   entity: Instrument | Oscillator,
@@ -155,25 +151,43 @@ export const dragEntityToMap = (
   CAMERA.previewEntity = entity;
   ELEMENTS.canvasStats.style.cursor = "pointer";
 
+  let sx: number, sy: number;
+
+  const onMouseDown = (e: MouseEvent) => {
+    ELEMENTS.canvasStats.style.cursor = "grab";
+    sx = e.x;
+    sy = e.y;
+  };
+
   const onMouseMove = () => {
     const x = MOUSE_POSITION.mapX;
     const y = MOUSE_POSITION.mapY;
     if (typeof x !== "undefined" && typeof y !== "undefined") {
       entity.position.set(x, y);
-      entity.disabled = !entity.fitsInMap();
+      const blocked = !entity.fitsInMap();
+      entity.disabled = blocked;
+      if (blocked) {
+        ELEMENTS.canvasStats.style.cursor = "not-allowed";
+      } else {
+        ELEMENTS.canvasStats.style.cursor = "pointer";
+      }
     }
   };
 
-  const placeEntityIfPossible = () => {
-    if (!entity.disabled) {
+  const placeEntityIfPossible = (e: MouseEvent) => {
+    const dx = Math.abs(e.x - sx);
+    const dy = Math.abs(e.y - sy);
+    // check if this is a "click-and-drag" event, and bypass the regular "click" handler if so
+    if (dx > 5 || dy > 5) {
+      document.addEventListener("click", placeEntityIfPossible, { once: true });
+      ELEMENTS.canvasStats.style.cursor = "pointer";
+    } else if (!entity.disabled) {
       const { x, y } = entity.position;
       factory({ x, y });
       STATS.currentNotes -= CAMERA.previewEntity.cost;
       CAMERA.previewEntity = null;
       document.removeEventListener("mousemove", onMouseMove);
       ELEMENTS.canvasStats.style.cursor = "grab";
-    } else {
-      document.addEventListener("click", placeEntityIfPossible, { once: true });
     }
   };
 
@@ -187,6 +201,7 @@ export const dragEntityToMap = (
   };
 
   document.addEventListener("keydown", cancelEntityPlacement);
+  document.addEventListener("mousedown", onMouseDown);
   document.addEventListener("mousemove", onMouseMove);
-  document.addEventListener("click", placeEntityIfPossible, { once: true });
+  document.addEventListener("mouseup", placeEntityIfPossible, { once: true });
 };
