@@ -3,15 +3,12 @@ core
 * !create some sort of endgame
   
 ui
-* !!make some audio-visual content
 * !experiment with alternate color schemes to match background
 * !add lifetime notes to stats
 * add title to game screen
 * make instrument preview in menu centered / zoomed in
 
 bugs
-* !!!used escape to cancel but still found instrument in tile after clicking the menu again
-  * cannot read property 'cost' of null
 * resizing smaller erases background
 * resizing issue with instrument previews in menu
 

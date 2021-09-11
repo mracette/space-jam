@@ -20,7 +20,7 @@ export class ThermalBassSound extends Sound {
       ],
       waveshapers: [{ curve: createWaveshaperCurve(0.5) }]
     };
-    this.effectOptions.baseVolume = 0.25;
+    this.effectOptions.baseVolume = 0.2;
   }
 
   play(time: number, note?: number): void {

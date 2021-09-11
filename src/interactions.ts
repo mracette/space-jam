@@ -198,6 +198,7 @@ export const dragEntityToMap = (
 
   const cancelEntityPlacement = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
+      entity.disabled = true;
       CAMERA.previewEntity = null;
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("click", placeEntityIfPossible);
