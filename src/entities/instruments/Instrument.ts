@@ -4,7 +4,7 @@ import { CAMERA, ENTITY_ARRAY } from "../../globals/game";
 import { TAU } from "../../globals/math";
 import { TILE_DIMENSIONS } from "../../globals/sizes";
 import { Sound } from "../../sounds/Sound";
-import { setPannerPosition } from "../../utils/audio";
+import { updateSpatialEffects } from "../../utils/audio";
 import { COORDS, mapToEntityArray, mapToScreen } from "../../utils/conversions";
 import {
   BoundingBox,
@@ -49,7 +49,7 @@ export class Instrument extends MapEntity {
       this.placeOnMap();
     }
     this.sell = Math.round(this.cost / 3);
-    setPannerPosition(this);
+    updateSpatialEffects(this);
   }
 
   fitsInMap(): boolean {

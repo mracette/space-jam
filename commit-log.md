@@ -466,3 +466,30 @@
 | Compressed Build (Adv Zip) | 10.05 kb | 10290 | -3% |
 
 
+*Sat, 11 Sep 2021 01:32:28 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 20757 kb | 20.27 | NA |
+| Build | 31.44 kb | 32195 | +158731% |
+| Compressed Build | 10.49 kb | 10742 | -67% |
+| Compressed Build (Adv Zip) | 10.14 kb | 10386 | -3% |
+
+
+*Sat, 11 Sep 2021 02:03:35 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 20757 kb | 20.27 | NA |
+| Build | 31.44 kb | 32195 | +158731% |
+| Compressed Build | 10.49 kb | 10742 | -67% |
+| Compressed Build (Adv Zip) | 10.14 kb | 10386 | -3% |
+
+
+*Sat, 11 Sep 2021 02:04:00 GMT*
+| Measure | Size (kb) | Size (bytes) | Reduction |
+| --- | --- | --- | --- |
+| Raw Source Code | 20757 kb | 20.27 | NA |
+| Build | 31.44 kb | 32195 | +158731% |
+| Compressed Build | 10.49 kb | 10742 | -67% |
+| Compressed Build (Adv Zip) | 10.14 kb | 10386 | -3% |
+
+

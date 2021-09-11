@@ -7,7 +7,7 @@ import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
 import { CAMERA, EntityArrayElement, ENTITY_ARRAY, STATS } from "./globals/game";
 import { MOUSE_POSITION, TILE_DIMENSIONS } from "./globals/sizes";
-import { setPannerPosition } from "./utils/audio";
+import { updateSpatialEffects } from "./utils/audio";
 import { isUndefined, mapToEntityArray, screenToMap } from "./utils/conversions";
 import { INSPECT_VISIBLE, MENU_VISIBLE, toggleInspect, toggleMenu } from "./utils/dom";
 import { drawFog, drawStarPattern } from "./utils/drawing";
@@ -100,7 +100,7 @@ export const moveCamera = (e: MouseEvent): void => {
         ) {
           const entity = ENTITY_ARRAY[i][j]?.entity;
           if (entity?.type === "instrument") {
-            setPannerPosition(entity as Instrument);
+            updateSpatialEffects(entity as Instrument);
           }
         }
       }

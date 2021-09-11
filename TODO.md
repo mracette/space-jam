@@ -1,5 +1,4 @@
 core
-* !!!create instrument outlines for complex synths
 * !!!export game image
 * !create some sort of endgame
   
@@ -18,8 +17,7 @@ bugs
 * resizing issue with instrument previews in menu
 
 audio
-* !!!panning
-* !!"mastering"
+* !"mastering"
   
 optimization
 * check GC and memory leaks, especially for audio nodes

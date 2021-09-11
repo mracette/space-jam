@@ -1,4 +1,5 @@
 import { F32, RAND } from "./factories";
+import { clamp } from "./math";
 import { Instrument } from "../entities/instruments/Instrument";
 import { AUDIO, BASE_NOTE, DURATIONS, SAMPLE_RATE } from "../globals/audio";
 import { CAMERA } from "../globals/game";
@@ -60,11 +61,21 @@ export const generateNoise = (time: number): AudioBuffer => {
   return buffer;
 };
 
-export const setPannerPosition = (instrument: Instrument): void => {
-  instrument.sound.pan.pan.value =
-    (instrument.position.x - CAMERA.position.x) / VIEWPORT_DIMENSIONS.W_HALF;
-  instrument.sound.pan.pan.value =
-    (instrument.position.y - CAMERA.position.y) / VIEWPORT_DIMENSIONS.H_HALF;
+export const updateSpatialEffects = (instrument: Instrument): void => {
+  const panX = clamp(
+    (instrument.position.x - CAMERA.position.x) / VIEWPORT_DIMENSIONS.W_HALF,
+    -1,
+    1
+  );
+  const panY = clamp(
+    (instrument.position.y - CAMERA.position.y) / VIEWPORT_DIMENSIONS.W_HALF,
+    -1,
+    1
+  );
+  const r = Math.sqrt(panX ** 2 + panY ** 2);
+  instrument.sound.pan.pan.value = panX;
+  instrument.sound.setReverb(Math.abs(panX));
+  instrument.sound.setVolume(1 - r);
 };
 
 export const createWaveshaperCurve = (amount: number, n = 22050): Float32Array => {

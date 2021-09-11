@@ -60,6 +60,11 @@ export class Sound {
   envelopes: Envelopes;
   noteAdj: number;
   pan: StereoPannerNode;
+  reverbDry: GainNode;
+  reverbWet: GainNode;
+  finalGain: GainNode;
+  currentReverb: number;
+  currentVolume: number;
   effects: {
     filters?: FilterParams[];
     compressors?: CompressorParams[];
@@ -70,6 +75,10 @@ export class Sound {
     this.note = args.note;
     this.noteAdj = 0;
     this.pan = AUDIO.context.createStereoPanner();
+    this.reverbDry = AUDIO.context.createGain();
+    this.reverbWet = AUDIO.context.createGain();
+    this.finalGain = AUDIO.context.createGain();
+    this.currentReverb = 0;
     // these act as defaults
     this.effectOptions = {
       baseVolume: 0.5,
@@ -128,6 +137,21 @@ export class Sound {
     return allEffects;
   }
 
+  setReverb(amount?: number): void {
+    if (!isUndefined(amount)) {
+      this.currentReverb = amount;
+    }
+    this.reverbDry.gain.value = 1 - this.currentReverb - this.effectOptions.baseReverb;
+    this.reverbWet.gain.value = this.effectOptions.baseReverb + this.currentReverb;
+  }
+
+  setVolume(amount?: number): void {
+    if (!isUndefined(amount)) {
+      this.currentVolume = amount;
+    }
+    this.finalGain.gain.value = this.effectOptions.baseVolume * this.currentVolume;
+  }
+
   initEffectsChain(
     time: number,
     audioSource: AudioSourceDefinition,
@@ -142,10 +166,7 @@ export class Sound {
     /**
      * Reverb wet / dry
      */
-    const reverbDry = AUDIO.context.createGain();
-    reverbDry.gain.value = 1 - this.effectOptions.baseReverb;
-    const reverbWet = AUDIO.context.createGain();
-    reverbWet.gain.value = this.effectOptions.baseReverb;
+    this.setReverb();
 
     /**
      * LP Env
@@ -166,8 +187,7 @@ export class Sound {
     /**
      * Final gain node
      */
-    const finalGain = AUDIO.context.createGain();
-    finalGain.gain.value = this.effectOptions.baseVolume;
+    this.setVolume();
 
     /**
      * Apply envelopes
@@ -194,17 +214,16 @@ export class Sound {
       // first.disconnect();
       hpEnv.connect(first);
       // last.disconnect();
-      last.connect(finalGain);
+      last.connect(this.finalGain);
     } else {
-      lpEnv.connect(finalGain);
+      lpEnv.connect(this.finalGain);
     }
 
-    finalGain.connect(reverbDry);
-    finalGain.connect(reverbWet);
-    reverbWet.connect(AUDIO.reverb);
-    reverbDry.connect(this.pan);
-    AUDIO.reverb.connect(this.pan);
-    this.pan.connect(AUDIO.premaster);
+    this.finalGain.connect(this.pan);
+    this.pan.connect(this.reverbDry);
+    this.pan.connect(this.reverbWet);
+    this.reverbDry.connect(AUDIO.premaster);
+    this.reverbWet.connect(AUDIO.reverb);
 
     source.start(time);
     source.stop(time + this.duration);
