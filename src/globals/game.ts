@@ -5,7 +5,7 @@ import { Instrument } from "../entities/instruments/Instrument";
 import { Oscillator } from "../entities/oscillators/Oscillator";
 import { COORDS } from "../utils/conversions";
 
-export const DEBUG = true;
+export const DEBUG = false;
 
 export const enum ENTITY_STATE {
   PLAYING = "playing",

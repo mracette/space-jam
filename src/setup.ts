@@ -36,7 +36,7 @@ const drawMenuButtonUi = (
     const instrument = entity as Instrument;
     canvas.width = ELEMENTS.canvasInstruments.width;
     canvas.height = ELEMENTS.canvasInstruments.height;
-    const zoom = 10 / Math.max(instrument.boundingBoxWidth, instrument.boundingBoxHeight);
+    const zoom = 8 / Math.max(instrument.boundingBoxWidth, instrument.boundingBoxHeight);
     const { x: ax, y: ay } = ASPECT_RATIO;
     ctx.save();
     ctx.setTransform(
@@ -74,10 +74,10 @@ const setupMenuItemUi = (
   const spans = node.querySelectorAll<HTMLSpanElement>("span");
   spans[0].innerHTML = "-" + entity.cost;
 
-  if (type === "instrument") {
-    spans[1].innerHTML = "&nbsp;/&nbsp;";
-    spans[2].innerHTML = "+" + (entity as Instrument).notes;
-  }
+  // if (type === "instrument") {
+  //   spans[1].innerHTML = "&nbsp;/&nbsp;";
+  //   spans[2].innerHTML = "+" + (entity as Instrument).notes;
+  // }
 
   // appends button to its categorical row in the menu
   const parentId = type === "instrument" ? (entity as Instrument).instrumentType : "os";
@@ -89,10 +89,16 @@ const setupMenuItemUi = (
     dragEntityToMap(entity, factory);
   };
 
-  const observer = new ResizeObserver(() => {
+  const resizeAll = () => {
     clearCanvasAndState(canvas);
     drawMenuButtonUi(canvas, entity);
-  });
+  };
+
+  const observer = new ResizeObserver(resizeAll);
+
+  window.addEventListener("resize", resizeAll);
+
+  drawMenuButtonUi(canvas, entity);
 
   observer.observe(button);
 };

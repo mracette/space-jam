@@ -3,7 +3,7 @@
   text-align: center;
   padding: 0;
   margin: 0;
-  font-size: 2vh;
+  font-size: 1.5vh;
   font-family: Tahoma, sans-serif;
   user-select: none;
   overscroll-behavior: none;
@@ -91,6 +91,10 @@ button {
 
 .hidden {
   display: none;
+}
+
+.mb-half {
+  margin-bottom: .5vh;
 }
 
 .m-1 {
