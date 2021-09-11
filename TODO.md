@@ -1,22 +1,31 @@
-* change cursor to indicate ability to click and drag the map
-* ensure all oscillators are perfectly synced
-* add camera position to stats
-* add lifetime notes to stats
-* mobile check
+core
+* !!!create instrument outlines for complex synths
+* !!!export game image
+* !create some sort of endgame
+  
+ui
+* !!make some sort of pattern for instruments
+* !!make some audio-visual content
+* !experiment with alternate color schemes to match background
+* !add lifetime notes to stats
+* add title to game screen
+* make instrument preview in menu centered / zoomed in
 
 bugs
-* fix placement of entity on drag of map
+* !!!used escape to cancel but still found instrument in tile after clicking the menu again
+  * cannot read property 'cost' of null
+* resizing smaller erases background
+* resizing issue with instrument previews in menu
 
+audio
+* !!!panning
+* !!"mastering"
+  
 optimization
-* figure out why cpu usage increases over time
-* move radial gradient to a separate canvas that isn't called each frame
-* disable drag while the menu is active
-* optimize html
-  * which meta tags are needed?
-  * are styles, classes or js smaller?
-* move re-calculation of an entities screen coordinates to the move() functin
-* consolidate render logic between square and triangle since they're the same
-
+* check GC and memory leaks, especially for audio nodes
+* cross-browser checks
+* test how many instruments can fit
+  
 upgrades
 * stack generators
 * more note production
@@ -28,3 +37,8 @@ items
 
 mobile
 * toggle fullscreen
+* touch handlers
+* cross-browser testing (webaudio on ios safari?)
+
+stretch
+* export screenshot feature

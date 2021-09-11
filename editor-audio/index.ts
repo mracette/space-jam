@@ -1,15 +1,15 @@
 import { AUDIO, MIXOLYDIAN_SCALE } from "../src/globals/audio";
-import { BassSound } from "../src/sounds/BassSound";
-import { ComplexSawSound } from "../src/sounds/ComplexSawSound";
-import { ExperimentSound } from "../src/sounds/ExperimentSound";
 import { ExperimentSound2 } from "../src/sounds/ExperimentSound2";
+import { ComplexSawSound } from "../src/sounds/HarmonixSound";
 import { HiHatSound } from "../src/sounds/HiHatSound";
 import { KickSound } from "../src/sounds/KickSound";
 import { OrganSound } from "../src/sounds/OrganSound";
+import { ExperimentSound } from "../src/sounds/PlutoniaSound";
 import { SawSound } from "../src/sounds/SawSound";
 import { SineSound } from "../src/sounds/SineSound";
 import { SnareSound } from "../src/sounds/SnareSound";
 import { SquareSound } from "../src/sounds/SquareSound";
+import { BassSound } from "../src/sounds/ThermalBassSound";
 import { TomSound } from "../src/sounds/TomSound";
 
 const testInstruments = [

@@ -1,11 +1,10 @@
 import { Sound } from "./Sound";
 import { SynthSound } from "./SynthSound";
 
-export class ComplexSawSound extends SynthSound {
-  harmonics: number[];
+export class HarmonixSound extends SynthSound {
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
-    this.harmonicsSaw = [1, 3, 5];
+    this.harmonicsSaw = [0, 2, 4];
     this.noteAdj = -24;
     this.envelopes = {
       amplitude: [
@@ -13,7 +12,6 @@ export class ComplexSawSound extends SynthSound {
         { time: 0.5, value: 1 },
         { time: 0.75, value: 0 }
       ]
-      // lpFilter: [{ time: 0.35, value: 0.001, exp: true }]
     };
     this.effectOptions.baseReverb = 0.2;
     this.effectOptions.baseVolume = 0.4;

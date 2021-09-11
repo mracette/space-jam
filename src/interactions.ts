@@ -13,11 +13,16 @@ import { INSPECT_VISIBLE, MENU_VISIBLE, toggleInspect, toggleMenu } from "./util
 import { drawFog, drawStarPattern } from "./utils/drawing";
 
 export const startGame = (): void => {
-  document.querySelectorAll<HTMLElement>(".hide-intro").forEach((el) => {
+  const introElements = document.querySelectorAll<HTMLElement>(".hide-intro");
+  introElements.forEach((el) => {
     el.style.opacity = "1";
   });
   ELEMENTS.intro.style.transform = "translate(0, -100%)";
-  window.setTimeout(begin, 1000);
+  window.setTimeout(() => {
+    begin();
+    // these durations cause issues with regular re-sizing
+    introElements.forEach((el) => (el.style.transitionDuration = "0ms"));
+  }, 1000);
 };
 
 export const sellEntity = (): void => {

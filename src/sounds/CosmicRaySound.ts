@@ -1,13 +1,11 @@
 import { Sound } from "./Sound";
-import { SynthSound } from "./SynthSound";
-import { DURATIONS, MIXOLYDIAN_SCALE } from "../globals/audio";
+import { AUDIO, DURATIONS, MIXOLYDIAN_SCALE } from "../globals/audio";
 
-export class ExperimentSound2 extends Sound {
+export class CosmicRaySound extends Sound {
   harmonics: number[];
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
     this.noteAdj = 36;
-    this.harmonics = [1, 3, 5];
     this.envelopes = {
       amplitude: [
         { time: 0, value: 1 },
@@ -43,7 +41,7 @@ export class ExperimentSound2 extends Sound {
     ];
     notes.forEach((note, i) => {
       window.setTimeout(() => {
-        this.initEffectsChain(undefined, note);
+        this.initEffectsChain(AUDIO.context.currentTime, note);
       }, i * DURATIONS.THIRTY_SECONDTH * 1000);
     });
   }

@@ -1,7 +1,7 @@
 import { Sound } from "./Sound";
 import { createWaveshaperCurve } from "../utils/audio";
 
-export class BassSound extends Sound {
+export class ThermalBassSound extends Sound {
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
     this.noteAdj = -24;

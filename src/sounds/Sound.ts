@@ -201,8 +201,10 @@ export class Sound {
 
     finalGain.connect(reverbDry);
     finalGain.connect(reverbWet);
-    reverbDry.connect(AUDIO.premaster);
     reverbWet.connect(AUDIO.reverb);
+    reverbDry.connect(this.pan);
+    AUDIO.reverb.connect(this.pan);
+    this.pan.connect(AUDIO.premaster);
 
     source.start(time);
     source.stop(time + this.duration);
@@ -232,7 +234,7 @@ export class Sound {
       const { harmonic, oscillatorType } = options;
       source = AUDIO.context.createOscillator();
       source.type = oscillatorType;
-      if (!harmonic) throw new Error("harmonic option required");
+      if (isUndefined(harmonic)) throw new Error("harmonic option required");
       // compensate gain for frequency
       gain.gain.value = 0.2 / (1 + Math.log2(harmonic));
       source.frequency.value = intervalToHz(noteToPlay) * harmonic;

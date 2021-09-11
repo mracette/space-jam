@@ -27,7 +27,7 @@ export class CircleOscillator extends Oscillator {
     cx: number,
     cy: number,
     ctx: CanvasRenderingContext2D = CANVAS_CONTEXTS.oscillator,
-    radius: number = COORDS.width(TILE_DIMENSIONS.HALF - LINE_WIDTH.VALUE),
+    circumference: number = COORDS.width(TILE_DIMENSIONS.SIZE - LINE_WIDTH.DOUBLE),
     lineWidth: number = COORDS.width(LINE_WIDTH.VALUE),
     color: string = this.disabled ? this.colorDisabled : this.color
   ): void {
@@ -35,7 +35,7 @@ export class CircleOscillator extends Oscillator {
     ctx.fillStyle = color;
     ctx.lineWidth = lineWidth;
     ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, TAU);
+    ctx.arc(cx, cy, circumference / 2, 0, TAU);
   }
 
   renderArm(cx: number, cy: number): void {

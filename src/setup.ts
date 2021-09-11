@@ -27,7 +27,7 @@ const drawMenuButtonUi = (
       canvas.width / 2,
       canvas.height / 2,
       ctx,
-      canvas.width * (type === "co" ? 0.15 : 0.3),
+      canvas.width * (type === "co" ? 0.075 : 0.3),
       canvas.width / 15
     );
     ctx.stroke();
@@ -36,7 +36,7 @@ const drawMenuButtonUi = (
     const instrument = entity as Instrument;
     canvas.width = ELEMENTS.canvasInstruments.width;
     canvas.height = ELEMENTS.canvasInstruments.height;
-    const zoom = 5 / Math.max(instrument.boundingBoxWidth, instrument.boundingBoxHeight);
+    const zoom = 10 / Math.max(instrument.boundingBoxWidth, instrument.boundingBoxHeight);
     const { x: ax, y: ay } = ASPECT_RATIO;
     ctx.save();
     ctx.setTransform(

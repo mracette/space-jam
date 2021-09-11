@@ -1,12 +1,12 @@
 import { Sound } from "./Sound";
 import { SynthSound } from "./SynthSound";
 
-export class ExperimentSound extends SynthSound {
+export class PlutoniaSound extends SynthSound {
   harmonics: number[];
   constructor(args: ConstructorParameters<typeof Sound>[0] = {}) {
     super(args);
     this.noteAdj = -12;
-    this.harmonics = [1, 3, 5];
+    this.harmonics = [0, 2, 4];
     this.harmonicsSquare = [1];
     this.envelopes = {
       amplitude: [
