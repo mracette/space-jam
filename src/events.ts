@@ -18,6 +18,7 @@ export const setupEventListeners = (): void => {
     ELEMENTS.canvasTiles,
     ELEMENTS.canvasPre,
     ELEMENTS.canvasPost,
+    ELEMENTS.canvasAudio,
     ELEMENTS.canvasStats,
     ELEMENTS.canvasOscillators,
     ELEMENTS.canvasInstruments,

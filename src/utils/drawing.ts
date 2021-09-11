@@ -2,6 +2,7 @@ import { clearCanvasAndState } from "./canvas";
 import { COORDS, entityArrayToScreen } from "./conversions";
 import { abbreviateNumber, lerp, rotatePoint } from "./math";
 import { CanvasCoordinates } from "../core/Coords";
+import { AUDIO, NUM_FREQ_BANDS } from "../globals/audio";
 import { COLORS } from "../globals/colors";
 import { CANVAS_CONTEXTS } from "../globals/dom";
 import { ELEMENTS } from "../globals/dom";
@@ -45,11 +46,37 @@ export const limitDrawingToArc = (
     0,
     TAU
   );
-
   ctx.fill();
   ctx.globalCompositeOperation = "source-atop";
   operation();
   ctx.globalCompositeOperation = "source-over";
+};
+
+export const drawAudio = (): void => {
+  drawAnalyserBands();
+};
+
+export const drawAnalyserBands = (): void => {
+  clearCanvasAndState(ELEMENTS.canvasAudio);
+  CANVAS_CONTEXTS.audio.lineWidth = COORDS.width(LINE_WIDTH.VALUE);
+  CANVAS_CONTEXTS.post.strokeStyle = COLORS.WHITE;
+  AUDIO.analyser.getByteFrequencyData(AUDIO.frequencyData);
+  const volume =
+    AUDIO.frequencyData.reduce((a, b) => a + b) / AUDIO.analyser.frequencyBinCount;
+  for (let i = 0; i < NUM_FREQ_BANDS.VALUE; i++) {
+    CANVAS_CONTEXTS.audio.strokeStyle = `rgba(255,255,255,${
+      1 - (i + 1) / NUM_FREQ_BANDS.VALUE
+    })`;
+    CANVAS_CONTEXTS.audio.arc(
+      COORDS.nx(0),
+      COORDS.ny(0),
+      COORDS.width(TILE_DIMENSIONS.SIZE * VIEWPORT_DIMENSIONS.W_HALF) +
+        (volume * i) / (1 + NUM_FREQ_BANDS.VALUE),
+      0,
+      TAU
+    );
+    CANVAS_CONTEXTS.audio.stroke();
+  }
 };
 
 export const drawFog = (): void => {

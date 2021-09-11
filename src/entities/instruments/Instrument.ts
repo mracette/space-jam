@@ -107,7 +107,6 @@ export class Instrument extends MapEntity {
     showLabel = true
   ): void {
     ctx.save();
-    ctx.fillStyle = this.disabled ? COLORS.DISABLED : this.color;
     ctx.beginPath();
     for (let i = 0; i < this.outline.length; i++) {
       const [x, y] = this.outline[i];
@@ -123,12 +122,15 @@ export class Instrument extends MapEntity {
     ctx.clip();
     // will need more work
     const { minX, maxY } = this.boundingBox;
-    ctx.fillRect(
-      mapToScreen.x(this.position.x + minX),
-      mapToScreen.y(this.position.y + maxY),
-      COORDS.width(TILE_DIMENSIONS.SIZE) * this.boundingBoxWidth,
-      COORDS.width(TILE_DIMENSIONS.SIZE) * this.boundingBoxHeight
-    );
+    const height = COORDS.width(TILE_DIMENSIONS.SIZE) * this.boundingBoxHeight;
+    const width = COORDS.width(TILE_DIMENSIONS.SIZE) * this.boundingBoxWidth;
+    const sx = mapToScreen.x(this.position.x + minX);
+    const sy = mapToScreen.y(this.position.y + maxY);
+    const gradient = ctx.createLinearGradient(sx, sy, sx + width, sy + height);
+    gradient.addColorStop(0, COLORS.HOT_GREEN);
+    gradient.addColorStop(1, COLORS.HOT_BLUE);
+    ctx.fillStyle = this.disabled ? COLORS.DISABLED : gradient;
+    ctx.fillRect(sx, sy, width, height);
     ctx.stroke();
 
     if (showLabel) {
@@ -143,7 +145,7 @@ export class Instrument extends MapEntity {
       const label = this.display.substr(0, 1);
       const metrics = ctx.measureText(label);
       ctx.fillText(
-        this.display.substr(0, 1),
+        this.display.substr(0, 2),
         cx,
         cy + metrics.actualBoundingBoxAscent / 2
       );

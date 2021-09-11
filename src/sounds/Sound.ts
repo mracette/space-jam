@@ -1,6 +1,7 @@
 import { AUDIO, MIXOLYDIAN_SCALE } from "../globals/audio";
 import { applyEnvelop, intervalToHz } from "../utils/audio";
 import { isUndefined } from "../utils/conversions";
+import { clamp } from "../utils/math";
 
 export interface FilterParams {
   q?: BiquadFilterNode["Q"]["value"];
@@ -149,7 +150,11 @@ export class Sound {
     if (!isUndefined(amount)) {
       this.currentVolume = amount;
     }
-    this.finalGain.gain.value = this.effectOptions.baseVolume * this.currentVolume;
+    this.finalGain.gain.value = clamp(
+      this.effectOptions.baseVolume * this.currentVolume,
+      0,
+      1
+    );
   }
 
   initEffectsChain(

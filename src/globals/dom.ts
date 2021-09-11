@@ -5,6 +5,7 @@ export const ELEMENTS = {
   canvasTiles: document.getElementById("canvas-tiles") as HTMLCanvasElement,
   canvasPre: document.getElementById("canvas-pre") as HTMLCanvasElement,
   canvasPost: document.getElementById("canvas-post") as HTMLCanvasElement,
+  canvasAudio: document.getElementById("canvas-audio") as HTMLCanvasElement,
   canvasStats: document.getElementById("canvas-stats") as HTMLCanvasElement,
   canvasOscillators: document.getElementById("canvas-oscillators") as HTMLCanvasElement,
   canvasInstruments: document.getElementById("canvas-instruments") as HTMLCanvasElement,
@@ -31,6 +32,7 @@ export const CANVAS_CONTEXTS = {
   pre: ELEMENTS.canvasPre?.getContext("2d"),
   post: ELEMENTS.canvasPost?.getContext("2d"),
   stats: ELEMENTS.canvasStats?.getContext("2d"),
+  audio: ELEMENTS.canvasAudio?.getContext("2d"),
   oscillator: ELEMENTS.canvasOscillators?.getContext("2d"),
   instrument: ELEMENTS.canvasInstruments?.getContext("2d")
 };

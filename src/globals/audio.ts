@@ -1,6 +1,10 @@
 import { AudioManager } from "../core/AudioManager";
 import Scheduler from "../core/AudioScheduler";
 
+export const enum NUM_FREQ_BANDS {
+  VALUE = 5
+}
+
 export const enum SAMPLE_RATE {
   VALUE = 44100
 }

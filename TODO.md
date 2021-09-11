@@ -3,7 +3,6 @@ core
 * !create some sort of endgame
   
 ui
-* !!make some sort of pattern for instruments
 * !!make some audio-visual content
 * !experiment with alternate color schemes to match background
 * !add lifetime notes to stats

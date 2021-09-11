@@ -75,7 +75,7 @@ export const updateSpatialEffects = (instrument: Instrument): void => {
   const r = Math.sqrt(panX ** 2 + panY ** 2);
   instrument.sound.pan.pan.value = panX;
   instrument.sound.setReverb(Math.abs(panX));
-  instrument.sound.setVolume(1 - r);
+  instrument.sound.setVolume(1 - r * 1);
 };
 
 export const createWaveshaperCurve = (amount: number, n = 22050): Float32Array => {

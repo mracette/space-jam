@@ -15,6 +15,7 @@ import {
   updateButtonDisabled,
   updateInspectMenu
 } from "./utils/dom";
+import { drawAnalyserBands, drawAudio, drawFog } from "./utils/drawing";
 
 const setup = async () => {
   await AUDIO.init();
@@ -31,6 +32,7 @@ const setup = async () => {
 export const begin = (): void => {
   let prevNotes = 0;
   const render = () => {
+    drawAudio();
     CAMERA.render();
     if ((MENU_VISIBLE || INSPECT_VISIBLE) && STATS.currentNotes !== prevNotes) {
       updateButtonDisabled();
