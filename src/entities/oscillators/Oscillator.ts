@@ -168,9 +168,11 @@ export class Oscillator extends MapEntity {
             STATS.currentNotes += additionalNotes;
             STATS.totalNotes += additionalNotes;
             instrument.notesProduced += additionalNotes;
-            instrument.sound.play(AUDIO.context.currentTime);
+            if (instrument.sound.currentVolume > 0) {
+              instrument.sound.play(AUDIO.context.currentTime);
+            }
             SCHEDULER.scheduleOnce(
-              AUDIO.context.currentTime + DURATIONS.QUARTER * 0.9,
+              AUDIO.context.currentTime + DURATIONS.QUARTER_TRIPLETS * 0.9,
               () => {
                 mapEntity.state = ENTITY_STATE.STOPPED;
               }
