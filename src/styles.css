@@ -128,13 +128,14 @@ button {
 }
 
 .hint {
-  visibility: hidden;
+  font-style: italic;
   position: absolute;
   margin-left: auto;
   margin-right: auto;
   bottom: 75vh;
   text-align: center;
-  width: 20%
+  width: 30vh;
+  color: #00f9ff;
 }
 
 #menu-notes {

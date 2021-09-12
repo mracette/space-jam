@@ -217,7 +217,7 @@ export const drawGameStats = (): void => {
   /**
    * MENU HINT
    */
-  if (STATE.mainMenuHintVisible) {
+  if (STATE.hints.menu) {
     CANVAS_CONTEXTS.stats.lineWidth = COORDS.width(LINE_WIDTH.VALUE);
     CANVAS_CONTEXTS.stats.strokeStyle = COLORS.WHITE;
     CANVAS_CONTEXTS.stats.beginPath();

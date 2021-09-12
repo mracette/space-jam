@@ -3,13 +3,12 @@ import { InstrumentFactory } from "./entities/instruments/factories";
 import { Instrument } from "./entities/instruments/Instrument";
 import { OscillatorFactory } from "./entities/oscillators/factories";
 import { Oscillator } from "./entities/oscillators/Oscillator";
-import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
 import { CAMERA, EntityArrayElement, ENTITY_ARRAY, STATE, STATS } from "./globals/game";
 import { MOUSE_POSITION, TILE_DIMENSIONS } from "./globals/sizes";
 import { updateSpatialEffects } from "./utils/audio";
 import { isUndefined, mapToEntityArray, screenToMap } from "./utils/conversions";
-import { toggleInspect, toggleMenu } from "./utils/dom";
+import { toggleHintText, toggleInspect, toggleMenu } from "./utils/dom";
 import { drawFog, drawStarPattern } from "./utils/drawing";
 
 export const startGame = (): void => {
@@ -79,9 +78,7 @@ export const moveCamera = (e: MouseEvent): void => {
     let yStart = e.clientY;
     const { x: xCameraStart, y: yCameraStart } = CAMERA.position;
     const updateCameraPosition = (e: MouseEvent) => {
-      if (STATE.dragHintVisible) {
-        ELEMENTS.hintDrag.style.visibility = "hidden";
-      }
+      toggleHintText("hide");
       const dx = e.clientX - xStart;
       const dy = e.clientY - yStart;
       CAMERA.position.set(
@@ -153,6 +150,11 @@ export const dragEntityToMap = (
   entity: Instrument | Oscillator,
   factory: InstrumentFactory | OscillatorFactory
 ): void => {
+  console.log(entity);
+  if (STATE.showEscapeHints) {
+    toggleHintText("escape");
+  }
+
   entity.position.set(MOUSE_POSITION.mapX, MOUSE_POSITION.mapY);
   CAMERA.previewEntity = entity;
   ELEMENTS.canvasStats.style.cursor = "pointer";
@@ -192,6 +194,7 @@ export const dragEntityToMap = (
     if (entity.disabled) {
       document.addEventListener("click", placeEntityIfPossible, { once: true });
     } else {
+      toggleHintText("hide");
       STATE.entitiesPlaced += 1;
       const { x, y } = entity.position;
       factory({ x, y });
@@ -199,19 +202,21 @@ export const dragEntityToMap = (
       CAMERA.previewEntity = null;
       document.removeEventListener("mousemove", onMouseMove);
       ELEMENTS.canvasStats.style.cursor = "grab";
+      console.log(STATE);
       if (STATE.entitiesPlaced === 2) {
-        STATE.dragHintVisible = true;
-        ELEMENTS.hintDrag.style.visibility = "visible";
+        toggleHintText("drag");
       }
     }
   };
 
   const cancelEntityPlacement = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
+      toggleHintText("hide");
+      STATE.showEscapeHints = false;
       entity.disabled = true;
       CAMERA.previewEntity = null;
       document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("click", placeEntityIfPossible);
+      document.removeEventListener("mouseup", placeEntityIfPossible);
       ELEMENTS.canvasStats.style.cursor = "grab";
     }
   };

@@ -1,11 +1,39 @@
 import { abbreviateNumber } from "./math";
 import { ELEMENTS } from "../globals/dom";
 import { CAMERA, DEBUG, STATE, STATS } from "../globals/game";
-import { handleOutsideClick, sellEntity } from "../interactions";
+import { handleOutsideClick } from "../interactions";
+
+type HintType = "drag" | "escape" | "menu" | "hide";
+
+export const toggleHintText = (type: HintType): void => {
+  console.log(type);
+  let hintText: string;
+  switch (type) {
+    case "menu": {
+      STATE.hints.menu = true;
+      break;
+    }
+    case "drag": {
+      hintText = "Hint: click and drag the map to move around and build in new places";
+      STATE.hints.drag = true;
+      break;
+    }
+    case "escape": {
+      hintText = "Hint: press `Escape` to cancel your placement.";
+      STATE.hints.escape = true;
+      break;
+    }
+    case "hide": {
+      Object.keys(STATE.hints).forEach((key) => (STATE.hints[key] = false));
+      hintText = "";
+    }
+  }
+  ELEMENTS.hint.innerHTML = hintText;
+};
 
 export const toggleMenu = (): void => {
-  if (STATE.mainMenuHintVisible) {
-    STATE.mainMenuHintVisible = false;
+  if (STATE.hints.menu) {
+    STATE.hints.menu = false;
   }
   if (ELEMENTS.menu.style.visibility === "hidden") {
     ELEMENTS.menu.style.visibility = "visible";
