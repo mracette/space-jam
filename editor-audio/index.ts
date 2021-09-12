@@ -1,15 +1,15 @@
 import { AUDIO, MIXOLYDIAN_SCALE } from "../src/globals/audio";
-import { ExperimentSound2 } from "../src/sounds/ExperimentSound2";
-import { ComplexSawSound } from "../src/sounds/HarmonixSound";
+import { CosmicRaySound } from "../src/sounds/CosmicRaySound";
+import { HarmonixSound } from "../src/sounds/HarmonixSound";
 import { HiHatSound } from "../src/sounds/HiHatSound";
 import { KickSound } from "../src/sounds/KickSound";
 import { OrganSound } from "../src/sounds/OrganSound";
-import { ExperimentSound } from "../src/sounds/PlutoniaSound";
+import { PlutoniaSound } from "../src/sounds/PlutoniaSound";
 import { SawSound } from "../src/sounds/SawSound";
 import { SineSound } from "../src/sounds/SineSound";
 import { SnareSound } from "../src/sounds/SnareSound";
 import { SquareSound } from "../src/sounds/SquareSound";
-import { BassSound } from "../src/sounds/ThermalBassSound";
+import { ThermalBassSound } from "../src/sounds/ThermalBassSound";
 import { TomSound } from "../src/sounds/TomSound";
 
 const testInstruments = [
@@ -30,8 +30,8 @@ const testInstruments = [
     instrument: new SawSound()
   },
   {
-    name: "long-saw",
-    instrument: new ComplexSawSound()
+    name: "harmonix",
+    instrument: new HarmonixSound()
   },
   {
     name: "808",
@@ -51,15 +51,15 @@ const testInstruments = [
   },
   {
     name: "BassSound",
-    instrument: new BassSound()
+    instrument: new ThermalBassSound()
   },
   {
     name: "ExperimentSound",
-    instrument: new ExperimentSound()
+    instrument: new PlutoniaSound()
   },
   {
-    name: "ExperimentSound2",
-    instrument: new ExperimentSound2()
+    name: "CosmicRaySound",
+    instrument: new CosmicRaySound()
   }
 ];
 

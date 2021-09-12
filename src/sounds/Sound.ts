@@ -124,9 +124,9 @@ export class Sound {
         return compressor;
       }
     );
-    const waveshapers = (this.effects?.waveshapers || []).map(({ curve }) => {
+    const waveshapers = (this.effects?.waveshapers || []).map((effect) => {
       const waveshaper = AUDIO.context.createWaveShaper();
-      waveshaper.curve = curve;
+      waveshaper.curve = effect.curve;
       return waveshaper;
     });
     const allEffects = [...waveshapers, ...filters, ...compressors];

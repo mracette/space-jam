@@ -78,7 +78,7 @@ export const updateSpatialEffects = (instrument: Instrument): void => {
   instrument.sound.setVolume(clamp(1 - r, 0, 1));
 };
 
-export const createWaveshaperCurve = (amount: number, n = 22050): Float32Array => {
+export const createWaveshaperCurve = (amount: number, n = 256): Float32Array => {
   const k = amount * 100;
   const curve = new Float32Array(n);
   const deg = Math.PI / 180;
