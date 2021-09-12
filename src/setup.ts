@@ -74,10 +74,10 @@ const setupMenuItemUi = (
   const spans = node.querySelectorAll<HTMLSpanElement>("span");
   spans[0].innerHTML = "-" + entity.cost;
 
-  // if (type === "instrument") {
-  //   spans[1].innerHTML = "&nbsp;/&nbsp;";
-  //   spans[2].innerHTML = "+" + (entity as Instrument).notes;
-  // }
+  if (type === "instrument") {
+    spans[1].innerHTML = "&nbsp;/&nbsp;";
+    spans[2].innerHTML = "+" + (entity as Instrument).notes;
+  }
 
   // appends button to its categorical row in the menu
   const parentId = type === "instrument" ? (entity as Instrument).instrumentType : "os";

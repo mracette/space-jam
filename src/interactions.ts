@@ -78,7 +78,9 @@ export const moveCamera = (e: MouseEvent): void => {
     let yStart = e.clientY;
     const { x: xCameraStart, y: yCameraStart } = CAMERA.position;
     const updateCameraPosition = (e: MouseEvent) => {
-      toggleHintText("hide");
+      if (STATE.hints.drag) {
+        toggleHintText("hide");
+      }
       const dx = e.clientX - xStart;
       const dy = e.clientY - yStart;
       CAMERA.position.set(

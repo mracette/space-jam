@@ -3,13 +3,11 @@ core
 * !create some sort of endgame
   
 ui
-* make instrument preview in menu centered / zoomed in
 
 bugs
 * resizing issue with instrument previews in menu
 
 audio
-* !"mastering"
   
 optimization
 * check GC and memory leaks, especially for audio nodes

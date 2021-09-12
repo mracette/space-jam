@@ -38,7 +38,7 @@ export const setupEventListeners = (): void => {
   document.addEventListener("mousemove", updateMousePosition);
   document.addEventListener("mousemove", checkMouseoverEntity);
   document.addEventListener("mousedown", moveCamera);
-  document.addEventListener("mousedown", clickMouseOverEntity);
+  document.addEventListener("click", clickMouseOverEntity);
 
   const observer = new ResizeObserver(handleResize);
   observer.observe(ELEMENTS.root);
