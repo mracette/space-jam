@@ -9,7 +9,7 @@ import { CAMERA, EntityArrayElement, ENTITY_ARRAY, STATE, STATS } from "./global
 import { MOUSE_POSITION, TILE_DIMENSIONS } from "./globals/sizes";
 import { updateSpatialEffects } from "./utils/audio";
 import { isUndefined, mapToEntityArray, screenToMap } from "./utils/conversions";
-import { INSPECT_VISIBLE, MENU_VISIBLE, toggleInspect, toggleMenu } from "./utils/dom";
+import { toggleInspect, toggleMenu } from "./utils/dom";
 import { drawFog, drawStarPattern } from "./utils/drawing";
 
 export const startGame = (): void => {
@@ -42,25 +42,25 @@ export const handleResize = (): void => {
 
 export const handleOutsideClick = (e: MouseEvent): void => {
   if (
-    MENU_VISIBLE &&
+    STATE.menuVisible &&
     !ELEMENTS.menu.contains(e.target as Element) &&
     !ELEMENTS.menuButton.contains(e.target as Element)
   ) {
     toggleMenu();
   }
-  if (INSPECT_VISIBLE && !ELEMENTS.inspectInner.contains(e.target as Element)) {
+  if (STATE.inspectVisible && !ELEMENTS.inspectInner.contains(e.target as Element)) {
     toggleInspect();
   }
 };
 
 export const closeMenu = (e: KeyboardEvent): void => {
-  if (e.key === "Escape" && MENU_VISIBLE) {
+  if (e.key === "Escape" && STATE.menuVisible) {
     toggleMenu();
   }
 };
 
 export const closeInspect = (e: KeyboardEvent): void => {
-  if (e.key === "Escape" && INSPECT_VISIBLE) {
+  if (e.key === "Escape" && STATE.inspectVisible) {
     toggleInspect();
   }
 };
@@ -73,7 +73,7 @@ export const updateMousePosition = (e: MouseEvent): void => {
 };
 
 export const moveCamera = (e: MouseEvent): void => {
-  if (!MENU_VISIBLE && !INSPECT_VISIBLE) {
+  if (!STATE.menuVisible && !STATE.inspectVisible) {
     const tileSizePixels = ELEMENTS.canvasTiles.clientWidth * TILE_DIMENSIONS.SIZE;
     let xStart = e.clientX;
     let yStart = e.clientY;
@@ -122,13 +122,13 @@ export const moveCamera = (e: MouseEvent): void => {
 };
 
 export const clickMouseOverEntity = (): void => {
-  if (CAMERA.inspectEntity && !INSPECT_VISIBLE && !CAMERA.previewEntity) {
+  if (CAMERA.inspectEntity && !STATE.inspectVisible && !CAMERA.previewEntity) {
     toggleInspect();
   }
 };
 
 export const checkMouseoverEntity = (): EntityArrayElement => {
-  if (MENU_VISIBLE || INSPECT_VISIBLE) {
+  if (STATE.menuVisible || STATE.inspectVisible) {
     return undefined;
   }
   if (isUndefined(MOUSE_POSITION.mapX) || isUndefined(MOUSE_POSITION.mapY)) {

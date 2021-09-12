@@ -15,7 +15,9 @@ export const enum ENTITY_STATE {
 export const STATE = {
   entitiesPlaced: 0,
   dragHintVisible: false,
-  mainMenuHintVisible: true
+  mainMenuHintVisible: true,
+  menuVisible: false,
+  inspectVisible: false
 };
 
 export const STATS = {

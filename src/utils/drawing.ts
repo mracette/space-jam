@@ -158,6 +158,10 @@ export const drawTile = (
 export const drawGameStats = (): void => {
   clearCanvasAndState(ELEMENTS.canvasStats);
 
+  if (STATE.menuVisible) {
+    return;
+  }
+
   /**
    * TITLE
    */

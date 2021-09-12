@@ -3,9 +3,6 @@ import { ELEMENTS } from "../globals/dom";
 import { CAMERA, DEBUG, STATE, STATS } from "../globals/game";
 import { handleOutsideClick, sellEntity } from "../interactions";
 
-export let MENU_VISIBLE = false;
-export let INSPECT_VISIBLE = false;
-
 export const toggleMenu = (): void => {
   if (STATE.mainMenuHintVisible) {
     STATE.mainMenuHintVisible = false;
@@ -13,9 +10,9 @@ export const toggleMenu = (): void => {
   if (ELEMENTS.menu.style.visibility === "hidden") {
     ELEMENTS.menu.style.visibility = "visible";
     ELEMENTS.menuButton.style.transform = "rotate(0deg)";
-    MENU_VISIBLE = true;
+    STATE.menuVisible = true;
     updateButtonDisabled();
-    if (INSPECT_VISIBLE) {
+    if (STATE.inspectVisible) {
       toggleInspect();
     }
     CAMERA.previewEntity = null;
@@ -25,7 +22,7 @@ export const toggleMenu = (): void => {
   } else {
     ELEMENTS.menu.style.visibility = "hidden";
     ELEMENTS.menuButton.style.transform = "rotate(45deg)";
-    MENU_VISIBLE = false;
+    STATE.menuVisible = false;
     document.removeEventListener("mousedown", handleOutsideClick);
   }
 };
@@ -33,14 +30,14 @@ export const toggleMenu = (): void => {
 export const toggleInspect = (): void => {
   if (ELEMENTS.inspect.style.visibility === "hidden") {
     ELEMENTS.inspect.style.visibility = "visible";
-    INSPECT_VISIBLE = true;
+    STATE.inspectVisible = true;
     updateInspectMenu();
     // using "mousedown" ensures that handleOutsideClick does not fire
     // when the menu is toggled open (on a click event)
     document.addEventListener("mousedown", handleOutsideClick);
   } else {
     ELEMENTS.inspect.style.visibility = "hidden";
-    INSPECT_VISIBLE = false;
+    STATE.inspectVisible = false;
     CAMERA.inspectEntity = null;
     document.removeEventListener("mousedown", handleOutsideClick);
   }

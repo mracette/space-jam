@@ -5,17 +5,12 @@ import { CircleOscillator1 } from "./entities/oscillators/CircleOscillator1";
 import { setupEventListeners } from "./events";
 import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
-import { CAMERA, DEBUG, STATS } from "./globals/game";
+import { CAMERA, DEBUG, STATE, STATS } from "./globals/game";
 import { startGame } from "./interactions";
 import { setupMenuUI } from "./setup";
 
-import {
-  INSPECT_VISIBLE,
-  MENU_VISIBLE,
-  updateButtonDisabled,
-  updateInspectMenu
-} from "./utils/dom";
-import { drawAnalyserBands, drawAudio, drawFog } from "./utils/drawing";
+import { updateButtonDisabled, updateInspectMenu } from "./utils/dom";
+import { drawAudio } from "./utils/drawing";
 
 const setup = async () => {
   await AUDIO.init();
@@ -35,7 +30,7 @@ export const begin = (): void => {
   const render = () => {
     drawAudio();
     CAMERA.render();
-    if ((MENU_VISIBLE || INSPECT_VISIBLE) && STATS.currentNotes !== prevNotes) {
+    if ((STATE.menuVisible || STATE.inspectVisible) && STATS.currentNotes !== prevNotes) {
       updateButtonDisabled();
       updateInspectMenu();
     }
