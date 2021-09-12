@@ -5,6 +5,8 @@ name: CI
 on:
   push:
     branches: [ master ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # Specify the tasks to run when this script gets triggered
 jobs:
