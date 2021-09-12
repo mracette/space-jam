@@ -3,6 +3,7 @@ import { InstrumentFactory } from "./entities/instruments/factories";
 import { Instrument } from "./entities/instruments/Instrument";
 import { OscillatorFactory } from "./entities/oscillators/factories";
 import { Oscillator } from "./entities/oscillators/Oscillator";
+import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
 import { CAMERA, EntityArrayElement, ENTITY_ARRAY, STATE, STATS } from "./globals/game";
 import { MOUSE_POSITION, TILE_DIMENSIONS } from "./globals/sizes";
@@ -72,6 +73,7 @@ export const updateMousePosition = (e: MouseEvent): void => {
 };
 
 export const moveCamera = (e: MouseEvent): void => {
+  AUDIO.context.resume();
   if (!STATE.menuVisible && !STATE.inspectVisible) {
     const tileSizePixels = ELEMENTS.canvasTiles.clientWidth * TILE_DIMENSIONS.SIZE;
     let xStart = e.clientX;
