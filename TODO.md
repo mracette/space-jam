@@ -3,13 +3,9 @@ core
 * !create some sort of endgame
   
 ui
-* !experiment with alternate color schemes to match background
-* !add lifetime notes to stats
-* add title to game screen
 * make instrument preview in menu centered / zoomed in
 
 bugs
-* resizing smaller erases background
 * resizing issue with instrument previews in menu
 
 audio
