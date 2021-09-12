@@ -1,12 +1,15 @@
 import { abbreviateNumber } from "./math";
 import { ELEMENTS } from "../globals/dom";
-import { CAMERA, DEBUG, STATS } from "../globals/game";
+import { CAMERA, DEBUG, STATE, STATS } from "../globals/game";
 import { handleOutsideClick, sellEntity } from "../interactions";
 
 export let MENU_VISIBLE = false;
 export let INSPECT_VISIBLE = false;
 
 export const toggleMenu = (): void => {
+  if (STATE.mainMenuHintVisible) {
+    STATE.mainMenuHintVisible = false;
+  }
   if (ELEMENTS.menu.style.visibility === "hidden") {
     ELEMENTS.menu.style.visibility = "visible";
     ELEMENTS.menuButton.style.transform = "rotate(0deg)";
@@ -56,6 +59,7 @@ export const updateInspectMenu = (): void => {
 };
 
 export const updateButtonDisabled = (): void => {
+  ELEMENTS.menuNotes.innerHTML = "Notes: " + abbreviateNumber(STATS.currentNotes);
   if (DEBUG) return;
   document.querySelectorAll<HTMLButtonElement>(".entity-button").forEach((button) => {
     if (parseInt(button.getAttribute("cost")) <= STATS.currentNotes) {

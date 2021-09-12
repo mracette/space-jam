@@ -58,7 +58,7 @@ export const enum LINE_WIDTH {
 }
 
 const enum FONT_SIZE_BASE {
-  VALUE = 0.035
+  VALUE = 0.0375
 }
 
 export const enum FONT_SIZE {
@@ -69,7 +69,7 @@ export const enum FONT_SIZE {
 }
 
 export const enum MARGIN_TOP_STATS {
-  VALUE = -0.85
+  VALUE = -0.78
 }
 
 export const MOUSE_POSITION: {

@@ -13,6 +13,9 @@ export const ELEMENTS = {
   menu: document.getElementById("menu") as HTMLDivElement,
   menuButton: document.getElementById("menu-button") as HTMLButtonElement,
   menuCol: document.getElementById("menu-col") as HTMLDivElement,
+  menuNotes: document.getElementById("menu-notes") as HTMLParagraphElement,
+  // hints
+  hintDrag: document.getElementById("hint-drag") as HTMLHeadingElement,
   // inspect menu
   inspect: document.getElementById("inspect") as HTMLDivElement,
   inspectInner: document.getElementById("inner-inspect") as HTMLDivElement,

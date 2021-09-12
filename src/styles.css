@@ -3,7 +3,7 @@
   text-align: center;
   padding: 0;
   margin: 0;
-  font-size: 1.5vh;
+  font-size: 1.75vh;
   font-family: Tahoma, sans-serif;
   user-select: none;
   overscroll-behavior: none;
@@ -34,7 +34,12 @@ button {
 }
 
 :disabled {
-  filter: brightness(.5) grayscale(.75)
+  filter: brightness(.5) grayscale(.75);
+  cursor: not-allowed;
+}
+
+.text-lg {
+  font-size: 2.5vh;
 }
 
 .fill-absolute {
@@ -120,6 +125,22 @@ button {
 .hide-intro {
   transition-duration: 1500ms;
   opacity: 0;
+}
+
+.hint {
+  visibility: hidden;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 75vh;
+  text-align: center;
+  width: 20%
+}
+
+#menu-notes {
+  position: absolute;
+  top: .5vh;
+  left: .5vh;
 }
 
 #intro {

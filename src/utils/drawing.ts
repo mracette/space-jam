@@ -6,7 +6,7 @@ import { AUDIO, NUM_FREQ_BANDS } from "../globals/audio";
 import { COLORS } from "../globals/colors";
 import { CANVAS_CONTEXTS } from "../globals/dom";
 import { ELEMENTS } from "../globals/dom";
-import { CAMERA, RANDOM_STARS, RANDOM_STREAKS, STATS } from "../globals/game";
+import { CAMERA, RANDOM_STARS, RANDOM_STREAKS, STATE, STATS } from "../globals/game";
 import { TAU } from "../globals/math";
 import {
   FONT_SIZE,
@@ -166,36 +166,76 @@ export const drawGameStats = (): void => {
   CANVAS_CONTEXTS.stats.textAlign = "center";
   const textTitle = "SPACE JAM";
   const textTitleMetrics = CANVAS_CONTEXTS.stats.measureText(textTitle);
-  CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.TRIPLE)}px ${FONT_STYLE}`;
-  // CANVAS_CONTEXTS.stats.fillText(
-  //   textTitle,
-  //   COORDS.nx(0),
-  //   COORDS.ny(MARGIN_TOP_STATS.VALUE)
-  // );
+  CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.TRIPLE)}px Impact`;
+  CANVAS_CONTEXTS.stats.fillText(
+    textTitle,
+    COORDS.nx(0),
+    COORDS.ny(MARGIN_TOP_STATS.VALUE)
+  );
 
   /**
-   * NOTES
+   * CURRENT NOTES
    */
-  const textNotes = "Current: " + abbreviateNumber(STATS.currentNotes);
+  const textNotes = "Notes: " + abbreviateNumber(STATS.currentNotes);
   CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.DOUBLE)}px ${FONT_STYLE}`;
   CANVAS_CONTEXTS.stats.fillText(
     textNotes,
     COORDS.nx(0),
-    COORDS.ny(MARGIN_TOP_STATS.VALUE) + textTitleMetrics.actualBoundingBoxAscent * 2
+    COORDS.ny(MARGIN_TOP_STATS.VALUE) + textTitleMetrics.actualBoundingBoxAscent
   );
 
   /**
    * CAMERA POSITION
    */
-  const textPosition = `(x: ${Math.round(CAMERA.position.x)}, y: ${Math.round(
+  const textPosition = `Camera: (x: ${Math.round(CAMERA.position.x)}, y: ${Math.round(
     CAMERA.position.y
   )})`;
   CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.VALUE)}px ${FONT_STYLE}`;
   CANVAS_CONTEXTS.stats.fillText(
     textPosition,
     COORDS.nx(0),
-    COORDS.ny(MARGIN_TOP_STATS.VALUE) + textTitleMetrics.actualBoundingBoxAscent * 3
+    COORDS.ny(MARGIN_TOP_STATS.VALUE) + textTitleMetrics.actualBoundingBoxAscent * 1.75
   );
+
+  /**
+   * SCORE
+   */
+  CANVAS_CONTEXTS.stats.textAlign = "right";
+  const textScore = "Score: " + abbreviateNumber(STATS.totalNotes);
+  CANVAS_CONTEXTS.stats.font = `${COORDS.width(FONT_SIZE.VALUE)}px ${FONT_STYLE}`;
+  const textScoreMetrics = CANVAS_CONTEXTS.stats.measureText(textScore);
+  CANVAS_CONTEXTS.stats.fillText(
+    textScore,
+    COORDS.nx(0.95),
+    COORDS.ny(-1) + textScoreMetrics.actualBoundingBoxAscent + COORDS.width(0.025)
+  );
+
+  /**
+   * MENU HINT
+   */
+  if (STATE.mainMenuHintVisible) {
+    CANVAS_CONTEXTS.stats.lineWidth = COORDS.width(LINE_WIDTH.VALUE);
+    CANVAS_CONTEXTS.stats.strokeStyle = COLORS.WHITE;
+    CANVAS_CONTEXTS.stats.beginPath();
+    const menuHint = "Main Menu";
+    CANVAS_CONTEXTS.stats.fillText(
+      menuHint,
+      COORDS.nx(-0.45) + CANVAS_CONTEXTS.stats.measureText(menuHint).width / 2,
+      COORDS.ny(0.7)
+    );
+    CANVAS_CONTEXTS.stats.moveTo(COORDS.nx(-0.45), COORDS.ny(0.725));
+    CANVAS_CONTEXTS.stats.quadraticCurveTo(
+      COORDS.nx(-0.35),
+      COORDS.ny(0.825),
+      COORDS.nx(-0.15),
+      COORDS.ny(0.825)
+    );
+    CANVAS_CONTEXTS.stats.moveTo(COORDS.nx(-0.15), COORDS.ny(0.825));
+    CANVAS_CONTEXTS.stats.lineTo(COORDS.nx(-0.2), COORDS.ny(0.795));
+    CANVAS_CONTEXTS.stats.moveTo(COORDS.nx(-0.15), COORDS.ny(0.825));
+    CANVAS_CONTEXTS.stats.lineTo(COORDS.nx(-0.2), COORDS.ny(0.855));
+    CANVAS_CONTEXTS.stats.stroke();
+  }
 };
 
 export const addCircularClip = (ctx: CanvasRenderingContext2D): void => {

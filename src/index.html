@@ -12,7 +12,9 @@
         <canvas class="centered hide-intro" id="canvas-audio"></canvas>
         <canvas class="centered hide-intro" id="canvas-post"></canvas>
         <canvas class="centered hide-intro" id="canvas-stats"></canvas>
+        <p class="hint" id="hint-drag">Hint: click and drag the map to move around and build in new places</p>
         <div class="full centered flex flex-centered" id="menu" style="visibility: hidden;">
+            <h2 id="menu-notes">Notes: </h2>
             <div class="full flex flex-col flex-centered" id="menu-col">
                 <h1 id="osh" class="mb-2 mt-2">Oscillators</h1>
                 <p class="mb-2">Use oscillators to play instruments</p>
@@ -21,7 +23,7 @@
                 </div>
                 <h1 id="inh" class="mb-2">Instruments</h1>
                 <p class="mb-2" style="width: 75%">Use instruments to emit sounds and collect additional notes</p>
-                <div class=" full" class="flex flex-centered">
+                <div class="full" class="flex flex-centered">
                     <div id="dr" class="flex flex-row flex-centered">
                         <p class="row-label">Drums</p>
                     </div>
@@ -58,10 +60,10 @@
         <div id="intro" class="full flex flex-col flex-centered fill-absolute">
             <h1 id="title">SPACE JAM</h1>
             <br>
-            <h2>You are the first to reach the planet Mixolydia,</h2>
-            <h2>where the only resource is sound.</h2>
+            <p class="text-lg">You are the first to reach the planet Mixolydia,</p>
+            <p class="text-lg">where the only resource is sound.</p>
             <br>
-            <h2>What will you make of this new frontier?</h2>
+            <p class="text-lg">What will you make of this new frontier?</p>
             <br>
             <div class="flex">
                 <button disabled id="start">Start</button>

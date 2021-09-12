@@ -5,12 +5,18 @@ import { Instrument } from "../entities/instruments/Instrument";
 import { Oscillator } from "../entities/oscillators/Oscillator";
 import { COORDS } from "../utils/conversions";
 
-export const DEBUG = false;
+export const DEBUG = true;
 
 export const enum ENTITY_STATE {
   PLAYING = "playing",
   STOPPED = "stopped"
 }
+
+export const STATE = {
+  entitiesPlaced: 0,
+  dragHintVisible: false,
+  mainMenuHintVisible: true
+};
 
 export const STATS = {
   currentNotes: 0,

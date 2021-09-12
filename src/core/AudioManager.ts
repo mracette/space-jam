@@ -29,6 +29,7 @@ export class AudioManager {
     this.context = new (window.AudioContext || window.webkitAudioContext)({
       sampleRate: SAMPLE_RATE.VALUE
     });
+    this.context.suspend();
     this.offline = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(
       2,
       SAMPLE_RATE.VALUE * REVERB_TIME.VALUE,

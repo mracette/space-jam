@@ -5,7 +5,7 @@ import { OscillatorFactory } from "./entities/oscillators/factories";
 import { Oscillator } from "./entities/oscillators/Oscillator";
 import { AUDIO } from "./globals/audio";
 import { ELEMENTS } from "./globals/dom";
-import { CAMERA, EntityArrayElement, ENTITY_ARRAY, STATS } from "./globals/game";
+import { CAMERA, EntityArrayElement, ENTITY_ARRAY, STATE, STATS } from "./globals/game";
 import { MOUSE_POSITION, TILE_DIMENSIONS } from "./globals/sizes";
 import { updateSpatialEffects } from "./utils/audio";
 import { isUndefined, mapToEntityArray, screenToMap } from "./utils/conversions";
@@ -73,14 +73,15 @@ export const updateMousePosition = (e: MouseEvent): void => {
 };
 
 export const moveCamera = (e: MouseEvent): void => {
-  AUDIO.context.resume();
-
   if (!MENU_VISIBLE && !INSPECT_VISIBLE) {
     const tileSizePixels = ELEMENTS.canvasTiles.clientWidth * TILE_DIMENSIONS.SIZE;
     let xStart = e.clientX;
     let yStart = e.clientY;
     const { x: xCameraStart, y: yCameraStart } = CAMERA.position;
     const updateCameraPosition = (e: MouseEvent) => {
+      if (STATE.dragHintVisible) {
+        ELEMENTS.hintDrag.style.visibility = "hidden";
+      }
       const dx = e.clientX - xStart;
       const dy = e.clientY - yStart;
       CAMERA.position.set(
@@ -186,13 +187,22 @@ export const dragEntityToMap = (
     if (dx > 5 || dy > 5) {
       document.addEventListener("click", placeEntityIfPossible, { once: true });
       ELEMENTS.canvasStats.style.cursor = "pointer";
-    } else if (!entity.disabled) {
+      return;
+    }
+    if (entity.disabled) {
+      document.addEventListener("click", placeEntityIfPossible, { once: true });
+    } else {
+      STATE.entitiesPlaced += 1;
       const { x, y } = entity.position;
       factory({ x, y });
       STATS.currentNotes -= CAMERA.previewEntity.cost;
       CAMERA.previewEntity = null;
       document.removeEventListener("mousemove", onMouseMove);
       ELEMENTS.canvasStats.style.cursor = "grab";
+      if (STATE.entitiesPlaced === 2) {
+        STATE.dragHintVisible = true;
+        ELEMENTS.hintDrag.style.visibility = "visible";
+      }
     }
   };
 

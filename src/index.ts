@@ -30,6 +30,7 @@ const setup = async () => {
 };
 
 export const begin = (): void => {
+  AUDIO.context.resume();
   let prevNotes = 0;
   const render = () => {
     drawAudio();
