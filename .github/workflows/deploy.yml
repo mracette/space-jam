@@ -4,7 +4,7 @@ name: CI
 # Only trigger this script when you push to the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ master, mobile ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
