@@ -152,7 +152,6 @@ export const dragEntityToMap = (
   entity: Instrument | Oscillator,
   factory: InstrumentFactory | OscillatorFactory
 ): void => {
-  console.log(entity);
   if (STATE.showEscapeHints) {
     toggleHintText("escape");
   }
@@ -204,7 +203,6 @@ export const dragEntityToMap = (
       CAMERA.previewEntity = null;
       document.removeEventListener("mousemove", onMouseMove);
       ELEMENTS.canvasStats.style.cursor = "grab";
-      console.log(STATE);
       if (STATE.entitiesPlaced === 2) {
         toggleHintText("drag");
       }

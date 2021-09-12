@@ -6,7 +6,6 @@ import { handleOutsideClick } from "../interactions";
 type HintType = "drag" | "escape" | "menu" | "hide";
 
 export const toggleHintText = (type: HintType): void => {
-  console.log(type);
   let hintText: string;
   switch (type) {
     case "menu": {

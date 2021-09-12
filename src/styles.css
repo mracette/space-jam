@@ -146,7 +146,7 @@ button {
 
 #intro {
   transition-duration: 1500ms;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, .5);
 }
 
 #title {
