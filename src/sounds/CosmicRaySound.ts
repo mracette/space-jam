@@ -32,7 +32,7 @@ export class CosmicRaySound extends Sound {
     // this.effectOptions.lpFrequency = 1500;
     // this.effectOptions.hpFrequency = 1000;
   }
-  play(time: number, note?: number): void {
+  play(): void {
     const notes = [
       this.initAudioSource("waveform", MIXOLYDIAN_SCALE[0], { oscillatorType: "sine" }),
       this.initAudioSource("waveform", MIXOLYDIAN_SCALE[1], { oscillatorType: "sine" }),

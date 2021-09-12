@@ -1,4 +1,4 @@
-import { AUDIO, REVERB_TIME, SAMPLE_RATE } from "../globals/audio";
+import { REVERB_TIME, SAMPLE_RATE } from "../globals/audio";
 import { createFilter, generateNoise } from "../utils/audio";
 
 interface EnvelopeValue {

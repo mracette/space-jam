@@ -1,6 +1,6 @@
 import { clearCanvasAndState } from "./canvas";
 import { COORDS, entityArrayToScreen } from "./conversions";
-import { abbreviateNumber, lerp, rotatePoint } from "./math";
+import { abbreviateNumber } from "./math";
 import { CanvasCoordinates } from "../core/Coords";
 import { AUDIO, NUM_FREQ_BANDS } from "../globals/audio";
 import { COLORS } from "../globals/colors";
